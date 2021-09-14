@@ -1,0 +1,2 @@
+- [x] Clonar el repositorio `https://github.com/mit-pdos/xv6-public` y eliminar el `.git` para que no exista un submódulo.
+- [x] Agregar el kickstart al repositorio.
