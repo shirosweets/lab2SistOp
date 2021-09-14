@@ -1,4 +1,4 @@
-# Informe lab 1
+# Informe lab 2
 
 - Fuentes, Tiffany
 - Renison, Iván
@@ -10,35 +10,7 @@
 
 ---
 
-# Contenido
-- [Primer título](#primer-tittle)
-
-# Primer tittle
-Escribir acá la información del informe.
-
-# Comprensión del lab
-
-## Manejo básico de qemu
-- Para listar los procesos dentro de xv6 hacer `<CRTL-p>`.
-- Salir de QEMU: `<CTRL-a> x`.
-- Para que iniciar qemu CON pantalla VGA: `make qemu`.
-## Modos VGA
-
-## Standard VGA
-
-
-# Parte I
-
-# Parte II
-
-# Parte III
-
-# Parte IV
-
-Referencia:
-- https://github.com/mit-pdos/xv6-public
-
-# Extras
+# 
 
 ---
 

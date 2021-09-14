@@ -1,4 +1,5 @@
 # Laboratorio N°2: Sistemas Opertivos - 2021
+
 Segundo cuatrimestre, FAMAF.
 
 ---
@@ -6,7 +7,9 @@ Segundo cuatrimestre, FAMAF.
 **[INFORME](informe.md) | [CONSIGNA](consigna.md) | [To Do](todo.md)**
 
 ---
+
 ## Archivos
+
 **Documentación**
 
 * [To Do](todo.md) > Archivo de todos para realización de tareas
@@ -15,9 +18,7 @@ Segundo cuatrimestre, FAMAF.
 
 **Código**
 
-
 **Estilo del código**
-
 
 ---
 

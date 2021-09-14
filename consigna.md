@@ -118,7 +118,7 @@ Parte III
 Ya funcionando la Parte II deberán modularizar correctamente, esto es:
 
     Implementar una syscall modeswitch que hace el cambio de modo (texto/gráfico) según el argumento que recibe (0 o 1), para esta parte deberán usar la información en la ayuda abajo.
-
+    
     Implementar una syscall plotpixel(int x, int y, int color) que pinte un pixel en pantalla. (los tres argumentos enteros se corresponden con las coordenadas (x, y) y el color a pintar).
 
 Parte IV (la parte divertida)
@@ -137,13 +137,13 @@ Extra
 Ayudas
 
     Para incluir un programa de usuario recomendamos mirar el archivo Makefile y buscar alguno de los programas conocidos que vienen incluidos y se pueden ver en la consola de xv6 (ls, grep, etc).
-
+    
     Para agregar una nueva syscall deberán modificar varios archivos. Tomar alguna llamada a sistema y ver en todos los puntos que aparece. (Ya vimos en clases que como usar grep).
-
+    
     Cambiar de modo implica setear valores particulares en los registros del dispositivo. Para esto es importante tener una referencia de los puertos (ver Puertos VGA en las referencias abajo) Y la super ayuda se encuentra acá: http://files.osdev.org/mirrors/geezer/osd/graphics/modes.c
-
+    
     Al escribir los Attribute Registers, el registro de direcciones y el de datos se encuentran en la misma direccion de memoria, por lo que hay que indicarle al sistema si lo que estamos escribiendo es la dirección de un subregistro o un dato siguiendo la documentacion en Accessing the Attribute Registers.
-
+    
     Para el mapeo de memoria (física-virtual) pueden usar la función P2V.
 
 Manejo básico de qemu
