@@ -297,3 +297,54 @@ consoleinit(void)
   ioapicenable(IRQ_KBD, 0);
 }
 
+// Agregados
+
+// Definiciones
+
+typedef struct{char s_ASCII_code; char s_atributes;} VGA_char;
+
+
+#define VGA_text_array P2V(0x000B8000)
+#define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
+//#define VGA_plot_letter(x, y, letter, atributes) *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes}
+
+#define VGA_text_width 80
+#define VGA_text_hight 25
+
+#define VGA_text_defult_atributes 0b00000111
+
+#define NULL 0
+
+// Código
+
+static void
+VGA_text_plot_letter(int x, int y, char letter, char atributes)
+{
+  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_hight) {
+    *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
+  }
+}
+
+static void
+VGA_text_put_string(int x, int y, char* str, char atributes)
+{
+  if(str != NULL) {
+    for(uint i = 0u; str[i] != '\0'; i++) {
+      VGA_text_plot_letter(x, y, str[i], atributes);
+      x++;
+    }
+  }
+}
+
+void
+vgainit(void)
+{
+  // Pintar el fondo
+  for (int x = 0; x < VGA_text_width; x++) {
+    VGA_text_plot_letter(x, 0, ' ', 0x20);
+  }
+  
+  VGA_text_put_string(37, 0, "SO2020", 0x2f);
+}
+
+
