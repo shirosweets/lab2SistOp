@@ -23,6 +23,8 @@ void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
 void            vgainit(void);
+void            VGA_to_mode_graphic(void);
+void            VGA_to_mode_text(void);
 
 // exec.c
 int             exec(char*, char**);
