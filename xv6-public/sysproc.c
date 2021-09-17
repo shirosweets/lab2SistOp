@@ -89,3 +89,14 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+int
+sys_VGA_mode_switch(void)
+{
+  VGA_mode mode;
+  if(argint(0, &mode) < 0)
+    return -1;
+  VGA_mode_switch(mode);
+  return(0);
+}

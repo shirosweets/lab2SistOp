@@ -24,6 +24,8 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+void VGA_mode_switch(VGA_mode mode);
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
