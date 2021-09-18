@@ -15,7 +15,7 @@ typedef float acceleration;
 
 
 
-struct game_status
+typedef struct _s_game_status
 {
   distance flappy_pos_x;
   distance flappy_pos_y;
@@ -26,7 +26,7 @@ struct game_status
   y_coord hole_tubes_y[VGA_graphic_width / offset_tubes + 1];
 
   bool is_alive;
-};
+}* game_status;
 
 
 
