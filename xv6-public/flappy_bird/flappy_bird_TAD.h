@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-typedef int x_coord;
-typedef int y_coord;
+#include "VGA_graphics.h"
+
 
 typedef int width;
 typedef int height;
