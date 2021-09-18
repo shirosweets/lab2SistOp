@@ -98,5 +98,23 @@ sys_VGA_mode_switch(void)
   if(argint(0, &mode) < 0)
     return -1;
   VGA_mode_switch(mode);
-  return(0);
+  return 0;
+}
+
+int
+sys_VGA_plot_pixel(void)
+{
+  int x;
+  int y;
+  uchar color;
+  if(argint(0, &x) < 0)
+    return -1;
+  if(argint(1, &y) < 0)
+    return -1;
+  int temp_color;
+  if(argint(2, &temp_color) < 0)
+    return -1;
+  color = (char)temp_color;
+  VGA_plot_pixel(x, y, color);
+  return 0;
 }

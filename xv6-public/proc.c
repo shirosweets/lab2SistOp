@@ -575,14 +575,42 @@ unsigned char g_80x25_text[] =
   0x0C, 0x00, 0x0F, 0x08, 0x00
 };
 
-
+/* Variable para saber el modo actual
+ * Cada ves que se cambia de modo se la actualiza
+ */
+VGA_mode actual_mode = VGA_mode_text;
 
 // modeswitch del enunciado
 void
 VGA_mode_switch(VGA_mode mode)
 {
-  if(mode == VGA_mode_graphic)
+  if(mode == VGA_mode_graphic){
     write_regs(g_320x200x256);
-  else if(mode == VGA_mode_text)
+    actual_mode = VGA_mode_graphic;
+  }
+  else if(mode == VGA_mode_text){
     write_regs(g_80x25_text);
+    actual_mode = VGA_mode_text;
+  }
+}
+
+#define VGA_graphic_width 320
+#define VGA_graphic_hight 200
+
+#define VGA_graphic_array ((uchar*)P2V(0x000A0000))
+#define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
+
+
+/* Si las cordenadas son dentro de la pantalla (de 320x200) pinta el pixel,
+ * si están afuera no hace nada. 
+ *
+ * Si no está en modo gráfico no hace nada
+ */
+void
+VGA_plot_pixel(int x, int y, uchar color)
+{
+  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_hight
+    && actual_mode == VGA_mode_graphic){
+    *VGA_graphic_pos(x, y) = color;
+  }
 }
