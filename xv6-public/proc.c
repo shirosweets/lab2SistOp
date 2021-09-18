@@ -594,10 +594,7 @@ VGA_mode_switch(VGA_mode mode)
   }
 }
 
-#define VGA_graphic_width 320
-#define VGA_graphic_hight 200
-
-#define VGA_graphic_array ((uchar*)P2V(0x000A0000))
+#define VGA_graphic_array ((uchar*)V2P(0x000A0000))
 #define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
 
 

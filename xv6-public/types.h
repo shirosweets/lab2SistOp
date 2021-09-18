@@ -6,3 +6,6 @@ typedef uint pde_t;
 typedef int VGA_mode;
 #define VGA_mode_text 0
 #define VGA_mode_graphic 1
+
+#define VGA_graphic_width 320
+#define VGA_graphic_hight 200
