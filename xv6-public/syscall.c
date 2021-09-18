@@ -105,6 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_VGA_mode_switch(void);
 extern int sys_VGA_plot_pixel(void);
+extern int sys_VGA_plot_screen(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -130,6 +131,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_VGA_mode_switch] sys_VGA_mode_switch,
 [SYS_VGA_plot_pixel] sys_VGA_plot_pixel,
+[SYS_VGA_plot_screen] sys_VGA_plot_screen,
 };
 
 void

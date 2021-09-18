@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_VGA_mode_switch 22
 #define SYS_VGA_plot_pixel 23
+#define SYS_VGA_plot_screen 24

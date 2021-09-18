@@ -128,6 +128,7 @@ void            yield(void);
 
 void            VGA_mode_switch(VGA_mode mode);
 void            VGA_plot_pixel(int x, int y, uchar color);
+void            VGA_plot_screen(uchar* buffer);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
