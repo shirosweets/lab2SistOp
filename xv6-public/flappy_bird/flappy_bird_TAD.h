@@ -1,4 +1,7 @@
-#include "types.h"
+#ifndef flappy_bird_TAD_H
+#define flappy_bird_TAD_H
+
+#include "../types.h"
 
 typedef int x_coord;
 typedef int y_coord;
@@ -29,4 +32,4 @@ typedef struct _s_game_status
 }* game_status;
 
 
-
+#endif // flappy_bird_TAD_H
