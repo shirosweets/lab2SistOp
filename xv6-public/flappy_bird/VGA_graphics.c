@@ -12,7 +12,7 @@ void
 draw_horizontal_line
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y, uchar color)
 { // Si x0 > x1 debería hacerse un ciclo muy largo, pero por algún motivo no se hace /////////////////////
-  for(int i = x0; i <= x1; i++){
+  for(x_coord i = x0; i <= x1; i++){
     draw_pixel(buffer, i, y, color);
   }
 }
@@ -21,8 +21,8 @@ void
 draw_vertical_line
   (uchar* buffer, y_coord y0, y_coord y1, x_coord x, uchar color)
 {
-  for(int i = y0; i <= y1; i++){
-    draw_pixel(buffer, x, i, color);
+  for(y_coord j = y0; j <= y1; j++){
+    draw_pixel(buffer, x, j, color);
   }
 }
 
@@ -30,7 +30,7 @@ void
 draw_rectangle
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y0, y_coord y1, uchar color)
 {
-  for(int i = x0; i <= x1; i++){
+  for(x_coord i = x0; i <= x1; i++){
     draw_vertical_line(buffer, y0, y1, i, color);
   }
 }
@@ -39,8 +39,8 @@ draw_rectangle
 void
 draw_circle(uchar* buffer, x_coord x, y_coord y, uint r, uchar color)
 {
-  for(int i = x - r; i <= x + r; i++){
-    for(int j = y - r; j <= y + r; j++){
+  for(x_coord i = x - r; i <= x + r; i++){
+    for(y_coord j = y - r; j <= y + r; j++){
       /* Hay que pintar el pixel solo si está adentro del circulo
          Está adentro del circulo si y solo si:
            (i - x)² + (j - y)² == r²
