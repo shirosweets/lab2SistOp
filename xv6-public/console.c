@@ -421,7 +421,7 @@ vgainit(void)
     VGA_text_plot_letter(x, 0, ' ', 0x20);
   }
   
-  VGA_text_put_string(37, 0, "SO2020", 0x2f);
+  VGA_text_put_string(37, 0, "SO2021", 0x2f);
 }
 
 /* Cambia a modo gráfico (320 x 200 x 256), si ya estaba en ese modo
