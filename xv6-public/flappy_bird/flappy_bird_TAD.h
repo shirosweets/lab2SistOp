@@ -37,7 +37,7 @@ typedef struct _s_game_status
   y_coord hole_tubes_y[amount_of_tubes];
 
   bool is_alive;
-}* game_status;
+} game_status;
 
 
 #endif // flappy_bird_TAD_H
