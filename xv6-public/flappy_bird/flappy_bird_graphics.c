@@ -42,8 +42,8 @@ static void draw_sky(uchar* buffer)
 
 static void draw_clouds(uchar* buffer)
 {
-  int r = 10;
-  for(int i = 0; i < VGA_graphic_width; i += 20){
+  uint r = 10;
+  for(x_coord i = 0; i < VGA_graphic_width; i += 20){
     if(r > 30){
       r = 10;
     }
@@ -55,10 +55,10 @@ static void draw_clouds(uchar* buffer)
 
 static void draw_bush(uchar* buffer)
 {
- for(int i = 0; i < VGA_graphic_width; i += 20){
+ for(x_coord i = 0; i < VGA_graphic_width; i += 20){
    draw_circle(buffer, i, bush_height, 20, bush_color);
  }
- for(int i = 20; i < VGA_graphic_width; i += 10){
+ for(x_coord i = 20; i < VGA_graphic_width; i += 10){
    draw_circle(buffer, i, bush_height, 10, bush_color);
  }
  draw_rectangle(buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
