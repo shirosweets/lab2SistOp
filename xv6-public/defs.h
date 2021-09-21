@@ -25,7 +25,7 @@ void            panic(char*) __attribute__((noreturn));
 void            vgainit(void);
 /* void            VGA_to_mode_graphic(void);
 void            VGA_to_mode_text(void); */
-void write_regs(unsigned char *regs);
+void            write_regs(unsigned char *regs);
 
 // exec.c
 int             exec(char*, char**);
