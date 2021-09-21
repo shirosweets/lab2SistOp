@@ -14,10 +14,11 @@ typedef float speed;
 typedef float acceleration;
 
 
-#define offset_tubes 60
+#define offset_tubes 72
+#define amount_of_tubes VGA_graphic_width/offset_tubes + 1
 
 #define width_tube 14
-#define width_hole_tube 20
+#define width_hole_tube 54
 
 
 typedef struct _s_game_status
@@ -33,7 +34,7 @@ typedef struct _s_game_status
   x_coord first_tube_x;
 
   // Posiciones de en y de los centros de todos los tubos
-  y_coord hole_tubes_y[VGA_graphic_width / offset_tubes + 1];
+  y_coord hole_tubes_y[amount_of_tubes];
 
   bool is_alive;
 }* game_status;

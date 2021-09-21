@@ -11,7 +11,6 @@
 
 /* Dibuja un tubo con el centro del hueco en (x, y)
  */
-/*
 static void
 draw_tube(uchar* buffer, x_coord x, y_coord y)
 {
@@ -23,14 +22,19 @@ draw_tube(uchar* buffer, x_coord x, y_coord y)
   // Tubo de arriba
   draw_rectangle(buffer, left_side, right_side, 0, top_part_hole, tubes_color);
 
-  // Tubo de anajo
+  // Tubo de abajo
   draw_rectangle(buffer, left_side, right_side, bottom_part_hole, VGA_graphic_hight, tubes_color);
-}*/
+}
 
-/*
- *
+/* Dibuja en buffer todos los tubos de game
  */
-//static
+static void
+draw_tubes(const game_status game, uchar* buffer)
+{
+  for(uint i = 0u; i < amount_of_tubes; i++){
+    draw_tube(buffer, game->first_tube_x + i*offset_tubes, game->hole_tubes_y[i]);
+  }
+}
 
 
 
