@@ -35,12 +35,14 @@ draw_tube(uchar* buffer, x_coord x, y_coord y)
 
 
 
-static void draw_sky(uchar* buffer)
+static void
+draw_sky(uchar* buffer)
 {
   draw_rectangle(buffer, 0, VGA_graphic_width, 0, clouds_height, sky_color);
 }
 
-static void draw_clouds(uchar* buffer)
+static void
+draw_clouds(uchar* buffer)
 {
   uint r = 10;
   for(x_coord i = 0; i < VGA_graphic_width; i += 20){
@@ -53,24 +55,27 @@ static void draw_clouds(uchar* buffer)
   draw_rectangle(buffer, 0, VGA_graphic_width, clouds_height, bush_height, clouds_color);
 }
 
-static void draw_bush(uchar* buffer)
+static void
+draw_bush(uchar* buffer)
 {
- for(x_coord i = 0; i < VGA_graphic_width; i += 20){
-   draw_circle(buffer, i, bush_height, 20, bush_color);
- }
- for(x_coord i = 20; i < VGA_graphic_width; i += 10){
-   draw_circle(buffer, i, bush_height, 10, bush_color);
- }
- draw_rectangle(buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
+  for(x_coord i = 0; i < VGA_graphic_width; i += 20){
+    draw_circle(buffer, i, bush_height, 20, bush_color);
+  }
+  for(x_coord i = 20; i < VGA_graphic_width; i += 10){
+    draw_circle(buffer, i, bush_height, 10, bush_color);
+  }
+  draw_rectangle(buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
 }
 
-static void draw_ground(uchar* buffer)
+static void
+draw_ground(uchar* buffer)
 {
   draw_rectangle(buffer, 0, VGA_graphic_width, ground_height, VGA_graphic_hight, ground_color);
 }
 /*
 // buffer de tamaño VGA_graphic_width*VGA_graphic_hight
-void draw_game(const game_status game, uchar* buffer)
+void
+draw_game(const game_status game, uchar* buffer)
 {
 
 }
