@@ -27,7 +27,7 @@ void draw_horizontal_line
 void draw_vertical_line
   (uchar* buffer, y_coord y0, y_coord y1, x_coord x, uchar color);
 
-/* Pinta un cuadrado entre (x0, y0) y (x1, y1)
+/* Pinta un rectángulo entre (x0, y0) y (x1, y1)
  *
  */
 void draw_rectangle

@@ -8,7 +8,7 @@ draw_pixel(uchar* buffer, x_coord x, y_coord y, uchar color)
     buffer[x + y*VGA_graphic_width] = color;
 }
 
-void 
+void
 draw_horizontal_line
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y, uchar color)
 { // Si x0 > x1 debería hacerse un ciclo muy largo, pero por algún motivo no se hace /////////////////////
