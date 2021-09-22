@@ -14,7 +14,7 @@ int main(void)
   game_status* game = new_game(3);
 
   int last_time = uptime();
-  while(true){
+  for(uint i = 0; ;i++){
 
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_hight, 0);
     draw_game(game, buffer);
@@ -23,7 +23,7 @@ int main(void)
 
     int new_time = uptime();
 
-    update_game(false, new_time - last_time, game);
+    update_game(i % 250 == 0, new_time - last_time, game);
     
     last_time = new_time;
   }

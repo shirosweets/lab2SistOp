@@ -27,7 +27,7 @@ typedef float acceleration; // pixels/secunds²
 
 #define horizontal_speed -40
 #define jump_speed -50
-#define gravity -50
+#define gravity -80
 // jump_speed y gravity son negativos porque el eje 'y' crece hacia abajo
 
 typedef struct _s_game_status
