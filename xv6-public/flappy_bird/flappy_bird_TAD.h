@@ -20,6 +20,9 @@ typedef float acceleration;
 #define width_tube 14
 #define width_hole_tube 54
 
+#define max_diff_hight_tubes 50
+#define min_distance_to_borden 10
+
 #define flappy_radius 8
 
 typedef struct _s_game_status
