@@ -54,10 +54,10 @@ update_positons(bool jump, int delta_time, game_status* game)
 {
   float delta_time_secunds = ((float)delta_time)/100;
 
-/*   game->vertical_speed = jump ? jump_speed
-                              : game->vertical_speed + gravity * delta_time_secunds;
+  game->vertical_speed = jump ? jump_speed
+                              : game->vertical_speed - gravity * delta_time_secunds;
 
-  game->flappy_pos_y = game->flappy_pos_y + game->vertical_speed * delta_time_secunds; */
+  game->flappy_pos_y = game->flappy_pos_y + game->vertical_speed * delta_time_secunds;
 
   game->first_tube_x = game->first_tube_x + horizontal_speed * delta_time_secunds;
 }
