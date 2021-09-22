@@ -13,17 +13,20 @@ int main(void)
   uchar* buffer = malloc(VGA_graphic_hight*VGA_graphic_width);
   game_status* game = new_game(3);
 
+  draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_hight, 0);
+  draw_game(game, buffer);
+  VGA_plot_screen(buffer);
+
   int last_time = uptime();
-  for(uint i = 0; ;i++){
+  while(game->is_alive){
+
+    int new_time = uptime();
+
+    update_game(false, new_time - last_time, game);
 
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_hight, 0);
     draw_game(game, buffer);
     VGA_plot_screen(buffer);
-
-
-    int new_time = uptime();
-
-    update_game(i % 250 == 0, new_time - last_time, game);
     
     last_time = new_time;
   }

@@ -81,9 +81,62 @@ update_tubes(game_status* game)
   }
 }
 
+/* Dice si hay alguna colisión entre el flappy y los tubos
+ * asumiendo que el flappy es cuadrado de tamaño 2*flappy_radius
+ */
+static bool
+has_collitions(const game_status* game)
+{
+  distance left_part_flappy = game->flappy_pos_x;
+  distance right_part_flappy = left_part_flappy + 2*flappy_radius;
+  distance bottom_part_flappy = game->flappy_pos_y;
+  distance top_part_flappy = bottom_part_flappy - 2*flappy_radius;
+
+  bool collitions = top_part_flappy < 0 || bottom_part_flappy >= VGA_graphic_hight;
+
+  /* Primero se busca si hay un tubo que coincide con el flappy
+     en el eje x */
+  uint i = 0;
+
+  distance center_tube = game->first_tube_x;
+  distance left_side_tube = center_tube - width_tube/2;
+  distance right_side_tube = center_tube + width_tube/2;
+
+  while(!collitions && right_part_flappy >= left_side_tube){
+    /* Una ves que el tubo está mas a la derecha que flappy es claro que
+       ese tubo, ni los que siguen tienen colisiones con el flappy */
+
+    // Estas asignaciones no necesitarian ejecutarse la primera vez, pero si las demas
+    center_tube = game->first_tube_x + ((float)i)*offset_tubes;
+    left_side_tube = center_tube - width_tube/2;
+    right_side_tube = center_tube + width_tube/2;
+
+    distance center_hole_tube = game->hole_tubes_y[i];
+    distance bottom_hole_tube = center_hole_tube + width_hole_tube/2;
+    distance top_hole_tube = center_hole_tube - width_hole_tube/2;
+
+    // Miro si hay colisión con el tubo i
+    collitions =
+      // Primero veo si está por dentro del tubo actual en x
+      (left_part_flappy < right_side_tube
+        && right_part_flappy > left_side_tube
+      )
+      && // Si está por dentro del tubo actual en x, veo si no está en el hueco
+      (top_part_flappy < top_hole_tube
+        || bottom_part_flappy > bottom_hole_tube
+      )
+      ;
+
+    i++;
+  }
+
+  return(collitions);
+}
+
 void
 update_game(bool jump, int delta_time, game_status* game)
 {
   update_positions(jump, delta_time, game);
   update_tubes(game);
+  game->is_alive = game->is_alive && !has_collitions(game);
 }
