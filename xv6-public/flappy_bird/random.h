@@ -4,7 +4,7 @@
 /* Semilla por defecto, se va modificando cada ves que se genera un número aleatorio
  * Modificar para reseetar semilla
  */
-int seed = 0;
+int global_seed = 0;
 
 /* Obtiene un número aleatorio a partir de x
  * Pasarle el mismo x produse el mismo resultado, pero un pequeño cambio en x

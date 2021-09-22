@@ -19,8 +19,8 @@ next_random(int x)
 int
 new_random(void)
 {
-  seed = next_random(seed);
-  return(seed);
+  global_seed = next_random(global_seed);
+  return(global_seed);
 }
 
 /* Obtiene el menor x positivo tal que 2^x >= abs(n)
