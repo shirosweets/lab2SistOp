@@ -10,14 +10,27 @@
 int main(void)
 {
   VGA_mode_switch(VGA_mode_graphic);
-
+  uchar* buffer = malloc(VGA_graphic_hight*VGA_graphic_width);
   game_status* game = new_game(3);
 
-  uchar* buffer = malloc(VGA_graphic_hight*VGA_graphic_width);
+  int last_time = uptime();
+  while(true){
 
-  draw_game(game, buffer);
+    draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_hight, 0);
+    draw_game(game, buffer);
+    VGA_plot_screen(buffer);
 
-  VGA_plot_screen(buffer);
+
+    int new_time = uptime();
+
+    update_game(false, new_time - last_time, game);
+    
+    last_time = new_time;
+  }
+
+
+
+
 
   exit();
 }

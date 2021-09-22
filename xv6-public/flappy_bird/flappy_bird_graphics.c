@@ -36,7 +36,7 @@ static void
 draw_tubes(const game_status* game, uchar* buffer)
 {
   for(uint i = 0u; i < amount_of_tubes; i++){
-    draw_tube(buffer, game->first_tube_x + i*offset_tubes, game->hole_tubes_y[i]);
+    draw_tube(buffer, ((int)game->first_tube_x) + i*offset_tubes, game->hole_tubes_y[i]);
   }
 }
 
@@ -97,5 +97,5 @@ void
 draw_game(const game_status* game, uchar* buffer)
 {
   draw_tubes(game, buffer);
-  draw_flappy(buffer, game->flappy_pos_x, game->flappy_pos_y);
+  draw_flappy(buffer, (int)game->flappy_pos_x, (int)game->flappy_pos_y);
 }

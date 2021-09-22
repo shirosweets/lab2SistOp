@@ -9,9 +9,9 @@
 typedef int width;
 typedef int height;
 
-typedef float distance;
-typedef float speed;
-typedef float acceleration;
+typedef float distance;     // pixels
+typedef float speed;        // pixels/secunds
+typedef float acceleration; // pixels/secunds²
 
 
 #define offset_tubes 72
@@ -25,6 +25,11 @@ typedef float acceleration;
 
 #define flappy_radius 8
 
+#define horizontal_speed -40
+#define jump_speed -5
+#define gravity -5
+// jump_speed y gravity son negativos porque el eje 'y' crece hacia abajo
+
 typedef struct _s_game_status
 {
   // Posición del flappy
@@ -35,7 +40,7 @@ typedef struct _s_game_status
   speed vertical_speed;
 
   // Distancia en x hasta el borde de la pantalla del centro primer tubo
-  x_coord first_tube_x;
+  distance first_tube_x;
 
   // Posiciones de en y de los centros de todos los tubos
   y_coord hole_tubes_y[amount_of_tubes];

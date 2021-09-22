@@ -46,10 +46,25 @@ new_game(int seed)
   return(game);
 }
 
-
-
-
-
-void update_game(bool jump, int delta_time, game_status* game)
+/* Actualiza las posiciones de los tubos y del flappy
+ * No crea ni destrulle los tubos
+ */
+static void
+update_positons(bool jump, int delta_time, game_status* game)
 {
+  float delta_time_secunds = ((float)delta_time)/100;
+
+/*   game->vertical_speed = jump ? jump_speed
+                              : game->vertical_speed + gravity * delta_time_secunds;
+
+  game->flappy_pos_y = game->flappy_pos_y + game->vertical_speed * delta_time_secunds; */
+
+  game->first_tube_x = game->first_tube_x + horizontal_speed * delta_time_secunds;
+}
+
+
+void
+update_game(bool jump, int delta_time, game_status* game)
+{
+  update_positons(jump, delta_time, game);
 }
