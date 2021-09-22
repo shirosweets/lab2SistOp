@@ -35,7 +35,7 @@ void draw_rectangle
 
 /* Pinta en buffer un circulo de radio r centrado en (x, y)
  */
-void draw_circle(uchar* buffer, x_coord x, y_coord y, uint r, uchar color);
+void draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color);
 
 
 #include "VGA_graphics.c"

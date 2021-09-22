@@ -37,7 +37,7 @@ draw_rectangle
 
 
 void
-draw_circle(uchar* buffer, x_coord x, y_coord y, uint r, uchar color)
+draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color)
 {
   for(x_coord i = x - r; i <= x + r; i++){
     for(y_coord j = y - r; j <= y + r; j++){
