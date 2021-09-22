@@ -11,6 +11,8 @@
 #define ground_color 0x06
 #define tubes_color 0x02
 
+#define flappy_color 0x0E
+
 /* Dibuja un tubo con el centro del hueco en (x, y)
  */
 static void
@@ -39,9 +41,18 @@ draw_tubes(const game_status* game, uchar* buffer)
 }
 
 
-
-
+/* Dibuja el flappy con la parte inferior izquierda en (x, y)
+ */
+// Para mejorar
 static void
+draw_flappy(uchar* buffer, x_coord x, y_coord y)
+{
+  draw_circle(buffer, x + flappy_radius, y - flappy_radius, flappy_radius, flappy_color);
+}
+
+
+
+/* static void
 draw_sky(uchar* buffer)
 {
   draw_rectangle(buffer, 0, VGA_graphic_width, 0, clouds_height, sky_color);
@@ -77,12 +88,14 @@ static void
 draw_ground(uchar* buffer)
 {
   draw_rectangle(buffer, 0, VGA_graphic_width, ground_height, VGA_graphic_hight, ground_color);
-}
-/*
+} */
+
+
+
 // buffer de tamaño VGA_graphic_width*VGA_graphic_hight
 void
 draw_game(const game_status* game, uchar* buffer)
 {
-
+  draw_tubes(game, buffer);
+  draw_flappy(buffer, game->flappy_pos_x, game->flappy_pos_y);
 }
-*/
