@@ -50,7 +50,7 @@ new_game(int seed)
  * No crea ni destrulle los tubos
  */
 static void
-update_positons(bool jump, int delta_time, game_status* game)
+update_positions(bool jump, int delta_time, game_status* game)
 {
   float delta_time_secunds = ((float)delta_time)/100;
 
@@ -62,9 +62,28 @@ update_positons(bool jump, int delta_time, game_status* game)
   game->first_tube_x = game->first_tube_x + horizontal_speed * delta_time_secunds;
 }
 
+/* Si hay un tubo que ya se dejo de ver lo elemina y agrega uno nuevo
+ * en a la derecha
+ */
+static void
+update_tubes(game_status* game)
+{
+  if(game->first_tube_x < (float)-width_tube/2){
+    // Si el primer tubo ya está afuera de la pantalla
+
+    for(uint i = 0; i + 1 < amount_of_tubes; i++){
+      game->hole_tubes_y[i] = game->hole_tubes_y[i+1];
+    }
+    game->hole_tubes_y[amount_of_tubes-1] =
+      new_hole_tube_y_pos(game->hole_tubes_y[amount_of_tubes-2]);
+
+    game->first_tube_x = game->first_tube_x + offset_tubes;
+  }
+}
 
 void
 update_game(bool jump, int delta_time, game_status* game)
 {
-  update_positons(jump, delta_time, game);
+  update_positions(jump, delta_time, game);
+  update_tubes(game);
 }
