@@ -586,8 +586,7 @@ uchar buffer_mode[VGA_MEMEND - VGA_MEMBASE];
 void
 VGA_mode_init(void)
 {
-  for(int i = 0; i < VGA_MEMEND - VGA_MEMBASE; ++i)
-  {
+  for(int i = 0; i < VGA_MEMEND - VGA_MEMBASE; ++i){
     buffer_mode[i] = (uchar)0;
   }
 }
@@ -595,16 +594,14 @@ VGA_mode_init(void)
 /* Intercambia lo que está desde 0xA0000 hasta 0xBFFFF
  * con lo que esta en el arreglo buffer_mode
  */
-static
-void
+static void
 VGA_switch_buffers(void)
 {
   uchar curr;
   uchar* vga_old_array = VGA_graphic_array;
   uint array_len = VGA_MEMEND - VGA_MEMBASE;
 
-  for(int i = 0; i < array_len; i++)
-  {
+  for(int i = 0; i < array_len; i++){
     curr = buffer_mode[i];
     buffer_mode[i] = vga_old_array[i];
     vga_old_array[i] = curr;
