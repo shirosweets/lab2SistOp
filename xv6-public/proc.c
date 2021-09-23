@@ -580,21 +580,52 @@ unsigned char g_80x25_text[] =
  * Cada ves que se cambia de modo se la actualiza
  */
 VGA_mode actual_mode = VGA_mode_text;
+uchar buffer_mode[VGA_MEMEND - VGA_MEMBASE];
+
+/* Setea al buffer del VGA en 0 */
+void
+VGA_mode_init(void)
+{
+  for(int i = 0; i < VGA_MEMEND - VGA_MEMBASE; ++i)
+  {
+    buffer_mode[i] = (uchar)0;
+  }
+}
+
+/* Intercambia lo que está desde 0xA0000 hasta 0xBFFFF
+ * con lo que esta en el arreglo buffer_mode
+ */
+static
+void
+VGA_switch_buffers(void)
+{
+  uchar curr;
+  uchar* vga_old_array = VGA_graphic_array;
+  uint array_len = VGA_MEMEND - VGA_MEMBASE;
+
+  for(int i = 0; i < array_len; i++)
+  {
+    curr = buffer_mode[i];
+    buffer_mode[i] = vga_old_array[i];
+    vga_old_array[i] = curr;
+  }
+}
 
 // modeswitch del enunciado
 void
 VGA_mode_switch(VGA_mode mode)
 {
   if(mode == VGA_mode_graphic){
-    write_regs(g_320x200x256);
+    VGA_switch_buffers();
+    write_regs(g_320x200x256);  // FIXME
     actual_mode = VGA_mode_graphic;
   }
   else if(mode == VGA_mode_text){
+    VGA_switch_buffers();
     write_regs(g_80x25_text);
     actual_mode = VGA_mode_text;
   }
 }
-
 
 /* Si las cordenadas son dentro de la pantalla (de 320x200) pinta el pixel,
  * si están afuera no hace nada.

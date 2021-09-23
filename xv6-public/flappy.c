@@ -27,16 +27,11 @@ int main(void)
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_height, 0);
     draw_game(game, buffer);
     VGA_plot_screen(buffer);
-    
+
     last_time = new_time;
   }
 
-
-
-
+  //VGA_mode_switch(VGA_mode_text);
 
   exit();
 }
-
-
-

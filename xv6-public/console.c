@@ -319,7 +319,7 @@ void vgaSetPalette(int index, int r, int g, int b) {
 }
 
 void setdefaultVGApalette() {
-  for(int index=0;index<256;index++) {
+  for(int index=0; index<256; index++) {
     int value = vga256_24bit[index];
     vgaSetPalette(index,
                (value>>18)&0x3f,
@@ -336,32 +336,38 @@ write_regs(unsigned char *regs)
   /* write MISCELLANEOUS reg */
   outb(VGA_MISC_WRITE, *regs);
   regs++;
+
   /* write SEQUENCER regs */
   for(i = 0; i < VGA_NUM_SEQ_REGS; i++) {
     outb(VGA_SEQ_INDEX, i);
     outb(VGA_SEQ_DATA, *regs);
     regs++;
   }
+
   /* unlock CRTC registers */
   outb(VGA_CRTC_INDEX, 0x03);
   outb(VGA_CRTC_DATA, inb(VGA_CRTC_DATA) | 0x80);
   outb(VGA_CRTC_INDEX, 0x11);
   outb(VGA_CRTC_DATA, inb(VGA_CRTC_DATA) & ~0x80);
+
   /* make sure they remain unlocked */
   regs[0x03] |= 0x80;
   regs[0x11] &= ~0x80;
+
   /* write CRTC regs */
   for(i = 0; i < VGA_NUM_CRTC_REGS; i++){
     outb(VGA_CRTC_INDEX, i);
     outb(VGA_CRTC_DATA, *regs);
     regs++;
   }
+
   /* write GRAPHICS CONTROLLER regs */
   for(i = 0; i < VGA_NUM_GC_REGS; i++){
     outb(VGA_GC_INDEX, i);
     outb(VGA_GC_DATA, *regs);
     regs++;
   }
+
   /* write ATTRIBUTE CONTROLLER regs */
   for(i = 0; i < VGA_NUM_AC_REGS; i++){
     (void)inb(VGA_INSTAT_READ);
@@ -369,7 +375,8 @@ write_regs(unsigned char *regs)
     outb(VGA_AC_WRITE, *regs);
     regs++;
   }
- /* lock 16-color palette and unblank display */
+
+  /* lock 16-color palette and unblank display */
 	(void)inb(VGA_INSTAT_READ);
 	outb(VGA_AC_INDEX, 0x20);
 
@@ -409,6 +416,7 @@ vgainit(void)
   }
 
   VGA_text_put_string(37, 0, "SO2021", 0x2f);
+  VGA_mode_init();
 }
 
 /* Cambia a modo gráfico (320 x 200 x 256), si ya estaba en ese modo
