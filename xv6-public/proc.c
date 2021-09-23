@@ -606,13 +606,13 @@ VGA_mode_switch(VGA_mode mode)
 void
 VGA_plot_pixel(int x, int y, uchar color)
 {
-  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_hight
+  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_height
     && actual_mode == VGA_mode_graphic){
     *VGA_graphic_pos(x, y) = color;
   }
 }
 
-/* Copia VGA_graphic_width*VGA_graphic_hight bytes de buffer al arreglo
+/* Copia VGA_graphic_width*VGA_graphic_height bytes de buffer al arreglo
  * de la pantalla
  *
  * Si no se está en modo gráfico, o el puntero en NULL, no hace nada
@@ -621,7 +621,7 @@ void
 VGA_plot_screen(uchar* buffer)
 {
   if(actual_mode == VGA_mode_graphic && buffer != 0){ // 0 es NULL
-    for(int j = 0; j < VGA_graphic_width*VGA_graphic_hight; j++){
+    for(int j = 0; j < VGA_graphic_width*VGA_graphic_height; j++){
       VGA_graphic_array[j] = buffer[j];
     }
   }
