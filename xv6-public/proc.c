@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "const.h"
 
 struct {
   struct spinlock lock;
@@ -593,9 +594,6 @@ VGA_mode_switch(VGA_mode mode)
     actual_mode = VGA_mode_text;
   }
 }
-
-#define VGA_graphic_array ((uchar*)V2P(0x000A0000))
-#define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
 
 
 /* Si las cordenadas son dentro de la pantalla (de 320x200) pinta el pixel,

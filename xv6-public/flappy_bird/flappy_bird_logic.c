@@ -1,8 +1,6 @@
 #include "random.h"
-
+#include "../const.h"
 #include "flappy_bird_TAD.h"
-
-#define NULL 0
 
 /* Toma la altura del hueco del tubo anterior, y devuelve la del siguiente
  */
@@ -27,7 +25,7 @@ new_game(int seed)
   game_status* game = malloc(sizeof(game_status));
   if(game == NULL)
     return NULL;
-  
+
   game->flappy_pos_x = 20;
   game->flappy_pos_y = VGA_graphic_height/2;
 
@@ -35,19 +33,19 @@ new_game(int seed)
 
   global_seed = seed;
   game->first_tube_x = 50;
-  
+
   game->hole_tubes_y[0] = VGA_graphic_height/2;
   for(uint j = 1u; j < amount_of_tubes; j++){
     game->hole_tubes_y[j] = new_hole_tube_y_pos(game->hole_tubes_y[j-1]);
   }
-  
+
   game->is_alive = true;
 
   return(game);
 }
 
 /* Actualiza las posiciones de los tubos y del flappy
- * No crea ni destrulle los tubos
+ * No crea ni destruye los tubos
  */
 static void
 update_positions(bool jump, int delta_time, game_status* game)
@@ -62,7 +60,7 @@ update_positions(bool jump, int delta_time, game_status* game)
   game->first_tube_x = game->first_tube_x + horizontal_speed * delta_time_secunds;
 }
 
-/* Si hay un tubo que ya se dejo de ver lo elemina y agrega uno nuevo
+/* Si hay un tubo que ya se dejo de ver lo elimina y agrega uno nuevo
  * en a la derecha
  */
 static void
@@ -103,10 +101,10 @@ has_collitions(const game_status* game)
   distance right_side_tube = center_tube + width_tube/2;
 
   while(!collitions && right_part_flappy >= left_side_tube){
-    /* Una ves que el tubo está mas a la derecha que flappy es claro que
+    /* Una vez que el tubo está más a la derecha que flappy es claro que
        ese tubo, ni los que siguen tienen colisiones con el flappy */
 
-    // Estas asignaciones no necesitarian ejecutarse la primera vez, pero si las demas
+    // Estas asignaciones no necesitarian ejecutarse la primera vez, pero si las demás
     center_tube = game->first_tube_x + ((float)i)*offset_tubes;
     left_side_tube = center_tube - width_tube/2;
     right_side_tube = center_tube + width_tube/2;
