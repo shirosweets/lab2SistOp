@@ -35,6 +35,11 @@ int main(void)
 
     bool jump = stdin_ready(&c);
 
+    // '\e' = tecla esc
+    // 4 = fin de archivo (contrl + d)
+    if(c == '\e' || c == 4)
+      break;
+
     update_game(jump, new_time - last_time, game);
 
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_height, 0);
