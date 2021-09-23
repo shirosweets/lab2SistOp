@@ -30,7 +30,7 @@ void            vgainit(void);
 void            VGA_to_mode_text(void); */
 void            write_regs(unsigned char *regs);
 
-bool            stdin_ready(void);
+bool            stdin_ready(char* c);
 
 // exec.c
 int             exec(char*, char**);

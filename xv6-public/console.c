@@ -477,13 +477,16 @@ VGA_to_mode_text(void)
 } */
 
 
-/* Dice si hay un caracter en el stdin, y si hay uno lo saca
+/* Mira si hay un caracter en el stdin (el stdin de verdad, no el del programa)
+ * Si hay uno lo pone en *c y retorna true
+ * Si no hay, no modifica *C y retona false
  */
 bool
-stdin_ready(void)
+stdin_ready(char* c)
 {
   int res = input.r < input.e;
   if(res){
+    *c = input.buf[input.r];
     input.r++;
     input.w++;
   }

@@ -133,5 +133,8 @@ sys_VGA_plot_screen(void)
 int
 sys_stdin_ready(void)
 {
-  return(stdin_ready());
+  char* c;
+  if(argptr(0, &c, 1))
+    return -1;
+  return(stdin_ready(c));
 }

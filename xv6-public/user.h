@@ -29,7 +29,7 @@ int uptime(void);
 void VGA_mode_switch(VGA_mode mode);
 void VGA_plot_pixel(int x, int y, uchar color);
 void VGA_plot_screen(uchar* buffer);
-bool stdin_ready(void);
+bool stdin_ready(char* c);
 
 // ulib.c
 int stat(const char*, struct stat*);

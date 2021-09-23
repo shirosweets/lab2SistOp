@@ -17,12 +17,15 @@ int main(void)
   draw_game(game, buffer);
   VGA_plot_screen(buffer);
 
+  char c;
   int last_time = uptime();
   while(game->is_alive){
 
     int new_time = uptime();
 
-    update_game(stdin_ready(), new_time - last_time, game);
+    bool jump = stdin_ready(&c);
+
+    update_game(jump, new_time - last_time, game);
 
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_height, 0);
     draw_game(game, buffer);
