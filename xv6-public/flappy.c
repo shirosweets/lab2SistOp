@@ -11,13 +11,23 @@ int main(void)
 {
   VGA_mode_switch(VGA_mode_graphic);
   uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
+  if(buffer == NULL){
+    printf(2, "Memory error");
+    exit();
+  }
+
   game_status* game = new_game(3);
+  if(game == NULL){
+    printf(2, "Memory error");
+    free(buffer);
+    exit();
+  }
 
   draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_height, 0);
   draw_game(game, buffer);
   VGA_plot_screen(buffer);
 
-  char c;
+  char c = '\0';
   int last_time = uptime();
   while(game->is_alive){
 
@@ -33,6 +43,9 @@ int main(void)
 
     last_time = new_time;
   }
+
+  free(buffer); buffer = NULL;
+  free(game); game = NULL;
 
   VGA_mode_switch(VGA_mode_text);
 
