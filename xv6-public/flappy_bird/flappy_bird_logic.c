@@ -14,7 +14,7 @@ new_hole_tube_y_pos(y_coord y)
     res = y + rand;
     // Genero nuevas alturas hasta que haya una que este en el rango correcto
   } while(res - width_hole_tube/2 - min_distance_to_borden < 0
-            || res + width_hole_tube/2 + min_distance_to_borden >= VGA_graphic_height);
+            || res + width_hole_tube/2 + min_distance_to_borden >= ground_height);
   return(res);
 }
 
@@ -27,14 +27,14 @@ new_game(int seed)
     return NULL;
 
   game->flappy_pos_x = 20;
-  game->flappy_pos_y = VGA_graphic_height/2;
+  game->flappy_pos_y = ground_height/2 + flappy_radius;
 
   game->vertical_speed = 0;
 
   global_seed = seed;
   game->first_tube_x = 50;
 
-  game->hole_tubes_y[0] = VGA_graphic_height/2;
+  game->hole_tubes_y[0] = ground_height/2;
   for(uint j = 1u; j < amount_of_tubes; j++){
     game->hole_tubes_y[j] = new_hole_tube_y_pos(game->hole_tubes_y[j-1]);
   }
@@ -90,7 +90,7 @@ has_collitions(const game_status* game)
   distance bottom_part_flappy = game->flappy_pos_y;
   distance top_part_flappy = bottom_part_flappy - 2*flappy_radius;
 
-  bool collitions = top_part_flappy < 0 || bottom_part_flappy >= VGA_graphic_height;
+  bool collitions = top_part_flappy < 0 || bottom_part_flappy >= ground_height;
 
   /* Primero se busca si hay un tubo que coincide con el flappy
      en el eje x */

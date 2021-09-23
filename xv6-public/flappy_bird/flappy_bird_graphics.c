@@ -4,7 +4,7 @@
 
 #define clouds_height 100
 #define bush_height 150
-#define ground_height 190
+
 #define sky_color 0x4E
 #define clouds_color 0x66
 #define bush_color 0x32

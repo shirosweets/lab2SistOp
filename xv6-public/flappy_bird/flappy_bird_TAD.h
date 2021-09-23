@@ -30,6 +30,8 @@ typedef float acceleration; // pixels/secunds²
 #define gravity -220
 // jump_speed y gravity son negativos porque el eje 'y' crece hacia abajo
 
+#define ground_height 190
+
 typedef struct _s_game_status
 {
   // Posición del flappy
