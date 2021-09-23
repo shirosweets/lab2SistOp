@@ -119,10 +119,11 @@ sys_VGA_plot_pixel(void)
   return 0;
 }
 
-int sys_VGA_plot_screen(void)
+int 
+sys_VGA_plot_screen(void)
 {
   char* buffer;
-  if(argptr(0, &buffer, VGA_graphic_width*VGA_graphic_hight) < 0)
+  if(argptr(0, &buffer, VGA_graphic_width*VGA_graphic_height) < 0)
     return -1;
   VGA_plot_screen((uchar*)buffer);
   return 0;

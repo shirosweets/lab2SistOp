@@ -17,8 +17,8 @@ typedef float acceleration; // pixels/secunds²
 #define offset_tubes 72
 #define amount_of_tubes VGA_graphic_width/offset_tubes + 1
 
-#define width_tube 14
-#define width_hole_tube 54
+#define width_tube 20
+#define width_hole_tube 55
 
 #define max_diff_hight_tubes 50
 #define min_distance_to_borden 10

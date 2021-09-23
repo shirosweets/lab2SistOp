@@ -8,7 +8,7 @@ typedef int VGA_mode;
 #define VGA_mode_graphic 1
 
 #define VGA_graphic_width 320
-#define VGA_graphic_hight 200
+#define VGA_graphic_height 200
 
 typedef int bool;
 #define false 0

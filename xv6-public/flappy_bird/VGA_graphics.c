@@ -4,7 +4,7 @@
 void
 draw_pixel(uchar* buffer, x_coord x, y_coord y, uchar color)
 {
-  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_hight)
+  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_height)
     buffer[x + y*VGA_graphic_width] = color;
 }
 
