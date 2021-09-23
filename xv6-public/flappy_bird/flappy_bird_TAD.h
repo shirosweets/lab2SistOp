@@ -18,16 +18,16 @@ typedef float acceleration; // pixels/secunds²
 #define amount_of_tubes VGA_graphic_width/offset_tubes + 1
 
 #define width_tube 20
-#define width_hole_tube 55
+#define width_hole_tube 70
 
 #define max_diff_hight_tubes 50
 #define min_distance_to_borden 10
 
 #define flappy_radius 8
 
-#define horizontal_speed -40
-#define jump_speed -50
-#define gravity -80
+#define horizontal_speed -80
+#define jump_speed -100
+#define gravity -220
 // jump_speed y gravity son negativos porque el eje 'y' crece hacia abajo
 
 typedef struct _s_game_status
