@@ -22,7 +22,7 @@ int main(void)
 
     int new_time = uptime();
 
-    update_game(false, new_time - last_time, game);
+    update_game(stdin_ready(), new_time - last_time, game);
 
     draw_rectangle(buffer, 0, VGA_graphic_width, 0, VGA_graphic_height, 0);
     draw_game(game, buffer);
@@ -31,7 +31,7 @@ int main(void)
     last_time = new_time;
   }
 
-  //VGA_mode_switch(VGA_mode_text);
+  VGA_mode_switch(VGA_mode_text);
 
   exit();
 }

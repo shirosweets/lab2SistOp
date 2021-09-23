@@ -475,3 +475,17 @@ VGA_to_mode_text(void)
 {
   write_regs(g_80x25_text);
 } */
+
+
+/* Dice si hay un caracter en el stdin, y si hay uno lo saca
+ */
+bool
+stdin_ready(void)
+{
+  int res = input.r < input.e;
+  if(res){
+    input.r++;
+    input.w++;
+  }
+  return(res);
+}

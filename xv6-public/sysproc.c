@@ -129,3 +129,9 @@ sys_VGA_plot_screen(void)
   VGA_plot_screen((uchar*)buffer);
   return 0;
 }
+
+int
+sys_stdin_ready(void)
+{
+  return(stdin_ready());
+}
