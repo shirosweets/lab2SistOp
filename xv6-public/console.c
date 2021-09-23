@@ -300,10 +300,7 @@ consoleinit(void)
 
 // Agregados
 
-/*
-  defines y funciones sacadas de https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c
-  (código de dominio publico)
- */
+// Alguna definiciones y funciones sacadas de: https://github.com/sam46/xv6
 int vga256_24bit[256] =
 {
   0x000000, 0x0000a8, 0x00a800, 0x00a8a8, 0xa80000, 0xa800a8, 0xa85400, 0xa8a8a8,
@@ -344,15 +341,19 @@ int vga256_24bit[256] =
 //#define VGA_NUM_REGS    (1 + VGA_NUM_SEQ_REGS + VGA_NUM_CRTC_REGS +
 //        VGA_NUM_GC_REGS + VGA_NUM_AC_REGS)
 
-void vgaSetPalette(int index, int r, int g, int b) {
+void
+vgaSetPalette(int index, int r, int g, int b)
+{
   outb(VGA_DAC_WRITE_INDEX, index);
   outb(VGA_DAC_DATA, r);
   outb(VGA_DAC_DATA, g);
   outb(VGA_DAC_DATA, b);
 }
 
-void setdefaultVGApalette() {
-  for(int index=0; index<256; index++) {
+void
+setdefaultVGApalette()
+{
+  for(int index = 0; index < 256; index++){
     int value = vga256_24bit[index];
     vgaSetPalette(index,
                (value>>18)&0x3f,
@@ -361,6 +362,11 @@ void setdefaultVGApalette() {
   }
 }
 
+
+/*
+  write_regs sacado de https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c
+  (código de dominio publico)
+ */
 void
 write_regs(unsigned char *regs)
 {
