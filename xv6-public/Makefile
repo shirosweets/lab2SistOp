@@ -158,8 +158,7 @@ _forktest: forktest.o $(ULIB)
 
 _flappy: $(ULIB)
 	cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
-	$(CC) $(CFLAGS) -c flappy.c
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o flappy.o $^
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
 
 mkfs: mkfs.c fs.h
 	gcc -Werror -Wall -o mkfs mkfs.c

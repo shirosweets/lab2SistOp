@@ -1,9 +1,9 @@
-#include "types.h"
-#include "user.h"
+#include "../types.h"
+#include "../user.h"
 
-#include "flappy_bird/flappy_bird_logic.h"
-#include "flappy_bird/flappy_bird_graphics.h"
-#include "flappy_bird/flappy_bird_TAD.h"
+#include "flappy_bird_logic.h"
+#include "flappy_bird_graphics.h"
+#include "flappy_bird_TAD.h"
 
 
 int main(void)
