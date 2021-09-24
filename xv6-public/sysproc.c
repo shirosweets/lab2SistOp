@@ -120,7 +120,7 @@ sys_VGA_plot_pixel(void)
   return 0;
 }
 
-int 
+int
 sys_VGA_plot_screen(void)
 {
   char* buffer;

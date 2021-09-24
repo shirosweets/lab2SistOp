@@ -121,7 +121,7 @@ static void
 draw_ground(uchar* buffer)
 {
   draw_rectangle(buffer, 0, VGA_graphic_width, ground_height, VGA_graphic_height, ground_color);
-} 
+}
 
 static void
 draw_background(uchar* buffer)

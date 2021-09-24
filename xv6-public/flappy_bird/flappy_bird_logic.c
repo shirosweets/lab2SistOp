@@ -60,7 +60,7 @@ update_positions(bool jump, int delta_time, game_status* game)
   game->first_tube_x = game->first_tube_x + horizontal_speed * delta_time_secunds;
 }
 
-/* Si hay un tubo que ya se dejo de ver lo elimina y agrega uno nuevo
+/* Si hay un tubo que ya se dejó de ver lo elimina y agrega uno nuevo
  * en a la derecha
  */
 static void

@@ -43,8 +43,8 @@ new_random_less_than(int n)
   int res;
   do{
     /* Se crea un nuevo número aletaorio positivo, y se le hace un shift para
-       que quede entre 0 y next_power_of_2(n). Se hace eso las veces haga falta
-       para que quede entre 0 y n */
+      que quede entre 0 y next_power_of_2(n). Se hace eso las veces haga falta
+      para que quede entre 0 y n */
     res = new_random();
     res = res >> shift;
   } while(abs(res) > abs(n));

@@ -1,7 +1,8 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
-/* Semilla por defecto, se va modificando cada ves que se genera un número aleatorio
+/* Semilla por defecto, se va modificando cada ves que se genera
+ * un número aleatorio
  * Modificar para reseetar semilla
  */
 int global_seed = 0;
@@ -12,7 +13,8 @@ int global_seed = 0;
  */
 int next_random(int x);
 
-/* Obtiene un nuevo número aleatorio a partir de la semilla y modifica la semilla
+/* Obtiene un nuevo número aleatorio a partir de la semilla
+ * y modifica la semilla
  */
 int new_random(void);
 
