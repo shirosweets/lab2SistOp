@@ -200,5 +200,14 @@ void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
 
+// VGA_reg.c
+void            read_regs(uchar *regs);
+void            dump_regs(uchar *regs);
+void            print_current_regs(void);
+void            vgaSetPalette(int index, int r, int g, int b);
+void            setdefaultVGApalette();
+void            write_regs(uchar *regs);
+
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

@@ -1,12 +1,13 @@
-#include "../x86.h"
-#include "../const.h"
-#include "../defs.h"
+#include "types.h"
+#include "const.h"
+#include "defs.h"
+#include "x86.h"
 #include "VGA_reg.h"
 
-void c_regdump(unsigned char *regs, unsigned count)
+void c_regdump(uchar *regs, uint count)
 {
   cprintf("\t");
-  for(unsigned i = 0; count != 0; count--)
+  for(uint i = 0; count != 0; count--)
   {
     cprintf("0x%x, ", *regs);
     i++;
@@ -24,9 +25,10 @@ void c_regdump(unsigned char *regs, unsigned count)
   cprintf("\n");
 }
 
+/* Lee los registros actuales y los escribe en el arreglo regs */
 void
-read_regs(unsigned char *regs) {
-  unsigned i;
+read_regs(uchar *regs) {
+  uint i;
 
   // read MISCELLANEOUS reg
 	*regs = inb(VGA_MISC_READ);
@@ -69,10 +71,11 @@ read_regs(unsigned char *regs) {
 	outb(VGA_AC_INDEX, 0x20);
 }
 
+/* Escribe en consola los registros del arreglo regs */
 void
-dump_regs(unsigned char *regs)
+dump_regs(uchar *regs)
 {
-	cprintf("unsigned char g_mode[] =\n");
+	cprintf("uchar g_mode[] =\n");
 	cprintf("{\n");
 
   /* dump MISCELLANEOUS reg */
@@ -105,7 +108,7 @@ dump_regs(unsigned char *regs)
 /* Imprime el estado actual de los registros */
 void print_current_regs()
 {
-  unsigned char state[VGA_NUM_REGS];
+  uchar state[VGA_NUM_REGS];
   // for (int i=0; i<VGA_NUM_REGS; ++i)cprintf(" %x ", state[i]);
 	read_regs(state);
   // for (int i=0; i<VGA_NUM_REGS; ++i)cprintf(" %x ", state[i]);
@@ -161,6 +164,7 @@ vgaSetPalette(int index, int r, int g, int b)
   outb(VGA_DAC_DATA, b);
 }
 
+/* Seetea la paleta del VGA al default */
 void
 setdefaultVGApalette()
 {
@@ -180,10 +184,11 @@ setdefaultVGApalette()
   write_regs sacado de https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c
   (código de dominio público)
  */
+/* Escribe en los registros del arreglo regs */
 void
-write_regs(unsigned char *regs)
+write_regs(uchar *regs)
 {
-  unsigned i;
+  uint i;
 
   /* write MISCELLANEOUS reg */
   outb(VGA_MISC_WRITE, *regs);

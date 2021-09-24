@@ -7,7 +7,6 @@
 #include "proc.h"
 #include "spinlock.h"
 #include "const.h"
-#include "VGA/VGA_reg.h"
 
 struct {
   struct spinlock lock;
