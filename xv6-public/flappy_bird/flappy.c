@@ -8,7 +8,7 @@
 
 int main(void)
 {
-  VGA_mode_switch(VGA_mode_graphic);
+  VGA_mode_switch(VGA_graphic_320x200x256);
   uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
   if(buffer == NULL){
     printf(2, "Memory error");
