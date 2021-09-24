@@ -140,6 +140,7 @@ VGA_mode_switch(VGA_mode mode)
   }
   else if(mode_is_graphic(mode)){
     write_regs(VGA_modes[mode]);
+    setdefaultVGApalette();
     actual_mode = mode;
   }
 }
