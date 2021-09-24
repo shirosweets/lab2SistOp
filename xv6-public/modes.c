@@ -202,7 +202,7 @@ set_plane(uint p)
 VGA framebuffer is at A000:0000, B000:0000, or B800:0000
 depending on bits in GC 6
 *****************************************************************************/
-static uint
+uint
 get_fb_seg(void)
 {
   uint seg;
@@ -249,7 +249,7 @@ vpeekb(uint off)
 /*****************************************************************************
 write font to plane P4 (assuming planes are named P1, P2, P4, P8)
 *****************************************************************************/
-static void
+void
 write_font(uchar *buf, uint font_height)
 {
   uchar seq2, seq4, gc4, gc5, gc6;

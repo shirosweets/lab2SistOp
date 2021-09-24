@@ -1,7 +1,7 @@
 #ifndef CONST_H
 #define CONST_H
 
-typedef int VGA_mode;
+//typedef int VGA_mode;
 typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 
 // General
