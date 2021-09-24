@@ -7,6 +7,8 @@ typedef int bool;
 #define false 0
 #define true 1
 
+#define VGA_mode_amount 12
+
 typedef enum
 {
   VGA_text_40x25,
@@ -22,6 +24,8 @@ typedef enum
   VGA_graphic_320x200x256,
   VGA_graphic_320x200x256_modex,
 } VGA_mode;
+
+#define VGA_fonts_amount 2
 
 typedef enum
 {

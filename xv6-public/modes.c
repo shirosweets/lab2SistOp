@@ -47,7 +47,7 @@ To do:
 /*****************************************************************************
 MAIN/DEMO ROUTINES
 *****************************************************************************/
-static void
+void
 dump(uchar *regs, uint count)
 {
   uint i;
@@ -184,7 +184,7 @@ write_regs(uchar *regs)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 set_plane(uint p)
 {
   uchar pmask;
@@ -227,21 +227,21 @@ get_fb_seg(void)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 vmemwr(uint dst_off, uchar *src, uint count)
 {
   _vmemwr(get_fb_seg(), dst_off, src, count);
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 vpokeb(uint off, uint val)
 {
   pokeb(get_fb_seg(), off, val);
 }
 /*****************************************************************************
 *****************************************************************************/
-static uint
+uint
 vpeekb(uint off)
 {
   return peekb(get_fb_seg(), off);
@@ -299,10 +299,10 @@ write_font(uchar *buf, uint font_height)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void (*g_write_pixel)(uint x, uint y, uint c);
-static uint g_wd, g_ht;
+void (*g_write_pixel)(uint x, uint y, uint c);
+uint g_wd, g_ht;
 
-static void
+void
 write_pixel1(uint x, uint y, uint c)
 {
   uint wd_in_bytes;
@@ -317,7 +317,7 @@ write_pixel1(uint x, uint y, uint c)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 write_pixel2(uint x, uint y, uint c)
 {
   uint wd_in_bytes, off, mask;
@@ -331,7 +331,7 @@ write_pixel2(uint x, uint y, uint c)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 write_pixel4p(uint x, uint y, uint c)
 {
   uint wd_in_bytes, off, mask, p, pmask;
@@ -353,7 +353,7 @@ write_pixel4p(uint x, uint y, uint c)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 write_pixel8(uint x, uint y, uint c)
 {
   uint wd_in_bytes;
@@ -365,7 +365,7 @@ write_pixel8(uint x, uint y, uint c)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 write_pixel8x(uint x, uint y, uint c)
 {
   uint wd_in_bytes;
@@ -378,7 +378,7 @@ write_pixel8x(uint x, uint y, uint c)
 }
 /*****************************************************************************
 *****************************************************************************/
-static void
+void
 draw_x(void)
 {
   uint x, y;
@@ -447,7 +447,7 @@ set_text_mode(int hi_res)
 /*****************************************************************************
 DEMO GRAPHICS MODES
 *****************************************************************************/
-static void
+void
 demo_graphics(void)
 {
   cprintf("Screen-clear in 16-color mode will be VERY SLOW\n"
@@ -482,7 +482,7 @@ demo_graphics(void)
 }
 /*****************************************************************************
 *****************************************************************************/
-static uchar
+uchar
 reverse_bits(uchar arg)
 {
   uchar ret_val = 0;
@@ -508,10 +508,10 @@ reverse_bits(uchar arg)
 /*****************************************************************************
 512-CHARACTER FONT
 *****************************************************************************/
-static void
+void
 font512(void)
 {
-  /* Turbo C++ 1.0 seems to 'lose' any data declared 'static const' */
+  /* Turbo C++ 1.0 seems to 'lose' any data declared 'const' */
   /*static*/ const char msg1[] = "!txet sdrawkcaB";
   /*static*/ const char msg2[] = "?rorrim a toG";
   /**/

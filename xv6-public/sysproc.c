@@ -95,10 +95,10 @@ sys_uptime(void)
 int
 sys_VGA_mode_switch(void)
 {
-  VGA_mode mode;
+  int mode;
   if(argint(0, &mode) < 0)
     return -1;
-  VGA_mode_switch(mode);
+  VGA_mode_switch((VGA_mode)mode);
   return 0;
 }
 
