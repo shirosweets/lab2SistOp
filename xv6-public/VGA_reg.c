@@ -4,22 +4,20 @@
 #include "x86.h"
 #include "VGA_reg.h"
 
-void c_regdump(uchar *regs, uint count)
+void
+c_regdump(uchar *regs, uint count)
 {
   cprintf("\t");
-  for(uint i = 0; count != 0; count--)
-  {
+  for(uint i = 0; count != 0; count--){
     cprintf("0x%x, ", *regs);
     i++;
-    if(i >= 8)
-    {
+    if(i >= 8){
       i = 0;
       cprintf("\n\t");
     }
     else
-    {
       cprintf(" ");
-    }
+
     regs++;
   }
   cprintf("\n");
@@ -35,31 +33,27 @@ read_regs(uchar *regs) {
 	regs++;
 
   // read SEQUENCER regs
-	for(i = 0; i < VGA_NUM_SEQ_REGS; i++)
-	{
+	for(i = 0; i < VGA_NUM_SEQ_REGS; i++){
 		outb(VGA_SEQ_INDEX, i);
 		*regs = inb(VGA_SEQ_DATA);
 		regs++;
 	}
   // read CRTC regs
-	for(i = 0; i < VGA_NUM_CRTC_REGS; i++)
-	{
+	for(i = 0; i < VGA_NUM_CRTC_REGS; i++){
 		outb(VGA_CRTC_INDEX, i);
 		*regs = inb(VGA_CRTC_DATA);
 		regs++;
 	}
 
   // read GRAPHICS CONTROLLER regs
-	for(i = 0; i < VGA_NUM_GC_REGS; i++)
-	{
+	for(i = 0; i < VGA_NUM_GC_REGS; i++){
 		outb(VGA_GC_INDEX, i);
 		*regs = inb(VGA_GC_DATA);
 		regs++;
 	}
 
   // read ATTRIBUTE CONTROLLER regs
-	for(i = 0; i < VGA_NUM_AC_REGS; i++)
-	{
+	for(i = 0; i < VGA_NUM_AC_REGS; i++){
 		(void)inb(VGA_INSTAT_READ);
 		outb(VGA_AC_INDEX, i);
 		*regs = inb(VGA_AC_READ);
@@ -106,7 +100,8 @@ dump_regs(uchar *regs)
 }
 
 /* Imprime el estado actual de los registros */
-void print_current_regs()
+void
+print_current_regs()
 {
   uchar state[VGA_NUM_REGS];
   // for (int i=0; i<VGA_NUM_REGS; ++i)cprintf(" %x ", state[i]);
@@ -168,8 +163,7 @@ vgaSetPalette(int index, int r, int g, int b)
 void
 setdefaultVGApalette()
 {
-  for(int index = 0; index < 256; index++)
-  {
+  for(int index = 0; index < 256; index++){
     int value = vga256_24bit[index];
     vgaSetPalette(index,
               (value>>18)&0x3f,
