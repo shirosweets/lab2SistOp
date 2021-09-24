@@ -33,3 +33,4 @@
   - [ ] Actualización sin pérdida de información del modo gráfico al modo texto. (si es posible!)
   - [ ] Investigar y explicar el modo texto-gráfico.
   - [ ] Investigar implementación para leer el input.
+  - [ ] Borrar `console.h` y `backup.txt`

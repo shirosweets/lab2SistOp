@@ -23,6 +23,7 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 #define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
 #define VGA_graphic_array ((uchar*)V2P(VGA_MEMBASE))
 #define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
+#define VGA_font_array 0xA0000 // CONFIRMAR
 
 //
 
@@ -35,7 +36,7 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 //#define VGA_DAC_READ_INDEX 0x3C7
 #define VGA_DAC_WRITE_INDEX 0x3C8
 #define VGA_DAC_DATA 0x3C9
-//#define VGA_MISC_READ 0x3CC
+#define VGA_MISC_READ 0x3CC
 #define VGA_GC_INDEX 0x3CE
 #define VGA_GC_DATA 0x3CF
 /*      COLOR emulation    MONO emulation */
