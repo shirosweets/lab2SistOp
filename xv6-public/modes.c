@@ -200,7 +200,7 @@ set_plane(uint p)
   outb(VGA_SEQ_DATA, pmask);
 }
 /*****************************************************************************
-VGA framebuffer is at A000:0000, B000:0000, or B800:0000
+VGA framebuffer is at A0000:0000, B0000:0000, or B8000:0000 // A confirmar
 depending on bits in GC 6
 *****************************************************************************/
 uint
@@ -215,13 +215,13 @@ get_fb_seg(void)
   switch(seg){
   case 0:
   case 1:
-    seg = 0xA000;
+    seg = 0xA0000;
     break;
   case 2:
-    seg = 0xB000;
+    seg = 0xB0000;
     break;
   case 3:
-    seg = 0xB800;
+    seg = 0xB8000;
     break;
   }
   return seg;

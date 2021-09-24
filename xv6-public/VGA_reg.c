@@ -3,7 +3,7 @@
 #include "defs.h"
 #include "x86.h"
 #include "VGA_reg.h"
-
+#include "memlayout.h"
 
 // Alguna definiciones y funciones sacadas de: https://github.com/sam46/xv6
 
@@ -44,11 +44,11 @@ mode_is_graphic(VGA_mode mode)
   return(VGA_graphic_640x480x2 <= mode && mode <= VGA_graphic_320x200x256_modex);
 }
 
-/* Retorna la altura del modo, tanto si es modo texto como gráfico
+/* Retorna el ancho del modo, tanto si es modo texto como gráfico
  * si en un modo invalido retorna 0
  */
 int
-mode_hight(VGA_mode mode)
+mode_width(VGA_mode mode)
 {
   int res = 0;
   switch(mode){
@@ -84,11 +84,11 @@ mode_hight(VGA_mode mode)
   return(res);
 }
 
-/* Retorna el ancho del modo, tanto si es modo texto como gráfico
+/* Retorna la altura del modo, tanto si es modo texto como gráfico
  * si en un modo invalido retorna 0
  */
 int
-mode_width(VGA_mode mode)
+mode_hight(VGA_mode mode)
 {
   int res = 0;
   switch(mode){

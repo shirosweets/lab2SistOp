@@ -2,7 +2,7 @@
 /* */
 #define VGA_NUM_REGS (1 + VGA_NUM_SEQ_REGS + VGA_NUM_CRTC_REGS + VGA_NUM_GC_REGS + VGA_NUM_AC_REGS)
 
-#define framebuffer ((uchar*)get_fb_seg())
+#define framebuffer ((uchar*)P2V(get_fb_seg()))
 
 #define mode_array_size 61
 /*
