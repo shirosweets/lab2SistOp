@@ -27,11 +27,13 @@ void draw_horizontal_line
 void draw_vertical_line
   (uchar* buffer, y_coord y0, y_coord y1, x_coord x, uchar color);
 
-/* Pinta un rectángulo entre (x0, y0) y (x1, y1) */
+/* Pinta un rectángulo entre (x0, y0) y (x1, y1)
+ */
 void draw_rectangle
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y0, y_coord y1, uchar color);
 
-/* Pinta en buffer un circulo de radio r centrado en (x, y) */
+/* Pinta en buffer un circulo de radio r centrado en (x, y)
+ */
 void draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color);
 
 

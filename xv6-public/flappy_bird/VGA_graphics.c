@@ -42,8 +42,8 @@ draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color)
   for(x_coord i = x - r; i <= x + r; i++){
     for(y_coord j = y - r; j <= y + r; j++){
       /* Hay que pintar el pixel solo si está adentro del circulo
-        Está adentro del circulo si y solo si:
-        (i - x)² + (j - y)² == r²
+         Está adentro del circulo si y solo si:
+          (i - x)² + (j - y)² == r²
       */
       if((i - x)*(i - x) + (j - y)*(j - y) <= r*r)
         draw_pixel(buffer, i, j, color);
