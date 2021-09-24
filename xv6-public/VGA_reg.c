@@ -167,7 +167,7 @@ VGA_plot_pixel(int x, int y, uchar color)
 void
 VGA_plot_screen(uchar* buffer)
 {
-  if(mode_is_graphic(actual_mode)){ // 0 es NULL
+  if(mode_is_graphic(actual_mode)){
     for(int j = 0; j < mode_width(actual_mode)*mode_hight(actual_mode); j++){
       framebuffer[j] = buffer[j];
     }
