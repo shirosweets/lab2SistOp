@@ -14,6 +14,7 @@ To do:
 #include "defs.h"
 #include "x86.h"
 #include "VGA_reg.h"
+#include "memlayout.h"
 
 #define peekb(S,O)    *(uchar *)(16uL * (S) + (O))
 #define pokeb(S,O,V)    *(uchar *)(16uL * (S) + (O)) = (V)
@@ -281,10 +282,21 @@ write_font(uchar *buf, uint font_height)
   /* write font to plane P4 */
   set_plane(2);
   /* write font 0 */
-  for(i = 0; i < 256; i++){
+  for(i = 0; i < 256; i++)
+  {
+    // vmemwr(16384u * 0 + i * 32, buf, font_height);
+    for (unsigned int j=0; j<font_height; j++)
+    {
+      // VGA_MEMBASE
+      *((uchar*)V2P(VGA_font_array + 32*i+j)) = *buf;
+      // *(VGA_graphic_array + 32*i+j) = buf;
+      buf++;
+    }
+  }
+/*   for(i = 0; i < 256; i++){
     vmemwr(16384u * 0 + i * 32, buf, font_height);
     buf += font_height;
-  }
+  } */
   /* restore registers */
   outb(VGA_SEQ_INDEX, 2);
   outb(VGA_SEQ_DATA, seq2);

@@ -10,7 +10,7 @@
   Por ende para incluir VGA_reg.h hay que primero incluir types.h
 */
 
-
+VGA_mode actual_mode;
 
 uchar g_40x25_text[mode_array_size];
 uchar g_40x50_text[mode_array_size];

@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 #include "const.h"
+#include "VGA_reg.h"
 
 int
 sys_fork(void)
@@ -124,7 +125,7 @@ int
 sys_VGA_plot_screen(void)
 {
   char* buffer;
-  if(argptr(0, &buffer, VGA_graphic_width*VGA_graphic_height) < 0)
+  if(argptr(0, &buffer, mode_width(actual_mode)*mode_hight(actual_mode)) < 0)
     return -1;
   VGA_plot_screen((uchar*)buffer);
   return 0;

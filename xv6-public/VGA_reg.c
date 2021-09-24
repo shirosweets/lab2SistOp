@@ -32,13 +32,13 @@ setdefaultVGApalette()
 
 ////
 
-static bool
+bool
 mode_is_text(VGA_mode mode)
 {
   return(VGA_text_40x25 <= mode && mode <= VGA_text_90x60);
 }
 
-static bool
+bool
 mode_is_graphic(VGA_mode mode)
 {
   return(VGA_graphic_640x480x2 <= mode && mode <= VGA_graphic_320x200x256_modex);
@@ -47,7 +47,7 @@ mode_is_graphic(VGA_mode mode)
 /* Retorna la altura del modo, tanto si es modo texto como gráfico
  * si en un modo invalido retorna 0
  */
-static int
+int
 mode_hight(VGA_mode mode)
 {
   int res = 0;
@@ -87,7 +87,7 @@ mode_hight(VGA_mode mode)
 /* Retorna el ancho del modo, tanto si es modo texto como gráfico
  * si en un modo invalido retorna 0
  */
-static int
+int
 mode_width(VGA_mode mode)
 {
   int res = 0;
