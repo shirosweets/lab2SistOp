@@ -5,7 +5,7 @@
  * un número aleatorio
  * Modificar para reseetar semilla
  */
-int global_seed = 0;
+int global_seed;
 
 /* Obtiene un número aleatorio a partir de x
  * Pasarle el mismo x produse el mismo resultado, pero un pequeño cambio en x
@@ -25,5 +25,5 @@ int new_random(void);
  */
 int new_random_less_than(int n);
 
-#include "random.c"
+
 #endif // RANDOM_H

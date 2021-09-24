@@ -16,6 +16,5 @@ game_status* new_game(int seed);
  */
 void update_game(bool jump, int delta_time, game_status* game);
 
-#include "flappy_bird_logic.c"
 
 #endif // FLAPPY_BIRD_LOGIC_H

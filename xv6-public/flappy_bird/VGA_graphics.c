@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../const.h"
+
 #include "VGA_graphics.h"
 
 void

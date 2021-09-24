@@ -2,6 +2,7 @@
 #define flappy_bird_TAD_H
 
 #include "../types.h"
+#include "../const.h"
 
 #include "VGA_graphics.h"
 

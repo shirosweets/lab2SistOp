@@ -1,5 +1,8 @@
-#include "random.h"
+#include "../types.h"
 #include "../const.h"
+#include "../user.h"
+
+#include "random.h"
 #include "flappy_bird_TAD.h"
 
 /* Toma la altura del hueco del tubo anterior, y devuelve la del siguiente

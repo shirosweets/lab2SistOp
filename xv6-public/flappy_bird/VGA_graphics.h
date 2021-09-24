@@ -37,5 +37,4 @@ void draw_rectangle
 void draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color);
 
 
-#include "VGA_graphics.c"
 #endif // VGA_graphics_H

@@ -5,6 +5,9 @@
 #define min(a, b) (a < b ? a : b)
 #define abs(x) (0 < x ? x : (-x))
 
+int global_seed = 0;
+
+
 // Algoritmo usado: https://en.wikipedia.org/wiki/Linear-feedback_shift_register
 int
 next_random(int x)
