@@ -14,8 +14,6 @@ Encargado del informe: Iván Renison
 
 # Índice
 
-
-
 Esquema del informe:
 
 Trabajo inicial
@@ -40,11 +38,21 @@ Trabajo inicial
 
 Las llamadas al sistema extras y el `modes.c`
 
-    `stdin_read`
+    `stdin_read` (motivación y explicación)
+
+    Uso de todos los modos de VGA
 
 El flappy bird
 
-🤔
+    Modularización
+
+        Módulos mas "generales"
+
+        Módulos del flappy
+
+Estilo del código
+
+Nuestra forma de trabajar
 
 
 
