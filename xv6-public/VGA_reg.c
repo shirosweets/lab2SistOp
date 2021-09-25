@@ -129,6 +129,10 @@ VGA_mode actual_mode = VGA_text_80x25;
 
 /* Llamada al sistema que cambia de modo al modo dado,
  * si es un modo invalido no hace nada
+ *
+ * Cosas a tener en cuenta:
+ *   La memoría no se inicializa, por lo cuál al cambiar de modo hay basura
+ *   La fuente g_8x16_font no se ve bien para todos los modos de texto
  */
 void
 VGA_mode_switch(VGA_mode mode)
