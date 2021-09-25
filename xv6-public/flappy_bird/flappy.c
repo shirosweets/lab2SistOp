@@ -50,7 +50,7 @@ int main(void)
   free(buffer); buffer = NULL;
   free(game); game = NULL;
 
-  VGA_mode_switch(VGA_text_80x25);  // FIXME
+  VGA_mode_switch(VGA_text_80x25);
 
   exit();
 }

@@ -16,7 +16,7 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 // VGA PREPROC FUNCTIONS
 #define VGA_text_array P2V(0x000B8000)
 #define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
-#define VGA_font_array 0xA0000 // CONFIRMAR
+#define VGA_font_array P2V(0xB8000)
 
 //
 
