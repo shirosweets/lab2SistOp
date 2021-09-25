@@ -2,8 +2,6 @@
 #define VGA_graphics_H
 
 
-#include "../types.h"
-
 typedef int x_coord;
 typedef int y_coord;
 

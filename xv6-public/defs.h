@@ -24,7 +24,6 @@ void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
-void            VGA_mode_init(void);
 void            vgainit(void);
 /* void            VGA_to_mode_graphic(void);
 void            VGA_to_mode_text(void); */
@@ -131,9 +130,6 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 
-void            VGA_mode_switch(VGA_mode mode);
-void            VGA_plot_pixel(int x, int y, uchar color);
-void            VGA_plot_screen(uchar* buffer);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -200,13 +196,22 @@ void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
 
+// modes.c
+void            write_regs(uchar *regs);
+void            write_font(uchar *buf, uint font_height);
+uint            get_fb_seg(void);
+
 // VGA_reg.c
-void            read_regs(uchar *regs);
-void            dump_regs(uchar *regs);
-void            print_current_regs(void);
+bool            mode_is_text(VGA_mode mode);
+bool            mode_is_graphic(VGA_mode mode);
+int             mode_hight(VGA_mode mode);
+int             mode_width(VGA_mode mode);
+void            VGA_mode_switch(VGA_mode mode);
+void            VGA_plot_pixel(int x, int y, uchar color);
+void            VGA_plot_screen(uchar* buffer);
+
 void            vgaSetPalette(int index, int r, int g, int b);
 void            setdefaultVGApalette();
-void            write_regs(uchar *regs);
 
 
 // number of elements in fixed-size array

@@ -330,7 +330,6 @@ vgainit(void)
   }
 
   VGA_text_put_string(37, 0, "SO2021", 0x2f);
-  VGA_mode_init();
 }
 
 /* Cambia a modo gráfico (320 x 200 x 256), si ya estaba en ese modo

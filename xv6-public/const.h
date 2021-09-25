@@ -1,7 +1,7 @@
 #ifndef CONST_H
 #define CONST_H
 
-typedef int VGA_mode;
+//typedef int VGA_mode;
 typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 
 // General
@@ -11,19 +11,12 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 #define VGA_text_width 80
 #define VGA_text_hight 25
 #define VGA_text_defult_atributes 0b00000111
-#define VGA_mode_text 0
-#define VGA_mode_graphic 1
-#define VGA_graphic_width 320
-#define VGA_graphic_height 200
+
 
 // VGA PREPROC FUNCTIONS
-#define VGA_MEMBASE 0xA0000
-#define VGA_MEMEND 0xBFFFF
 #define VGA_text_array P2V(0x000B8000)
 #define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
-#define VGA_graphic_array ((uchar*)V2P(VGA_MEMBASE))
-#define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
-#define VGA_font_array 0xA0000 // CONFIRMAR
+#define VGA_font_array P2V(0xB8000)
 
 //
 

@@ -1,11 +1,10 @@
 #ifndef flappy_bird_TAD_H
 #define flappy_bird_TAD_H
 
-#include "../types.h"
-#include "../const.h"
-
 #include "VGA_graphics.h"
 
+#define VGA_graphic_width 320
+#define VGA_graphic_height 200
 
 typedef int width;
 typedef int height;
