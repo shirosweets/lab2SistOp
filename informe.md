@@ -36,25 +36,33 @@ Trabajo inicial
 
         Explicación breve de como empezamos
 
-Las llamadas al sistema extras y el `modes.c`
+Extras en el kernel
 
     `stdin_read` (motivación y explicación)
 
     Uso de todos los modos de VGA
 
+        Explicación de VGA
+
+        Explicación de como usamos el `modes.c`
+
+El resultado final y como usarlo
+
 El flappy bird
 
-    Modularización
+    Cómo usarlo
 
-        Módulos mas "generales"
+    Cómo esta hecho
 
-        Módulos del flappy
+        Modularización
+
+            Módulos mas "generales"
+
+            Módulos del flappy
 
 Estilo del código
 
 Nuestra forma de trabajar
-
-
 
 ---
 
