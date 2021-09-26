@@ -69,7 +69,7 @@ dump(uchar *regs, uint count)
   cprintf("\n");
 }
 /*****************************************************************************
-Escribe en los registros del arreglo regs
+Imprime los registros del arreglo regs
 *****************************************************************************/
 void
 dump_regs(uchar *regs)
@@ -102,7 +102,7 @@ dump_regs(uchar *regs)
 Lee los registros actuales y los escribe en el arreglo regs
 *****************************************************************************/
 void
-dump_regs(uchar *regs)
+read_regs(uchar *regs)
 {
   uint i;
 
