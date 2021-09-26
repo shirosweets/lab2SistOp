@@ -16,11 +16,13 @@ Encargado del informe: Iván Renison
 
 Esquema del informe:
 
-Trabajo inicial
+Desarrollo inicial
 
     Parte 1
 
         Explicar que se podría haber hecho de forma muy simple, pero nosotros lo modularizamos un poco
+
+        Explicar que primero lo hicimos en `console.c`, pero que después lo movimos a `VGA_reg.c`
 
     Parte 2
 
@@ -46,7 +48,7 @@ Extras en el kernel
 
         Explicación de como usamos el `modes.c`
 
-El resultado final y como usarlo
+El kernel final y como usarlo
 
 El flappy bird
 
@@ -56,7 +58,7 @@ El flappy bird
 
         Modularización
 
-            Módulos mas "generales"
+            Módulos mas "generales" (`random` y `VGA_graphics`)
 
             Módulos del flappy
 
