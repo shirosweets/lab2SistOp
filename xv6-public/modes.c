@@ -305,100 +305,6 @@ write_font(uchar *buf, uint font_height)
 *****************************************************************************/
 void (*g_write_pixel)(uint x, uint y, uint c);
 uint g_wd, g_ht;
-
-void
-write_pixel1(uint x, uint y, uint c)
-{
-  uint wd_in_bytes;
-  uint off, mask;
-
-  c = (c & 1) * 0xFF;
-  wd_in_bytes = g_wd / 8;
-  off = wd_in_bytes * y + x / 8;
-  x = (x & 7) * 1;
-  mask = 0x80 >> x;
-  vpokeb(off, (vpeekb(off) & ~mask) | (c & mask));
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-write_pixel2(uint x, uint y, uint c)
-{
-  uint wd_in_bytes, off, mask;
-
-  c = (c & 3) * 0x55;
-  wd_in_bytes = g_wd / 4;
-  off = wd_in_bytes * y + x / 4;
-  x = (x & 3) * 2;
-  mask = 0xC0 >> x;
-  vpokeb(off, (vpeekb(off) & ~mask) | (c & mask));
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-write_pixel4p(uint x, uint y, uint c)
-{
-  uint wd_in_bytes, off, mask, p, pmask;
-
-  wd_in_bytes = g_wd / 8;
-  off = wd_in_bytes * y + x / 8;
-  x = (x & 7) * 1;
-  mask = 0x80 >> x;
-  pmask = 1;
-  for(p = 0; p < 4; p++)
-  {
-    set_plane(p);
-    if(pmask & c)
-      vpokeb(off, vpeekb(off) | mask);
-    else
-      vpokeb(off, vpeekb(off) & ~mask);
-    pmask <<= 1;
-  }
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-write_pixel8(uint x, uint y, uint c)
-{
-  uint wd_in_bytes;
-  uint off;
-
-  wd_in_bytes = g_wd;
-  off = wd_in_bytes * y + x;
-  vpokeb(off, c);
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-write_pixel8x(uint x, uint y, uint c)
-{
-  uint wd_in_bytes;
-  uint off;
-
-  wd_in_bytes = g_wd / 4;
-  off = wd_in_bytes * y + x / 4;
-  set_plane(x & 3);
-  vpokeb(off, c);
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-draw_x(void)
-{
-  uint x, y;
-
-  /* clear screen */
-  for(y = 0; y < g_ht; y++)
-    for(x = 0; x < g_wd; x++)
-      g_write_pixel(x, y, 0);
-  /* draw 2-color X */
-  for(y = 0; y < g_ht; y++)
-  {
-    g_write_pixel((g_wd - g_ht) / 2 + y, y, 1);
-    g_write_pixel((g_ht + g_wd) / 2 - y, y, 2);
-  }
-//  getch();
-}
 /*****************************************************************************
 READ AND DUMP VGA REGISTER VALUES FOR CURRENT VIDEO MODE
 This is where g_40x25_text[], g_80x50_text[], etc. came from :)
@@ -447,42 +353,6 @@ set_text_mode(int hi_res)
   /* set white-on-black attributes for all text */
   for(i = 0; i < cols * rows; i++)
     pokeb(0xB800, i * 2 + 1, 7);
-}
-/*****************************************************************************
-DEMO GRAPHICS MODES
-*****************************************************************************/
-void
-demo_graphics(void)
-{
-  cprintf("Screen-clear in 16-color mode will be VERY SLOW\n"
-    "Press a key to continue\n");
-//  getch();
-  /* 4-color */
-  write_regs(g_320x200x4);
-  g_wd = 320;
-  g_ht = 200;
-  g_write_pixel = write_pixel2;
-  draw_x();
-  /* 16-color */
-  write_regs(g_640x480x16);
-  g_wd = 640;
-  g_ht = 480;
-  g_write_pixel = write_pixel4p;
-  draw_x();
-  /* 256-color */
-  write_regs(g_320x200x256);
-  g_wd = 320;
-  g_ht = 200;
-  g_write_pixel = write_pixel8;
-  draw_x();
-  /* 256-color Mode-X */
-  write_regs(g_320x200x256_modex);
-  g_wd = 320;
-  g_ht = 200;
-  g_write_pixel = write_pixel8x;
-  draw_x();
-  /* go back to 80x25 text mode */
-  set_text_mode(0);
 }
 /*****************************************************************************
 *****************************************************************************/
@@ -586,14 +456,4 @@ font512(void)
     vpokeb((80 * 16 + 40 + i) * 2 + 0, msg2[i]);
     vpokeb((80 * 16 + 40 + i) * 2 + 1, 0x0F);
   }
-}
-/*****************************************************************************
-*****************************************************************************/
-int main_modes(void/* int arg_c, char *arg_v[] */)
-{
-  dump_state();
-  //set_text_mode(arg_c > 1);
-  demo_graphics();
-  font512();
-  return 0;
 }
