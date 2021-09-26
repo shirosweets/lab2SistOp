@@ -166,7 +166,7 @@ VGA_mode actual_mode = VGA_text_80x25;
 void
 VGA_mode_switch(VGA_mode mode)
 {
-  if(mode_is_text(mode)){ 
+  if(mode_is_text(mode)){
     write_regs(VGA_modes[mode]);
     write_font(g_8x16_font, 16);
     int cols = mode_height(mode);

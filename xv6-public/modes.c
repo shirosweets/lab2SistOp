@@ -69,6 +69,7 @@ dump(uchar *regs, uint count)
   cprintf("\n");
 }
 /*****************************************************************************
+Escribe en los registros del arreglo regs
 *****************************************************************************/
 void
 dump_regs(uchar *regs)
@@ -98,9 +99,10 @@ dump_regs(uchar *regs)
   cprintf("};\n");
 }
 /*****************************************************************************
+Lee los registros actuales y los escribe en el arreglo regs
 *****************************************************************************/
 void
-read_regs(uchar *regs)
+dump_regs(uchar *regs)
 {
   uint i;
 
@@ -137,6 +139,7 @@ read_regs(uchar *regs)
   outb(VGA_AC_INDEX, 0x20);
 }
 /*****************************************************************************
+Escribe en los registros del arreglo regs
 *****************************************************************************/
 void
 write_regs(uchar *regs)
