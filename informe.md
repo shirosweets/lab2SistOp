@@ -66,10 +66,6 @@ Estilo del código
 
 Nuestra forma de trabajar
 
-
-
-
-
 # Desarrollo inicial
 
 ## Parte 1
@@ -90,17 +86,17 @@ Nuestra forma de trabajar
 *(int *)P2V(0xB8000) = 0x4348;
 ```
 
-
-
-    Nosotros decidimos modularizarlo un poco, haciendo 2 funciones auxiliares, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada.
+    Nosotros decidimos modularizarlo un poco, haciendo 2 funciones auxiliares, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada. Esto nos pareció mejor que hacer como en el ejemplo, ya que así no hay que buscar el código ASCII de los caracteres que se ponen, y todo es menos repetitivo.
 
     Utilizando esas dos funciones hicimos la función `vgainit` para que muestre un el pie de pantalla así:
 
 ![pie_de_pantalla_vgainit.png](/home/ivan-lau/Escritorio/Iván/Lab%202%20-%20sistemas%20operativos/lab2SistOp-main/Imagenes_informe/pie_de_pantalla_vgainit.png)
 
-
+    Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del kernel y la llamamos al comienzo de `main` en `main.c`.
 
     
+
+    A esas funciones en ese momento las hicimos en `concole.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora.
 
 ## Parte 2
 
