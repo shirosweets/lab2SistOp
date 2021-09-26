@@ -309,7 +309,7 @@ stdin_ready(char* c)
 {
   int res = input.r < input.e;
   if(res){
-    *c = input.buf[input.r];
+    *c = input.buf[input.r % INPUT_BUF];
     input.r++;
     input.w++;
   }
