@@ -19,7 +19,7 @@
 
   - [ ] Implementar menús de pausa en el flappy.
   - [ ] Hacer que a medida que pase un tiempo 'X' se vaya aunmentando progresivamente la velocidad.
-  - [ ] Implementar un sistema de puntajes.
+  - [ ] Implementar un sistema de puntajes. (Vale)
   - [ ] Investigar e implementar sonido.
 
 - [ ] Estilo y calidad del código:
@@ -32,5 +32,6 @@
   - [ ] Actualización sin pérdida de información del modo texto al modo gráfico.
   - [ ] Actualización sin pérdida de información del modo gráfico al modo texto. (si es posible!)
   - [ ] Investigar y explicar el modo texto-gráfico.
-  - [ ] Investigar implementación para leer el input.
-  - [ ] Borrar `console.h` y `backup.txt`
+  - [/] Investigar implementación para leer el input.
+  - [x] Borrar `backup.txt`
+  - [ ] Borrar `console.h`
