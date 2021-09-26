@@ -204,7 +204,7 @@ uint            get_fb_seg(void);
 // VGA_reg.c
 bool            mode_is_text(VGA_mode mode);
 bool            mode_is_graphic(VGA_mode mode);
-int             mode_hight(VGA_mode mode);
+int             mode_height(VGA_mode mode);
 int             mode_width(VGA_mode mode);
 void            VGA_mode_switch(VGA_mode mode);
 void            VGA_plot_pixel(int x, int y, uchar color);

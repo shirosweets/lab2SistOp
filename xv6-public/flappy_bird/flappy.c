@@ -75,9 +75,8 @@ main(int argc, char *argv[])
 
     last_time = new_time;
   }
-
-  free(buffer); buffer = NULL;
   free(game); game = NULL;
+  free(buffer); buffer = NULL;
 
   VGA_mode_switch(VGA_text_80x25);
 

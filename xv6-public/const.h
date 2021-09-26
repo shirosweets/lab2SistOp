@@ -9,7 +9,7 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 
 // VGA CONST
 #define VGA_text_width 80
-#define VGA_text_hight 25
+#define VGA_text_height 25
 #define VGA_text_defult_atributes 0b00000111
 
 

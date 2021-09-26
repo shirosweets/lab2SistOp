@@ -300,57 +300,6 @@ consoleinit(void)
 
 // Nuestro código
 
-//#define VGA_plot_letter(x, y, letter, atributes) *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes}
-
-static void
-VGA_text_plot_letter(int x, int y, char letter, char atributes)
-{
-  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_hight) {
-    *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
-  }
-}
-
-static void
-VGA_text_put_string(int x, int y, char* str, char atributes)
-{
-  if(str != NULL) {
-    for(uint i = 0u; str[i] != '\0'; i++) {
-      VGA_text_plot_letter(x, y, str[i], atributes);
-      x++;
-    }
-  }
-}
-
-void
-vgainit(void)
-{
-  // Pintar el fondo
-  for (int x = 0; x < VGA_text_width; x++) {
-    VGA_text_plot_letter(x, 0, ' ', 0x20);
-  }
-
-  VGA_text_put_string(37, 0, "SO2021", 0x2f);
-}
-
-/* Cambia a modo gráfico (320 x 200 x 256), si ya estaba en ese modo
- * no hace nada
- */
-/* void
-VGA_to_mode_graphic(void)
-{
-  write_regs(g_320x200x256);
-} */
-
-/* Cambia a modo gráfico (80 x 25), si ya estaba en ese modo
- * no hace nada
- */
-/* void
-VGA_to_mode_text(void)
-{
-  write_regs(g_80x25_text);
-} */
-
-
 /* Mira si hay un caracter en el stdin (el stdin de verdad, no el del programa)
  * Si hay uno lo pone en *c y retorna true
  * Si no hay, no modifica *C y retona false

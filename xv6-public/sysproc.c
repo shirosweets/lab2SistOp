@@ -125,7 +125,7 @@ int
 sys_VGA_plot_screen(void)
 {
   char* buffer;
-  if(argptr(0, &buffer, mode_width(actual_mode)*mode_hight(actual_mode)) < 0)
+  if(argptr(0, &buffer, mode_width(actual_mode)*mode_height(actual_mode)) < 0)
     return -1;
   VGA_plot_screen((uchar*)buffer);
   return 0;

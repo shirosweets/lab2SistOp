@@ -4,6 +4,7 @@
 #include "x86.h"
 #include "VGA_reg.h"
 #include "memlayout.h"
+#include "flappy_bird/VGA_graphics.h"
 
 // Alguna definiciones y funciones sacadas de: https://github.com/sam46/xv6
 
@@ -31,6 +32,36 @@ setdefaultVGApalette()
 }
 
 ////
+
+static void
+VGA_text_plot_letter(int x, int y, char letter, char atributes)
+{
+  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_height) {
+    *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
+  }
+}
+
+static void
+VGA_text_put_string(int x, int y, char* str, char atributes)
+{
+  if(str != NULL) {
+    for(uint i = 0u; str[i] != '\0'; i++) {
+      VGA_text_plot_letter(x, y, str[i], atributes);
+      x++;
+    }
+  }
+}
+
+void
+vgainit(void)
+{
+  // Pintar el fondo
+  for (int x = 0; x < VGA_text_width; x++) {
+    VGA_text_plot_letter(x, 0, ' ', 0x20);
+  }
+
+  VGA_text_put_string(37, 0, "SO2021", 0x2f);
+}
 
 bool
 mode_is_text(VGA_mode mode)
@@ -88,7 +119,7 @@ mode_width(VGA_mode mode)
  * si en un modo invalido retorna 0
  */
 int
-mode_hight(VGA_mode mode)
+mode_height(VGA_mode mode)
 {
   int res = 0;
   switch(mode){
@@ -125,8 +156,6 @@ mode_hight(VGA_mode mode)
  */
 VGA_mode actual_mode = VGA_text_80x25;
 
-
-
 /* Llamada al sistema que cambia de modo al modo dado,
  * si es un modo invalido no hace nada
  *
@@ -137,9 +166,16 @@ VGA_mode actual_mode = VGA_text_80x25;
 void
 VGA_mode_switch(VGA_mode mode)
 {
-  if(mode_is_text(mode)){
+  if(mode_is_text(mode)){ 
     write_regs(VGA_modes[mode]);
     write_font(g_8x16_font, 16);
+    char space = 32;
+    for(int i = 0; i < 320; i++){
+      for(int j = 0; j < 200; j++){
+        VGA_text_plot_letter(i, j, space, 0x00);
+      }
+    }
+    vgainit();
     actual_mode = mode;
   }
   else if(mode_is_graphic(mode)){
@@ -158,14 +194,14 @@ void
 VGA_plot_pixel(int x, int y, uchar color)
 {
   if(0 <= x && x < mode_width(actual_mode)
-    && 0 <= y && y < mode_hight(actual_mode)
+    && 0 <= y && y < mode_height(actual_mode)
     && mode_is_graphic(actual_mode)){
     uchar* framebuffer = P2V(get_fb_seg());
     framebuffer[y * mode_width(actual_mode) + x] = color;
   }
 }
 
-/* Copia mode_width(actual_mode)*mode_hight(actual_mode) bytes de buffer+
+/* Copia mode_width(actual_mode)*mode_height(actual_mode) bytes de buffer+
  * al arreglo de la pantalla
  *
  * Si no se está en modo gráfico no hace nada
@@ -175,7 +211,7 @@ VGA_plot_screen(uchar* buffer)
 {
   if(mode_is_graphic(actual_mode)){
     uchar* framebuffer = P2V(get_fb_seg());
-    for(int j = 0; j < mode_width(actual_mode)*mode_hight(actual_mode); j++){
+    for(int j = 0; j < mode_width(actual_mode)*mode_height(actual_mode); j++){
       framebuffer[j] = buffer[j];
     }
   }
