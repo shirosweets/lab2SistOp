@@ -24,11 +24,6 @@ void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
-void            vgainit(void);
-/* void            VGA_to_mode_graphic(void);
-void            VGA_to_mode_text(void); */
-void            write_regs(unsigned char *regs);
-
 bool            stdin_ready(char* c);
 
 // exec.c
@@ -202,6 +197,7 @@ void            write_font(uchar *buf, uint font_height);
 uint            get_fb_seg(void);
 
 // VGA_reg.c
+void            vgainit(void);
 bool            mode_is_text(VGA_mode mode);
 bool            mode_is_graphic(VGA_mode mode);
 int             mode_height(VGA_mode mode);
