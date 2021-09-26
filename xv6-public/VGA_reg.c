@@ -169,10 +169,11 @@ VGA_mode_switch(VGA_mode mode)
   if(mode_is_text(mode)){ 
     write_regs(VGA_modes[mode]);
     write_font(g_8x16_font, 16);
-    char space = 32;
-    for(int i = 0; i < 320; i++){
-      for(int j = 0; j < 200; j++){
-        VGA_text_plot_letter(i, j, space, 0x00);
+    int cols = mode_height(mode);
+    int rows = mode_width(mode); 
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        VGA_text_plot_letter(i, j, ' ', 0x00);
       }
     }
     vgainit();
