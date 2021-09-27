@@ -96,7 +96,47 @@ Nuestra forma de trabajar
 
     
 
-    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora.
+    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales era así:
+
+```c
+typedef struct{char s_ASCII_code; char s_atributes;} VGA_char;
+
+#define VGA_text_array P2V(0xB8000)
+#define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
+#define VGA_text_width 80
+#define VGA_text_hight 25
+
+static void
+VGA_text_plot_letter(int x, int y, char letter, char atributes)
+{
+  // Solo se imprime si está dentro de la pantalla
+  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_hight) {
+    *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
+  }
+}
+
+static void
+VGA_text_put_string(int x, int y, char* str, char atributes)
+{
+  if(str != NULL) {
+    for(uint i = 0u; str[i] != '\0'; i++) {
+      VGA_text_plot_letter(x, y, str[i], atributes);
+      x++;
+    }
+  }
+}
+
+void
+vgainit(void)
+{
+  for (int x = 0; x < VGA_text_width; x++) {
+    VGA_text_plot_letter(x, 0, ' ', 0x2f);
+  }
+  VGA_text_put_string(37, 0, "SO2021", 0x2f);
+}
+```
+
+
 
 ## Parte 2
 
