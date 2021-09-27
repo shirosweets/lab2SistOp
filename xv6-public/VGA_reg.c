@@ -170,9 +170,14 @@ void
 VGA_mode_switch(VGA_mode mode)
 {
   if(mode_is_text(mode)){
+    // Cambio de modo
     write_regs(VGA_modes[mode]);
     actual_mode = mode;
+
+    // Se ponen las fuentes
     write_font(g_8x16_font, 16);
+
+    // Se inicializa todo
     int rows = mode_height(mode);
     int cols = mode_width(mode); 
     for(int i = 0; i < cols; i++){
@@ -180,6 +185,8 @@ VGA_mode_switch(VGA_mode mode)
         VGA_text_plot_letter(i, j, ' ', 0x00);
       }
     }
+
+    // Se llama a vgainit para que aparezca el pie de pantalla
     vgainit();
   }
   else if(mode_is_graphic(mode)){
