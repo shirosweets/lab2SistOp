@@ -197,11 +197,14 @@ VGA_mode_switch(VGA_mode mode)
 void
 VGA_plot_pixel(int x, int y, uchar color)
 {
-  if(0 <= x && x < mode_width(actual_mode)
-    && 0 <= y && y < mode_height(actual_mode)
+  int width = mode_width(actual_mode);
+  int height = mode_height(actual_mode);
+
+  if(0 <= x && x < width && 0 <= y && y < height
     && mode_is_graphic(actual_mode)){
+
     uchar* framebuffer = P2V(get_fb_seg());
-    framebuffer[y * mode_width(actual_mode) + x] = color;
+    framebuffer[y * width + x] = color;
   }
 }
 
