@@ -150,13 +150,15 @@ VGA_text_put_string(int x, int y, char* str, char atributes)
 void
 vgainit(void)
 {
-  // Pintar el fondo
-  int width = mode_width(actual_mode);
-  for (int x = 0; x < width; x++) {
-    VGA_text_plot_letter(x, 0, ' ', 0x20);
-  }
+  if(mode_is_text(actual_mode)){
+    // Pintar el fondo
+    int width = mode_width(actual_mode);
+    for (int x = 0; x < width; x++) {
+      VGA_text_plot_letter(x, 0, ' ', 0x20);
+    }
 
-  VGA_text_put_string(width/2 - 3, 0, "SO2021", 0x2f);
+    VGA_text_put_string(width/2 - 3, 0, "SO2021", 0x2f);
+  }
 }
 
 
