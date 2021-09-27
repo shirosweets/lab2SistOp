@@ -48,6 +48,8 @@ Extras en el kernel
 
         Explicación de como usamos el `modes.c`
 
+    Uso de la paleta completa
+
 El kernel final y como usarlo
 
 El flappy bird
@@ -161,6 +163,8 @@ vgainit(void)
         Explicación de VGA
 
         Explicación de como usamos el `modes.c`
+
+## Uso de la paleta completa
 
 # El kernel final y como usarlo
 
