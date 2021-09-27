@@ -168,6 +168,7 @@ VGA_mode_switch(VGA_mode mode)
 {
   if(mode_is_text(mode)){
     write_regs(VGA_modes[mode]);
+    actual_mode = mode;
     write_font(g_8x16_font, 16);
     int rows = mode_height(mode);
     int cols = mode_width(mode); 
@@ -177,12 +178,11 @@ VGA_mode_switch(VGA_mode mode)
       }
     }
     vgainit();
-    actual_mode = mode;
   }
   else if(mode_is_graphic(mode)){
     write_regs(VGA_modes[mode]);
-    setdefaultVGApalette();
     actual_mode = mode;
+    setdefaultVGApalette();
   }
 }
 
