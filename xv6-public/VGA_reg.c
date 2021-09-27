@@ -151,11 +151,12 @@ void
 vgainit(void)
 {
   // Pintar el fondo
-  for (int x = 0; x < VGA_text_width; x++) {
+  int width = mode_width(actual_mode);
+  for (int x = 0; x < width; x++) {
     VGA_text_plot_letter(x, 0, ' ', 0x20);
   }
 
-  VGA_text_put_string(37, 0, "SO2021", 0x2f);
+  VGA_text_put_string(width/2 - 3, 0, "SO2021", 0x2f);
 }
 
 
