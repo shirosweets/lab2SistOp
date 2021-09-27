@@ -90,7 +90,7 @@ Nuestra forma de trabajar
 
     Utilizando esas dos funciones hicimos la función `vgainit` para que muestre un el pie de pantalla así:
 
-![pie_de_pantalla_vgainit.png](/home/ivan-lau/Escritorio/Iván/Lab%202%20-%20sistemas%20operativos/lab2SistOp-main/Imagenes_informe/pie_de_pantalla_vgainit.png)
+![pie_de_pantalla_vgainit.png](./Imagenes_informe/pie_de_pantalla_vgainit.png)
 
     Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del kernel y la llamamos al comienzo de `main` en `main.c`.
 
