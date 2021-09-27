@@ -217,8 +217,11 @@ void
 VGA_plot_screen(uchar* buffer)
 {
   if(mode_is_graphic(actual_mode)){
+    int width = mode_width(actual_mode);
+    int height = mode_height(actual_mode);
     uchar* framebuffer = P2V(get_fb_seg());
-    for(int j = 0; j < mode_width(actual_mode)*mode_height(actual_mode); j++){
+
+    for(int j = 0; j < width*height; j++){
       framebuffer[j] = buffer[j];
     }
   }
