@@ -132,13 +132,17 @@ VGA_to_mode_text(void)
 
 ## `stdin_read`
 
+## Uso de la paleta completa
+
+## Recuperar las fuentes al volver a modo texto
+
 ## Uso de todos los modos de VGA
 
         Explicación de VGA
 
         Explicación de como usamos el `modes.c`
 
-## Uso de la paleta completa
+
 
 # El kernel final y como usarlo
 
