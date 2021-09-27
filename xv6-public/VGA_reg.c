@@ -147,6 +147,8 @@ VGA_text_put_string(int x, int y, char* str, char atributes)
   }
 }
 
+/* Si el modo actual es de texto dibuja un pie de pantalla que dice SO2021
+ */
 void
 vgainit(void)
 {
