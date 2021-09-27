@@ -8,14 +8,10 @@ typedef struct{char s_ASCII_code; uchar s_atributes;} VGA_char;
 #define NULL 0
 
 // VGA CONST
-#define VGA_text_width 80
-#define VGA_text_height 25
 #define VGA_text_defult_atributes 0b00000111
 
 
 // VGA PREPROC FUNCTIONS
-#define VGA_text_array P2V(0x000B8000)
-#define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
 #define VGA_font_array P2V(0xB8000)
 
 //
