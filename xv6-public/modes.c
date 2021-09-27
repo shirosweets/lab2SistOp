@@ -51,9 +51,7 @@ MAIN/DEMO ROUTINES
 void
 dump(uchar *regs, uint count)
 {
-  uint i;
-
-  i = 0;
+  uint i = 0;
   cprintf("\t");
   for(; count != 0; count--){
     cprintf("0x%02X,", *regs);
@@ -104,31 +102,29 @@ Lee los registros actuales y los escribe en el arreglo regs
 void
 read_regs(uchar *regs)
 {
-  uint i;
-
   /* read MISCELLANEOUS reg */
   *regs = inb(VGA_MISC_READ);
   regs++;
   /* read SEQUENCER regs */
-  for(i = 0; i < VGA_NUM_SEQ_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_SEQ_REGS; i++){
     outb(VGA_SEQ_INDEX, i);
     *regs = inb(VGA_SEQ_DATA);
     regs++;
   }
   /* read CRTC regs */
-  for(i = 0; i < VGA_NUM_CRTC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_CRTC_REGS; i++){
     outb(VGA_CRTC_INDEX, i);
     *regs = inb(VGA_CRTC_DATA);
     regs++;
   }
   /* read GRAPHICS CONTROLLER regs */
-  for(i = 0; i < VGA_NUM_GC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_GC_REGS; i++){
     outb(VGA_GC_INDEX, i);
     *regs = inb(VGA_GC_DATA);
     regs++;
   }
   /* read ATTRIBUTE CONTROLLER regs */
-  for(i = 0; i < VGA_NUM_AC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_AC_REGS; i++){
     (void)inb(VGA_INSTAT_READ);
     outb(VGA_AC_INDEX, i);
     *regs = inb(VGA_AC_READ);
@@ -144,13 +140,11 @@ Escribe en los registros del arreglo regs
 void
 write_regs(uchar *regs)
 {
-  uint i;
-
   /* write MISCELLANEOUS reg */
   outb(VGA_MISC_WRITE, *regs);
   regs++;
   /* write SEQUENCER regs */
-  for(i = 0; i < VGA_NUM_SEQ_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_SEQ_REGS; i++){
     outb(VGA_SEQ_INDEX, i);
     outb(VGA_SEQ_DATA, *regs);
     regs++;
@@ -164,19 +158,19 @@ write_regs(uchar *regs)
   // regs[0x03] |= 0x80;
   // regs[0x11] &= ~0x80;
   /* write CRTC regs */
-  for(i = 0; i < VGA_NUM_CRTC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_CRTC_REGS; i++){
     outb(VGA_CRTC_INDEX, i);
     outb(VGA_CRTC_DATA, *regs);
     regs++;
   }
   /* write GRAPHICS CONTROLLER regs */
-  for(i = 0; i < VGA_NUM_GC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_GC_REGS; i++){
     outb(VGA_GC_INDEX, i);
     outb(VGA_GC_DATA, *regs);
     regs++;
   }
   /* write ATTRIBUTE CONTROLLER regs */
-  for(i = 0; i < VGA_NUM_AC_REGS; i++){
+  for(uint i = 0; i < VGA_NUM_AC_REGS; i++){
     (void)inb(VGA_INSTAT_READ);
     outb(VGA_AC_INDEX, i);
     outb(VGA_AC_WRITE, *regs);
@@ -326,7 +320,7 @@ SET TEXT MODES
 void
 set_text_mode(int hi_res)
 {
-  uint rows, cols, ht, i;
+  uint rows, cols, ht;
 
   if(hi_res){
     write_regs(g_90x60_text);
@@ -354,7 +348,7 @@ set_text_mode(int hi_res)
   pokeb(0x40, 0x84, rows - 1);  /* rows on screen - 1 */
   pokeb(0x40, 0x85, ht);    /* char height */
   /* set white-on-black attributes for all text */
-  for(i = 0; i < cols * rows; i++)
+  for(uint i = 0; i < cols * rows; i++)
     pokeb(0xB800, i * 2 + 1, 7);
 }
 /*****************************************************************************
@@ -393,7 +387,7 @@ font512(void)
   /*static*/ const char msg2[] = "?rorrim a toG";
   /**/
   uchar seq2, seq4, gc4, gc5, gc6;
-  uint font_height, i, j;
+  uint font_height;
 
   /* start in 80x25 text mode */
   set_text_mode(0);
@@ -426,8 +420,8 @@ font512(void)
   /* this is different from write_font():
   use font 1 instead of font 0, and use it for BACKWARD text */
   font_height = 16;
-  for(i = 0; i < 256; i++){
-    for(j = 0; j < font_height; j++){
+  for(uint i = 0; i < 256; i++){
+    for(uint j = 0; j < font_height; j++){
       vpokeb(16384u * 1 + 32 * i + j,
         reverse_bits(
           g_8x16_font[font_height * i + j]));
@@ -450,12 +444,12 @@ font512(void)
   outb(VGA_SEQ_DATA, 4);
   /* xxx - maybe re-program 16-color palette here
   so attribute bit b3 is no longer used for 'intense' */
-  for(i = 0; i < sizeof(msg1); i++){
+  for(uint i = 0; i < sizeof(msg1); i++){
     vpokeb((80 * 8  + 40 + i) * 2 + 0, msg1[i]);
   /* set attribute bit b3 for backward font */
     vpokeb((80 * 8  + 40 + i) * 2 + 1, 0x0F);
   }
-  for(i = 0; i < sizeof(msg2); i++){
+  for(uint i = 0; i < sizeof(msg2); i++){
     vpokeb((80 * 16 + 40 + i) * 2 + 0, msg2[i]);
     vpokeb((80 * 16 + 40 + i) * 2 + 1, 0x0F);
   }
