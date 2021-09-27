@@ -142,11 +142,11 @@ vgainit(void)
 
 ## Parte 2
  
-    Para lograr el cambio de modo nos guíamos del código que se encuentra en la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c, básicamente lo que se hace es escribir en los registros correspondientes al arreglo del modo al que se quiere cambiar, inicialmente este código se encontraba en el archivo console.c, pero luego de la modularización se colocaron todos las funciones relacionadas con VGA en el archivo VGA_regs.c
+Para lograr el cambio de modo nos guíamos del código que se encuentra en la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c, básicamente lo que se hace es escribir en los registros correspondientes al arreglo del modo al que se quiere cambiar, inicialmente este código se encontraba en el archivo console.c, pero luego de la modularización se colocaron todos las funciones relacionadas con VGA en el archivo VGA_regs.c
      
-    En el archivo VGA_regs.c se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función write_regs se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo, por ejemplo al ejecutar el programa flappy desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automaticamente.
+En el archivo VGA_regs.c se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función write_regs se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo, por ejemplo al ejecutar el programa flappy desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automaticamente.
 
-    Cuando se realiza un cambio del modo gráfico al modo texto, se ejecuta la funcion write_fonts, la cual se encuentra en modes.c y se encarga de recuperar las fuentes para que al volver al modo texto se pueda visualizar la consola correctamente y no queden datos que se escribieron al estar en modo gráfico.
+Cuando se realiza un cambio del modo gráfico al modo texto, se ejecuta la funcion write_fonts, la cual se encuentra en modes.c y se encarga de recuperar las fuentes para que al volver al modo texto se pueda visualizar la consola correctamente y no queden datos que se escribieron al estar en modo gráfico.
 
 ## Parte 3
 
