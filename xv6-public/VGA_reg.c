@@ -31,37 +31,6 @@ setdefaultVGApalette()
   }
 }
 
-////
-
-static void
-VGA_text_plot_letter(int x, int y, char letter, char atributes)
-{
-  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_height) {
-    *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
-  }
-}
-
-static void
-VGA_text_put_string(int x, int y, char* str, char atributes)
-{
-  if(str != NULL) {
-    for(uint i = 0u; str[i] != '\0'; i++) {
-      VGA_text_plot_letter(x, y, str[i], atributes);
-      x++;
-    }
-  }
-}
-
-void
-vgainit(void)
-{
-  // Pintar el fondo
-  for (int x = 0; x < VGA_text_width; x++) {
-    VGA_text_plot_letter(x, 0, ' ', 0x20);
-  }
-
-  VGA_text_put_string(37, 0, "SO2021", 0x2f);
-}
 
 bool
 mode_is_text(VGA_mode mode)
@@ -155,6 +124,40 @@ mode_height(VGA_mode mode)
  * Cada ves que se cambia de modo se la actualiza
  */
 VGA_mode actual_mode = VGA_text_80x25;
+
+static void
+VGA_text_plot_letter(int x, int y, char letter, char atributes)
+{
+  int width = mode_width(actual_mode);
+  int height = mode_height(actual_mode);
+  VGA_char* charbuffer = P2V(get_fb_seg());
+  if(0 <= x && x < width && 0 <= y && y < height) {
+    charbuffer[x + y*width] = (VGA_char){letter, atributes};
+  }
+}
+
+static void
+VGA_text_put_string(int x, int y, char* str, char atributes)
+{
+  if(str != NULL) {
+    for(uint i = 0u; str[i] != '\0'; i++) {
+      VGA_text_plot_letter(x, y, str[i], atributes);
+      x++;
+    }
+  }
+}
+
+void
+vgainit(void)
+{
+  // Pintar el fondo
+  for (int x = 0; x < VGA_text_width; x++) {
+    VGA_text_plot_letter(x, 0, ' ', 0x20);
+  }
+
+  VGA_text_put_string(37, 0, "SO2021", 0x2f);
+}
+
 
 /* Llamada al sistema que cambia de modo al modo dado,
  * si es un modo invalido no hace nada
