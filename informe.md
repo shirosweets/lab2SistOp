@@ -96,7 +96,7 @@ Nuestra forma de trabajar
 
     
 
-    A esas funciones en ese momento las hicimos en `concole.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora.
+    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora.
 
 ## Parte 2
 
