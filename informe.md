@@ -98,7 +98,7 @@ Nuestra forma de trabajar
 
     
 
-    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales era así:
+    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales eran así:
 
 ```c
 typedef struct{char s_ASCII_code; char s_atributes;} VGA_char;
@@ -106,13 +106,13 @@ typedef struct{char s_ASCII_code; char s_atributes;} VGA_char;
 #define VGA_text_array P2V(0xB8000)
 #define VGA_text_array_pos(x, y) (VGA_char*)(VGA_text_array + (sizeof(VGA_char))*(x + y * 80))
 #define VGA_text_width 80
-#define VGA_text_hight 25
+#define VGA_text_height 25
 
 static void
 VGA_text_plot_letter(int x, int y, char letter, char atributes)
 {
   // Solo se imprime si está dentro de la pantalla
-  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_hight) {
+  if(0 <= x && x < VGA_text_width && 0 <= y && y < VGA_text_height) {
     *VGA_text_array_pos(x, y) = (VGA_char){letter, atributes};
   }
 }
@@ -141,8 +141,12 @@ vgainit(void)
 
 
 ## Parte 2
+ 
+    Para lograr el cambio de modo nos guíamos del código que se encuentra en la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c, básicamente lo que se hace es escribir en los registros correspondientes al arreglo del modo al que se quiere cambiar, inicialmente este código se encontraba en el archivo console.c, pero luego de la modularización se colocaron todos las funciones relacionadas con VGA en el archivo VGA_regs.c
+     
+    En el archivo VGA_regs.c se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función write_regs se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo, por ejemplo al ejecutar el programa flappy desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automaticamente.
 
-        Explicar como lo logramos al principio, y que si bien en ese momento lo hicimos en el `console.c`, después lo sacamos de ahí
+    Cuando se realiza un cambio del modo gráfico al modo texto, se ejecuta la funcion write_fonts, la cual se encuentra en modes.c y se encarga de recuperar las fuentes para que al volver al modo texto se pueda visualizar la consola correctamente y no queden datos que se escribieron al estar en modo gráfico.
 
 ## Parte 3
 
