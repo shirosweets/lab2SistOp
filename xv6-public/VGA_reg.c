@@ -184,7 +184,7 @@ VGA_mode_switch(VGA_mode mode)
 
     // Se inicializa todo
     int rows = mode_height(mode);
-    int cols = mode_width(mode); 
+    int cols = mode_width(mode);
     for(int i = 0; i < cols; i++){
       for(int j = 0; j < rows; j++){
         VGA_text_plot_letter(i, j, ' ', 0x00);
@@ -240,8 +240,46 @@ VGA_plot_screen(uchar* buffer)
 }
 
 
-// Big arrays
+int
+sys_VGA_mode_switch(void)
+{
+  int mode;
+  if(argint(0, &mode) < 0)
+    return -1;
+  VGA_mode_switch((VGA_mode)mode);
+  return 0;
+}
 
+int
+sys_VGA_plot_pixel(void)
+{
+  int x;
+  int y;
+  uchar color;
+  if(argint(0, &x) < 0)
+    return -1;
+  if(argint(1, &y) < 0)
+    return -1;
+  int temp_color;
+  if(argint(2, &temp_color) < 0)
+    return -1;
+  color = (char)temp_color;
+  VGA_plot_pixel(x, y, color);
+  return 0;
+}
+
+int
+sys_VGA_plot_screen(void)
+{
+  char* buffer;
+  if(argptr(0, &buffer, mode_width(actual_mode)*mode_height(actual_mode)) < 0)
+    return -1;
+  VGA_plot_screen((uchar*)buffer);
+  return 0;
+}
+
+
+// Big arrays
 
 uchar g_40x25_text[mode_array_size] =
 {
