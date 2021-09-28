@@ -130,7 +130,12 @@ Empezada la parte 3 del informe
 
         Explicación breve de como empezamos
 
+# Puntos estrellas
 
+- [x] Todo lo que implementaron puede ser modularizado de una manera más delicada. Teniendo en cuenta que son funciones para un mismo dispositivo pueden estar en un mismo archivo `vga.{c,h}`.
+- [x] Agregar una nueva `syscall` `plotrectangle(int x1, int y1, int x2, int y2, int color)` para dibujar rectángulos en la pantalla (la idea es no tener que usar `for` para pintar un pixel por vez).
+- [x] Programar la paleta para poder usar todos los colores *(si bien el modo gráfico es de **256** colores, la paleta está programada para 64 colores)*.
+- [x] Recuperar las fuentes que se pierden cuando pasamos de modo gráfico a texto.
 
 # Extras en el kernel
 
