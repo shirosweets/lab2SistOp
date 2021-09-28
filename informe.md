@@ -10,7 +10,7 @@
 
 ---
 
-Encargado del informe: Iván Renison
+> Encargado del informe: Iván Renison
 
 # Índice
 
@@ -24,7 +24,7 @@ Encargado del informe: Iván Renison
 
     Para hacer esto se da la siguiente información:
 
-    Se explica que VGA trabaja con buffers, en los cuales está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de 80×25 caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
+    Se explica que VGA trabaja con buffers, en los cuáles está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de `80×25` caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
 
     Se da esta imagen que explica mejor los bits de los elementos del buffer:
 
@@ -36,15 +36,13 @@ Encargado del informe: Iván Renison
 *(int *)P2V(0xB8000) = 0x4348;
 ```
 
-    Nosotros decidimos modularizarlo un poco, haciendo 2 funciones auxiliares, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada. Esto nos pareció mejor que hacer como en el ejemplo, ya que así no hay que buscar el código ASCII de los caracteres que se ponen, y todo es menos repetitivo.
+    Nosotros decidimos *modularizarlo* un poco, haciendo *2 funciones auxiliares*, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada. Esto nos pareció mejor que hacer como en el ejemplo, ya que así no hay que buscar el código ASCII de los caracteres que se ponen, y todo es menos repetitivo.
 
     Utilizando esas dos funciones hicimos la función `vgainit` para que muestre un el pie de pantalla así:
 
 ![pie_de_pantalla_vgainit.png](./Imagenes_informe/pie_de_pantalla_vgainit.png)
 
-    Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del kernel y la llamamos al comienzo de `main` en `main.c`.
-
-    
+    Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del **kernel** y la llamamos al comienzo de `main` en `main.c`.
 
     A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales eran así:
 
@@ -88,7 +86,7 @@ vgainit(void)
 
 ## Parte 2
 
-    En esta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
+    En eysta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
 
     En ese código hay varios arreglos que tienen los registros de los distintos modos, y también hay una función `write_regs` que escribe los registros.
 
@@ -114,15 +112,13 @@ VGA_to_mode_text(void)
 
     Inicialmente este código se encontraba en el archivo `console.c`, pero luego de la modularización se colocaron todos las funciones relacionadas con VGA en el archivo `VGA_regs.c`.
 
-
-
     En el archivo `VGA_regs.c` se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función `write_regs` se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo, por ejemplo al ejecutar el programa `flappy` desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automáticamente.
 
     Cuando se realiza un cambio del modo gráfico al modo texto, se ejecuta la función `write_fonts`, la cual se encuentra en `modes.c` y se encarga de recuperar las fuentes para que al volver al modo texto se pueda visualizar la consola correctamente y no queden datos que se escribieron al estar en modo gráfico.
 
 ## Parte 3
 
-    Todo el código de la parte 2 es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, y por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y también una llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario 
+    Todo el código de la parte 2 es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, y por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y también una llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario.
 
 Empezada la parte 3 del informe
 
@@ -133,6 +129,8 @@ Empezada la parte 3 del informe
 ## Parte 4
 
         Explicación breve de como empezamos
+
+
 
 # Extras en el kernel
 
@@ -148,15 +146,13 @@ Empezada la parte 3 del informe
 
         Explicación de como usamos el `modes.c`
 
-
-
 # El kernel final y como usarlo
 
 # El flappy bird
 
 ## Cómo usarlo
 
-## Cómo esta hecho
+## Cómo está hecho
 
 ### Modularización
 

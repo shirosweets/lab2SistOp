@@ -184,7 +184,7 @@ VGA_mode_switch(VGA_mode mode)
 
     // Se inicializa todo
     int rows = mode_height(mode);
-    int cols = mode_width(mode); 
+    int cols = mode_width(mode);
     for(int i = 0; i < cols; i++){
       for(int j = 0; j < rows; j++){
         VGA_text_plot_letter(i, j, ' ', 0x00);
