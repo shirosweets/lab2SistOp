@@ -126,11 +126,11 @@ VGA_to_mode_text(void)
 
     En el archivo `syscall.c` hay un arreglo que tiene las direcciones de memoria en las cuales está el código de cada una de las llamadas al sistema, entonces, la función `syscall` lo que hace es llamada a la función correspondiente a esa llamada, usando el número de esa llamada para saber cuál ejecutar.
 
-Explicación de las llamadas al sistema en parte 3 del informe
+    La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` salo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que como `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`. Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función.
 
-        Explicar como lo habíamos hecho al principio, y que después lo cambiamos
+Terminada explicación de las llamadas al sistema de xv6
 
-        Explicar que decidimos hacer una llamada al sistema `VGA_plot_screen`
+        Explicar nuestras llamadas al sistema
 
 ## Parte 4
 
