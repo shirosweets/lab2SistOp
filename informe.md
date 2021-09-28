@@ -24,7 +24,7 @@ Encargado del informe: Iván Renison
 
     Para hacer esto se da la siguiente información:
 
-    Se explica que VGA trabaja con buffers, en los cuales está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de 80×25 caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, ósea, el color del texto, el color del fondo y la fuente que se usa.
+    Se explica que VGA trabaja con buffers, en los cuales está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de 80×25 caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
 
     Se da esta imagen que explica mejor los bits de los elementos del buffer:
 
@@ -92,7 +92,7 @@ vgainit(void)
 
     En ese código hay varios arreglos que tienen los registros de los distintos modos, y también hay una función `write_regs` que escribe los registros.
 
-    Entonces, básicamente lo que se hace es escribir los registros correspondientes al arreglo del modo al que se quiere cambiar, ósea, se evaluá el arreglo del modo al que se quiere cambiar en la función `write_regs`.
+    Entonces, básicamente lo que se hace es escribir los registros correspondientes al arreglo del modo al que se quiere cambiar, o sea, se evaluá el arreglo del modo al que se quiere cambiar en la función `write_regs`.
 
     Y eso fue exactamente lo que hicimos: copiamos la función `write_regs` a `console.c`, cambiando las llamadas a `outportb` e `inportb` por llamadas a `outb` e `inb`, que son los equivalentes a esas funciones en xv6. Copiamos los arreglos `g_80x25_text` y `g_320x200x256`, que son los correspondientes a los modos que pide el enunciado, e hicimos en `console.c` las siguientes funciones:
 
