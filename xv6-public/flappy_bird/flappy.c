@@ -41,6 +41,7 @@ main(int argc, char *argv[])
 {
   screen_width = 320;
   screen_height = 200;
+  bool quit = false;
 
   VGA_mode_switch(VGA_graphic_320x200x256);
   uchar* buffer = malloc(screen_height*screen_width);
@@ -49,31 +50,46 @@ main(int argc, char *argv[])
     exit();
   }
 
-  int seed = get_seed(argc, argv);
-  init_game(seed);
-
-  draw_game(buffer);
-  VGA_plot_screen(buffer);
-
-  char c = '\0';
-  int last_time = uptime();
-  while(game.is_alive){
-    int new_time = uptime();
-
-    bool jump = stdin_ready(&c);
-
-    // '\e' = tecla esc
-    // 4 = fin de archivo (contrl + d)
-    if(c == '\e' || c == 4)
-      break;
-
-    update_game(jump, new_time - last_time);
+  while(!quit){
+    int seed = get_seed(argc, argv);
+    init_game(seed);
 
     draw_game(buffer);
     VGA_plot_screen(buffer);
 
-    last_time = new_time;
+    char c = '\0';
+    int last_time = uptime();
+
+    while(game.is_alive){
+      int new_time = uptime();
+
+      bool jump = stdin_ready(&c);
+
+      // '\e' = tecla esc
+      // 4 = fin de archivo (contrl + d)
+      if(c == '\e' || c == 4){
+        quit = true;
+        break;
+      }
+
+      update_game(jump, new_time - last_time);
+
+      draw_game(buffer);
+      VGA_plot_screen(buffer);
+
+      last_time = new_time;
+    }
+    
+    c = '\0';
+    printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
+    while(c == '\0'){
+      stdin_ready(&c);
+    } if (c == '\e'){
+      quit = true;
+    }
+
   }
+
   free(buffer); buffer = NULL;
 
   VGA_mode_switch(VGA_text_80x25);
