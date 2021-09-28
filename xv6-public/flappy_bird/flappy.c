@@ -46,19 +46,14 @@ main(int argc, char *argv[])
   }
 
   int seed = get_seed(argc, argv);
-  game_status* game = new_game(seed);
-  if(game == NULL){
-    printf(2, "Memory error");
-    free(buffer);
-    exit();
-  }
+  init_game(seed);
 
-  draw_game(game, buffer);
+  draw_game(buffer);
   VGA_plot_screen(buffer);
 
   char c = '\0';
   int last_time = uptime();
-  while(game->is_alive){
+  while(game.is_alive){
     int new_time = uptime();
 
     bool jump = stdin_ready(&c);
@@ -68,14 +63,13 @@ main(int argc, char *argv[])
     if(c == '\e' || c == 4)
       break;
 
-    update_game(jump, new_time - last_time, game);
+    update_game(jump, new_time - last_time);
 
-    draw_game(game, buffer);
+    draw_game(buffer);
     VGA_plot_screen(buffer);
 
     last_time = new_time;
   }
-  free(game); game = NULL;
   free(buffer); buffer = NULL;
 
   VGA_mode_switch(VGA_text_80x25);
