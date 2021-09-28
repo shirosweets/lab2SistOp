@@ -116,7 +116,7 @@ VGA_to_mode_text(void)
 
 ## Parte 3
 
-    Todo el código de la parte 2 es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y otra llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario.
+    Todo el código de la parte 2 es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, y por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y también una llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario.
 
     En xv6 las llamadas al sistema se puede hacer desde un programa de usuario usando la función cuyo prototipo está en `user.h`. Cuando se llama a una de esas funciones lo que pasa es que se ejecuta una función definida en `usys.S` a través de un macro, la cuál produce el trap de llamada al sistema que entra en modo kernel.
 
@@ -153,7 +153,12 @@ Explicación VGA_mode_switch en parte 3 del informe
 
         Explicación breve de como empezamos
 
+# Puntos estrellas
 
+- [x] Todo lo que implementaron puede ser modularizado de una manera más delicada. Teniendo en cuenta que son funciones para un mismo dispositivo pueden estar en un mismo archivo `vga.{c,h}`.
+- [x] Agregar una nueva `syscall` `plotrectangle(int x1, int y1, int x2, int y2, int color)` para dibujar rectángulos en la pantalla (la idea es no tener que usar `for` para pintar un pixel por vez).
+- [x] Programar la paleta para poder usar todos los colores *(si bien el modo gráfico es de **256** colores, la paleta está programada para 64 colores)*.
+- [x] Recuperar las fuentes que se pierden cuando pasamos de modo gráfico a texto.
 
 # Extras en el kernel
 
@@ -162,6 +167,74 @@ Explicación VGA_mode_switch en parte 3 del informe
 ## Uso de la paleta completa
 
 ## Recuperar las fuentes al volver a modo texto
+
+Hay dos elementos importantes que participan en el cambio de modos: el espacio de memoria `0xA0000-0xBFFFF` donde se **mapea la información mostrada en la pantalla**, y los registros de VGA donde se configura cómo es interpretada esa sección de la memoria.
+
+Como el **`modo gráfico`** **comparte** una **sección** de la **memoria** con el **`modo texto`**, al dibujar pixeles en el primero se sobreescribe información codificada para el segundo, y al cambiar se sobreescriben los registros. Ambas cosas deben ser recuperadas al estado anterior para que el modo texto funcione correctamente.
+
+Inicialmente, por simplicidad, implementamos la conservación de las fuentes **copiando toda la sección gráfica de la memoria** en un arreglo estático. Este se copiaba en l arry `VGA_graphic_array` (que actualmente está eliminado) e intercambiarlo con el buffer.
+
+```c
+/* Intercambia lo que está desde 0xA0000 hasta 0xBFFFF
+ * con lo que esta en el arreglo buffer_mode */
+static void VGA_switch_buffers(void);  // Utiliza VGA_graphic_array
+
+/* Utiliza VGA_switch_buffers() dependiendo el modo actual */
+void VGA_mode_switch(VGA_mode mode)
+```
+
+Cuando el modo actual es el gráfico, el arreglo conservaba la memoria del texto y viceversa.
+
+Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
+
+| VGA        | XV6     |
+|------------|---------|
+|`inportb()` |`inb()`  |
+|`outportb()`|`outb()` |
+
+Utilizando las funciones:
+
+```c
+/* Imprime los registros del arreglo regs */
+void dump_regs(uchar *regs);
+
+/* Lee los registros actuales y los escribe en el arreglo regs */
+void read_regs(uchar *regs);
+
+/* Escribe en los registros del arreglo regs */
+void write_regs(uchar *regs);
+
+/* write font to plane P4 (assuming planes are named P1, P2, P4, P8) */
+void write_font(uchar *buf, uint font_height);
+```
+
+Con esta función escribimos los registros, cambiamos de modo y se encargar de escribir las fuentes:
+```c
+void VGA_mode_switch(VGA_text_80x25);
+```
+
+El último inconveniente que tuvimos fue elegir correctamente la **base en memoria** donde se debían escribir las fuentes, el valor correcto era:
+```c
+// Anterior, incorrecto
+- #define VGA_font_array 0xA0000
+
+// Ahora, correcto
++ #define VGA_font_array P2V(0xB8000)
+```
+
+**Referencias importantes a considerar:**
+
+* http://www.osdever.net/FreeVGA/vga/vga.htm
+
+* http://www.osdever.net/FreeVGA/vga/vgareg.htm
+
+  * http://www.osdever.net/FreeVGA/vga/vgareg.htm#intro
+
+* http://www.techhelpmanual.com/70-video_graphics_array__vga_.html
+
+* http://www.techhelpmanual.com/900-video_graphics_array_i_o_ports.html
+
+* http://www.techhelpmanual.com/89-video_memory_layouts.html
 
 ## Uso de todos los modos de VGA
 
