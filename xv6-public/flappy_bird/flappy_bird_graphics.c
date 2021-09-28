@@ -90,39 +90,39 @@ draw_flappy(uchar* buffer, x_coord x, y_coord y)
 static void
 draw_sky(uchar* buffer)
 {
-  draw_rectangle(buffer, 0, screen_width, 0, clouds_height, sky_color);
+  draw_rectangle(buffer, 0, VGA_graphic_width, 0, clouds_height, sky_color);
 }
 
 static void
 draw_clouds(uchar* buffer)
 {
   uint r = 10;
-  for(x_coord i = 0; i < screen_width; i += 30){
+  for(x_coord i = 0; i < VGA_graphic_width; i += 30){
     if(r > 30){
       r = 10;
     }
     draw_circle(buffer, i, clouds_height, r, clouds_color);
     r += 5;
   }
-  draw_rectangle(buffer, 0, screen_width, clouds_height, bush_height, clouds_color);
+  draw_rectangle(buffer, 0, VGA_graphic_width, clouds_height, bush_height, clouds_color);
 }
 
 static void
 draw_bush(uchar* buffer)
 {
-  for(x_coord i = 0; i < screen_width; i += 25){
+  for(x_coord i = 0; i < VGA_graphic_width; i += 25){
     draw_circle(buffer, i, bush_height, 7, bush_color);
   }
-  for(x_coord i = 20; i < screen_width; i += 10){
+  for(x_coord i = 20; i < VGA_graphic_width; i += 10){
     draw_circle(buffer, i, bush_height, 4, bush_color);
   }
-  draw_rectangle(buffer, 0, screen_width, bush_height, ground_height, bush_color);
+  draw_rectangle(buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
 }
 
 static void
 draw_ground(uchar* buffer)
 {
-  draw_rectangle(buffer, 0, screen_width, ground_height, screen_height, ground_color);
+  draw_rectangle(buffer, 0, VGA_graphic_width, ground_height, VGA_graphic_height, ground_color);
 }
 
 static void
@@ -136,7 +136,7 @@ draw_background(uchar* buffer)
 
 
 
-// buffer de tamaño screen_width*screen_height
+// buffer de tamaño VGA_graphic_width*VGA_graphic_height
 void
 draw_game(uchar* buffer)
 {
