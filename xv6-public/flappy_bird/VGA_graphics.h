@@ -1,6 +1,8 @@
 #ifndef VGA_graphics_H
 #define VGA_graphics_H
 
+int screen_width;
+int screen_height;
 
 typedef int x_coord;
 typedef int y_coord;

@@ -3,12 +3,14 @@
 #include "VGA_graphics.h"
 #include "flappy_bird_TAD.h"
 
+int screen_width = 0;
+int screen_height = 0;
 
 void
 draw_pixel(uchar* buffer, x_coord x, y_coord y, uchar color)
 {
-  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_height)
-    buffer[x + y*VGA_graphic_width] = color;
+  if(0 <= x && x < screen_width && 0 <= y && y < screen_height)
+    buffer[x + y*screen_width] = color;
 }
 
 void

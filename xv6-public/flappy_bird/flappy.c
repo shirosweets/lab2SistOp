@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../user.h"
 
+#include "VGA_graphics.h"
 #include "flappy_bird_logic.h"
 #include "flappy_bird_graphics.h"
 #include "flappy_bird_TAD.h"
@@ -38,8 +39,11 @@ get_seed(int argc, char *argv[])
 int
 main(int argc, char *argv[])
 {
+  screen_width = 320;
+  screen_height = 200;
+
   VGA_mode_switch(VGA_graphic_320x200x256);
-  uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
+  uchar* buffer = malloc(screen_height*screen_width);
   if(buffer == NULL){
     printf(2, "Memory error");
     exit();
