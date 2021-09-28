@@ -170,9 +170,9 @@ Explicación VGA_mode_switch en parte 3 del informe
 
 Hay dos elementos importantes que participan en el cambio de modos: el espacio de memoria `0xA0000-0xBFFFF` donde se **mapea la información mostrada en la pantalla**, y los registros de VGA donde se configura cómo es interpretada esa sección de la memoria.
 
-Como el **`modo gráfico`** **comparte** una **sección** de la **memoria** con el **`modo texto`**, al dibujar pixeles en el primero se sobreescribe información codificada para el segundo, y al cambiar se sobreescriben los registros. Ambas cosas deben ser recuperadas al estado anterior para que el modo texto funcione correctamente.
+Como el **`modo gráfico`** **comparte** una **sección** de la **memoria** con el **`modo texto`**, al dibujar pixeles en el primero se sobrescribe información codificada para el segundo, y al cambiar se sobrescriben los registros. Ambas cosas deben ser recuperadas al estado anterior para que el modo texto funcione correctamente.
 
-Inicialmente, por simplicidad, implementamos la conservación de las fuentes **copiando toda la sección gráfica de la memoria** en un arreglo estático. Este se copiaba en l arry `VGA_graphic_array` (que actualmente está eliminado) e intercambiarlo con el buffer.
+Inicialmente, por simplicidad, implementamos la conservación de las fuentes **copiando toda la sección gráfica de la memoria** en un arreglo estático. Este se copiaba en l array `VGA_graphic_array` (que actualmente está eliminado) e intercambiarlo con el buffer.
 
 ```c
 /* Intercambia lo que está desde 0xA0000 hasta 0xBFFFF
@@ -187,10 +187,10 @@ Cuando el modo actual es el gráfico, el arreglo conservaba la memoria del texto
 
 Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
 
-| VGA        | XV6     |
-|------------|---------|
-|`inportb()` |`inb()`  |
-|`outportb()`|`outb()` |
+| VGA          | XV6      |
+| ------------ | -------- |
+| `inportb()`  | `inb()`  |
+| `outportb()` | `outb()` |
 
 Utilizando las funciones:
 
@@ -209,11 +209,13 @@ void write_font(uchar *buf, uint font_height);
 ```
 
 Con esta función escribimos los registros, cambiamos de modo y se encargar de escribir las fuentes:
+
 ```c
 void VGA_mode_switch(VGA_text_80x25);
 ```
 
 El último inconveniente que tuvimos fue elegir correctamente la **base en memoria** donde se debían escribir las fuentes, el valor correcto era:
+
 ```c
 // Anterior, incorrecto
 - #define VGA_font_array 0xA0000
@@ -227,7 +229,7 @@ El último inconveniente que tuvimos fue elegir correctamente la **base en memor
 * http://www.osdever.net/FreeVGA/vga/vga.htm
 
 * http://www.osdever.net/FreeVGA/vga/vgareg.htm
-
+  
   * http://www.osdever.net/FreeVGA/vga/vgareg.htm#intro
 
 * http://www.techhelpmanual.com/70-video_graphics_array__vga_.html
