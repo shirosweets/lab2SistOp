@@ -10,7 +10,7 @@
 
 ---
 
-Encargado del informe: Iván Renison
+> Encargado del informe: Iván Renison
 
 # Índice
 
@@ -22,7 +22,7 @@ Encargado del informe: Iván Renison
 
     Para hacer esto se da la siguiente información:
 
-    Se explica que VGA trabaja con buffers, en los cuales está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de 80×25 caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, ósea, el color del texto, el color del fondo y la fuente que se usa.
+    Se explica que VGA trabaja con buffers, en los cuáles está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de `80×25` caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
 
     Se da esta imagen que explica mejor los bits de los elementos del buffer:
 
@@ -34,15 +34,13 @@ Encargado del informe: Iván Renison
 *(int *)P2V(0xB8000) = 0x4348;
 ```
 
-    Nosotros decidimos modularizarlo un poco, haciendo 2 funciones auxiliares, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada. Esto nos pareció mejor que hacer como en el ejemplo, ya que así no hay que buscar el código ASCII de los caracteres que se ponen, y todo es menos repetitivo.
+    Nosotros decidimos *modularizarlo* un poco, haciendo *2 funciones auxiliares*, `VGA_text_plot_letter` que pone una letra con sus atributos en una coordenada de la pantalla y `VGA_text_put_string` que pone un string en una coordenada de la pantalla dada. Esto nos pareció mejor que hacer como en el ejemplo, ya que así no hay que buscar el código ASCII de los caracteres que se ponen, y todo es menos repetitivo.
 
     Utilizando esas dos funciones hicimos la función `vgainit` para que muestre un el pie de pantalla así:
 
 ![pie_de_pantalla_vgainit.png](./Imagenes_informe/pie_de_pantalla_vgainit.png)
 
-    Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del kernel y la llamamos al comienzo de `main` en `main.c`.
-
-    
+    Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del **kernel** y la llamamos al comienzo de `main` en `main.c`.
 
     A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales eran así:
 
@@ -86,11 +84,11 @@ vgainit(void)
 
 ## Parte 2
 
-    En esta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
+    En e sta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
 
     En ese código hay varios arreglos que tienen los registros de los distintos modos, y también hay una función `write_regs` que escribe los registros.
 
-    Entonces, básicamente lo que se hace es escribir los registros correspondientes al arreglo del modo al que se quiere cambiar, ósea, se evaluá el arreglo del modo al que se quiere cambiar en la función `write_regs`.
+    Entonces, básicamente lo que se hace es escribir los registros correspondientes al arreglo del modo al que se quiere cambiar, o sea, se evaluá el arreglo del modo al que se quiere cambiar en la función `write_regs`.
 
     Y eso fue exactamente lo que hicimos: copiamos la función `write_regs` a `console.c`, cambiando las llamadas a `outportb` e `inportb` por llamadas a `outb` e `inb`, que son los equivalentes a esas funciones en xv6. Copiamos los arreglos `g_80x25_text` y `g_320x200x256`, que son los correspondientes a los modos que pide el enunciado, e hicimos en `console.c` las siguientes funciones:
 
@@ -155,6 +153,8 @@ Explicación VGA_mode_switch en parte 3 del informe
 
         Explicación breve de como empezamos
 
+
+
 # Extras en el kernel
 
 ## `stdin_read`
@@ -175,7 +175,7 @@ Explicación VGA_mode_switch en parte 3 del informe
 
 ## Cómo usarlo
 
-## Cómo esta hecho
+## Cómo está hecho
 
 ### Modularización
 
