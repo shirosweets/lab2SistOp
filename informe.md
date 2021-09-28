@@ -128,7 +128,26 @@ VGA_to_mode_text(void)
 
     La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` salo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que como `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`. Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función.
 
-Terminada explicación de las llamadas al sistema de xv6
+### `VGA_mode_switch`
+
+    En esta llamada al sistema (que en el enunciado se pide como `modeswitch`, pero le cambiamos el nombre para que quede mas acorde al resto de las funciones que estábamos haciendo), lo que hicimos fue básicamente ver a que modo se quería cambiar, y hacer mas o menos lo mismo que en el punto 2:
+
+```c
+typedef int VGA_mode;
+#define VGA_mode_text 0
+#define VGA_mode_graphic 1
+
+void
+VGA_mode_switch(VGA_mode mode)
+{
+  if(mode == VGA_mode_graphic)
+    write_regs(g_320x200x256);
+  else if(mode == VGA_mode_text)
+    write_regs(g_80x25_text);
+}
+```
+
+Explicación VGA_mode_switch en parte 3 del informe
 
         Explicar nuestras llamadas al sistema
 
