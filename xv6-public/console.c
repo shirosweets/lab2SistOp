@@ -302,7 +302,7 @@ consoleinit(void)
 
 /* Mira si hay un caracter en el stdin (el stdin de verdad, no el del programa)
  * Si hay uno lo pone en *c y retorna true
- * Si no hay, no modifica *C y retona false
+ * Si no hay, no modifica *c y retona false
  */
 bool
 stdin_ready(char* c)
