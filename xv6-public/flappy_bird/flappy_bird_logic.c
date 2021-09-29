@@ -31,7 +31,7 @@ init_game(int seed)
   game.vertical_speed = 0;
 
   global_seed = seed;
-  game.first_tube_x = 50;
+  game.first_tube_x = VGA_graphic_width/3;
 
   game.hole_tubes_y[0] = ground_height/2;
   for(uint j = 1u; j < amount_of_tubes; j++){
