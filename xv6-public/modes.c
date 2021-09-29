@@ -223,27 +223,8 @@ get_fb_seg(void)
   }
   return seg;
 }
-/*****************************************************************************
-*****************************************************************************/
-void
-vmemwr(uint dst_off, uchar *src, uint count)
-{
-  _vmemwr(get_fb_seg(), dst_off, src, count);
-}
-/*****************************************************************************
-*****************************************************************************/
-void
-vpokeb(uint off, uint val)
-{
-  pokeb(get_fb_seg(), off, val);
-}
-/*****************************************************************************
-*****************************************************************************/
-uint
-vpeekb(uint off)
-{
-  return peekb(get_fb_seg(), off);
-}
+
+
 /*****************************************************************************
 write font to plane P4 (assuming planes are named P1, P2, P4, P8)
 *****************************************************************************/
@@ -351,106 +332,5 @@ set_text_mode(int hi_res)
   for(uint i = 0; i < cols * rows; i++)
     pokeb(0xB800, i * 2 + 1, 7);
 }
-/*****************************************************************************
-*****************************************************************************/
-uchar
-reverse_bits(uchar arg)
-{
-  uchar ret_val = 0;
 
-  if(arg & 0x01)
-    ret_val |= 0x80;
-  if(arg & 0x02)
-    ret_val |= 0x40;
-  if(arg & 0x04)
-    ret_val |= 0x20;
-  if(arg & 0x08)
-    ret_val |= 0x10;
-  if(arg & 0x10)
-    ret_val |= 0x08;
-  if(arg & 0x20)
-    ret_val |= 0x04;
-  if(arg & 0x40)
-    ret_val |= 0x02;
-  if(arg & 0x80)
-    ret_val |= 0x01;
-  return ret_val;
-}
-/*****************************************************************************
-512-CHARACTER FONT
-*****************************************************************************/
-void
-font512(void)
-{
-  /* Turbo C++ 1.0 seems to 'lose' any data declared 'const' */
-  /*static*/ const char msg1[] = "!txet sdrawkcaB";
-  /*static*/ const char msg2[] = "?rorrim a toG";
-  /**/
-  uchar seq2, seq4, gc4, gc5, gc6;
-  uint font_height;
 
-  /* start in 80x25 text mode */
-  set_text_mode(0);
-  /* code pasted in from write_font():
-  save registers
-  set_plane() modifies GC 4 and SEQ 2, so save them as well */
-  outb(VGA_SEQ_INDEX, 2);
-  seq2 = inb(VGA_SEQ_DATA);
-
-  outb(VGA_SEQ_INDEX, 4);
-  seq4 = inb(VGA_SEQ_DATA);
-  /* turn off even-odd addressing (set flat addressing)
-  assume: chain-4 addressing already off */
-  outb(VGA_SEQ_DATA, seq4 | 0x04);
-
-  outb(VGA_GC_INDEX, 4);
-  gc4 = inb(VGA_GC_DATA);
-
-  outb(VGA_GC_INDEX, 5);
-  gc5 = inb(VGA_GC_DATA);
-  /* turn off even-odd addressing */
-  outb(VGA_GC_DATA, gc5 & ~0x10);
-
-  outb(VGA_GC_INDEX, 6);
-  gc6 = inb(VGA_GC_DATA);
-  /* turn off even-odd addressing */
-  outb(VGA_GC_DATA, gc6 & ~0x02);
-  /* write font to plane P4 */
-  set_plane(2);
-  /* this is different from write_font():
-  use font 1 instead of font 0, and use it for BACKWARD text */
-  font_height = 16;
-  for(uint i = 0; i < 256; i++){
-    for(uint j = 0; j < font_height; j++){
-      vpokeb(16384u * 1 + 32 * i + j,
-        reverse_bits(
-          g_8x16_font[font_height * i + j]));
-    }
-  }
-  /* restore registers */
-  outb(VGA_SEQ_INDEX, 2);
-  outb(VGA_SEQ_DATA, seq2);
-  outb(VGA_SEQ_INDEX, 4);
-  outb(VGA_SEQ_DATA, seq4);
-  outb(VGA_GC_INDEX, 4);
-  outb(VGA_GC_DATA, gc4);
-  outb(VGA_GC_INDEX, 5);
-  outb(VGA_GC_DATA, gc5);
-  outb(VGA_GC_INDEX, 6);
-  outb(VGA_GC_DATA, gc6);
-  /* now: sacrifice attribute bit b3 (foreground intense color)
-  use it to select characters 256-511 in the second font */
-  outb(VGA_SEQ_INDEX, 3);
-  outb(VGA_SEQ_DATA, 4);
-  /* xxx - maybe re-program 16-color palette here
-  so attribute bit b3 is no longer used for 'intense' */
-  for(uint i = 0; i < sizeof(msg1); i++){
-    vpokeb((80 * 8  + 40 + i) * 2 + 0, msg1[i]);
-  /* set attribute bit b3 for backward font */
-    vpokeb((80 * 8  + 40 + i) * 2 + 1, 0x0F);
-  }
-  for(uint i = 0; i < sizeof(msg2); i++){
-    vpokeb((80 * 16 + 40 + i) * 2 + 0, msg2[i]);
-    vpokeb((80 * 16 + 40 + i) * 2 + 1, 0x0F);
-  }
-}
