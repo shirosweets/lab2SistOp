@@ -77,12 +77,11 @@ main(int argc, char *argv[])
 
       last_time = new_time;
     }
-    
-    c = '\0';
+
     printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
-    while(c == '\0'){
-      stdin_ready(&c);
-    } if (c == '\e'){
+    while(!stdin_ready(&c)){
+      sleep(30);
+    } if (c == '\e' || c == 4){
       quit = true;
     }
 
