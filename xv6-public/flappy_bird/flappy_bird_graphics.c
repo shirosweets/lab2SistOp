@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../const.h"
 
+#include "VGA_graphics.h"
 #include "flappy_bird_TAD.h"
 
 #define clouds_height 100
@@ -61,10 +62,10 @@ draw_tube(uchar* buffer, x_coord x, y_coord y)
 /* Dibuja en buffer todos los tubos de game
  */
 static void
-draw_tubes(const game_status* game, uchar* buffer)
+draw_tubes(uchar* buffer)
 {
   for(uint i = 0u; i < amount_of_tubes; i++){
-    draw_tube(buffer, ((int)game->first_tube_x) + i*offset_tubes, game->hole_tubes_y[i]);
+    draw_tube(buffer, ((int)game.first_tube_x) + i*offset_tubes, game.hole_tubes_y[i]);
   }
 }
 
@@ -137,9 +138,9 @@ draw_background(uchar* buffer)
 
 // buffer de tamaño VGA_graphic_width*VGA_graphic_height
 void
-draw_game(const game_status* game, uchar* buffer)
+draw_game(uchar* buffer)
 {
   draw_background(buffer);
-  draw_tubes(game, buffer);
-  draw_flappy(buffer, (int)game->flappy_pos_x, (int)game->flappy_pos_y);
+  draw_tubes(buffer);
+  draw_flappy(buffer, (int)game.flappy_pos_x, (int)game.flappy_pos_y);
 }

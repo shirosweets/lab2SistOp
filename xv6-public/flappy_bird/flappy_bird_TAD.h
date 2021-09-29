@@ -51,4 +51,6 @@ typedef struct _s_game_status
 } game_status;
 
 
+game_status game;
+
 #endif // flappy_bird_TAD_H
