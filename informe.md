@@ -126,7 +126,7 @@ VGA_to_mode_text(void)
 
     La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` salo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que como `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`.
 
-    Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función.
+    Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función. En las nuestras hicimos exactamente eso.
 
 ### `VGA_mode_switch`
 
@@ -198,6 +198,10 @@ VGA_plot_screen(uchar* buffer)
   }
 }
 ```
+
+
+
+    A esas funciones al principio las habíamos hecho en el archivo `proc.c`, porque vimos que ahí estaban implementadas algunas de las otras llamadas al sistema, pero luego las movimos a otros archivos en los que tuviera mas sentido que estén (en `proc.c` no tenía sentido porque es para las funciones relacionadas con los procesos), y también las modificamos un poco por distintos motivos. Por eso, es que pusimos acá el código, para que se pueda ver como eran en el momento en el que las hicimos.
 
 ## Parte 4
 
