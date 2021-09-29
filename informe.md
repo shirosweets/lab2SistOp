@@ -130,24 +130,54 @@ VGA_to_mode_text(void)
 
 ### `VGA_mode_switch`
 
-    En esta llamada al sistema (que en el enunciado se pide como `modeswitch`, pero le cambiamos el nombre para que quede mas acorde al resto de las funciones que estábamos haciendo), lo que hicimos fue básicamente ver a que modo se quería cambiar, y hacer mas o menos lo mismo que en el punto 2:
+    En esta llamada al sistema (que en el enunciado se pide como `modeswitch`, pero le cambiamos el nombre para que quede mas acorde al resto de las funciones que estábamos haciendo), lo que primero hicimos fue básicamente ver a que modo se quería cambiar, y hacer mas o menos lo mismo que en el punto 2. Después, cuando íbamos a hacer la siguiente llamada al sistema, nos dimos cuenta que hace falta poder saber cuál es el modo actual, así que agregamos una variable global que guarda el modo actual, y que se actualiza en cada cambio de modo. Con eso, el código nos quedó así:
 
 ```c
 typedef int VGA_mode;
 #define VGA_mode_text 0
 #define VGA_mode_graphic 1
 
+VGA_mode actual_mode = VGA_mode_text;
+
 void
 VGA_mode_switch(VGA_mode mode)
 {
-  if(mode == VGA_mode_graphic)
+  if(mode == VGA_mode_graphic){
     write_regs(g_320x200x256);
-  else if(mode == VGA_mode_text)
+    actual_mode = VGA_mode_graphic;
+  }
+  else if(mode == VGA_mode_text){
     write_regs(g_80x25_text);
+    actual_mode = VGA_mode_text;
+  }
 }
 ```
 
 ### `VGA_plot_pixel`
+
+    Para que los programas de usuario pueden dibujar cosas en la pantalla, en el enunciado se pide hacer una llamada el sistema que tome las coordenadas y el color, y pinte un pixel en la pantalla.
+
+    No se especifica nada sobre que tiene que pasar si se trata de pintar un pixel de fuera de la pantalla, pero, nosotros decidimos hacer que simplemente no se pinte, ya que eso permite que si se está dibujando algo grande que se sale de la pantalla, se puede dibujar con normalidad sin tener que hacer verificaciones extra.
+
+    Otra cosa que no se aclara es que tiene que pasar si se trata de pintar un pixel estando en modo texto. Nosotros decidimos también hacer que simplemente no se haga nada.
+
+    Con eso, el código nos quedó así:
+
+```c
+#define VGA_graphic_width 320
+#define VGA_graphic_hight 200
+#define VGA_graphic_array ((uchar*)P2V(0x000A0000))
+#define VGA_graphic_pos(x, y) ((uchar*)(VGA_graphic_array + y*VGA_graphic_width + x))
+
+void
+VGA_plot_pixel(int x, int y, uchar color)
+{
+  if(0 <= x && x < VGA_graphic_width && 0 <= y && y < VGA_graphic_hight
+    && actual_mode == VGA_mode_graphic){
+    *VGA_graphic_pos(x, y) = color;
+  }
+}
+```
 
 
 
