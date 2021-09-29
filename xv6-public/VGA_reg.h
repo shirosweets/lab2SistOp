@@ -24,7 +24,7 @@ uchar g_320x200x256[mode_array_size];
 uchar g_320x200x256_modex[mode_array_size];
 uchar g_8x8_font[2048];
 uchar g_8x16_font[4096];
-int VGA_palette_256_24[256];
+int VGA_palette_256[256];
 uchar* VGA_modes[VGA_mode_amount];
 uchar* VGA_fonts[VGA_fonts_amount];
 
