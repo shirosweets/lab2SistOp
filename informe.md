@@ -201,7 +201,9 @@ VGA_plot_screen(uchar* buffer)
 
 ## Parte 4
 
-        Explicación breve de como empezamos
+    Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el VGA. Nosotros decidimos hacer un juego de flappy bird (https://es.wikipedia.org/wiki/Flappy_Bird para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
+
+
 
 # Puntos estrellas
 
