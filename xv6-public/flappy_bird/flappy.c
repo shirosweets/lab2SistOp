@@ -79,11 +79,14 @@ main(int argc, char *argv[])
       last_time = new_time;
     }
     VGA_mode_switch(VGA_text_80x25);
-    printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
-    while(!stdin_ready(&c)){
-      sleep(30);
-    } if (c == '\e' || c == 4){
-      quit = true;
+
+    if(!quit){
+      printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
+      while(!stdin_ready(&c)){
+        sleep(30);
+      } if (c == '\e' || c == 4){
+        quit = true;
+      }
     }
 
   }
