@@ -9,8 +9,8 @@
 // Alguna definiciones y funciones sacadas de: https://github.com/sam46/xv6
 
 
-void
-vgaSetPalette(int index, int r, int g, int b)
+static void
+VGA_set_palette_color(int index, int r, int g, int b)
 {
   outb(VGA_DAC_WRITE_INDEX, index);
   outb(VGA_DAC_DATA, r);
@@ -18,16 +18,14 @@ vgaSetPalette(int index, int r, int g, int b)
   outb(VGA_DAC_DATA, b);
 }
 
-/* Seetea la paleta del VGA al default */
+// Seetea la paleta del VGA a VGA_palette_256
 void
-setdefaultVGApalette()
+VGA_set_palette()
 {
   for(int index = 0; index < 256; index++){
-    int value = VGA_palette_256_24[index];
-    vgaSetPalette(index,
-              (value>>18)&0x3f,
-              (value>>10)&0x3f,
-              (value>>2)&0x3f);
+    int value = VGA_palette_256[index];
+    VGA_set_palette_color
+      (index, (value>>18) & 0x3f, (value>>10) & 0x3f, (value>>2) & 0x3f);
   }
 }
 
@@ -197,7 +195,7 @@ VGA_mode_switch(VGA_mode mode)
   else if(mode_is_graphic(mode)){
     write_regs(VGA_modes[mode]);
     actual_mode = mode;
-    setdefaultVGApalette();
+    VGA_set_palette();
   }
 }
 
@@ -1054,8 +1052,8 @@ uchar g_8x16_font[4096] =
 };
 
 
-// Paleta de 256 colores sacada de https://github.com/sam46/xv6
-int VGA_palette_256_24[256] =
+// Paleta de 256 colores sacada de http://es.uwenku.com/question/p-prlqzqje-r.html
+int VGA_palette_256[256] =
 {
   0x000000, 0x0000a8, 0x00a800, 0x00a8a8, 0xa80000, 0xa800a8, 0xa85400, 0xa8a8a8,
   0x545454, 0x5454fc, 0x54fc54, 0x54fcfc, 0xfc5454, 0xfc54fc, 0xfcfc54, 0xfcfcfc,

@@ -206,8 +206,7 @@ void            VGA_mode_switch(VGA_mode mode);
 void            VGA_plot_pixel(int x, int y, uchar color);
 void            VGA_plot_screen(uchar* buffer);
 
-void            vgaSetPalette(int index, int r, int g, int b);
-void            setdefaultVGApalette();
+void            VGA_set_palette();
 
 
 // number of elements in fixed-size array
