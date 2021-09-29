@@ -199,8 +199,6 @@ VGA_plot_screen(uchar* buffer)
 }
 ```
 
-
-
     A esas funciones al principio las habíamos hecho en el archivo `proc.c`, porque vimos que ahí estaban implementadas algunas de las otras llamadas al sistema, pero luego las movimos a otros archivos en los que tuviera mas sentido que estén (en `proc.c` no tenía sentido porque es para las funciones relacionadas con los procesos), y también las modificamos un poco por distintos motivos. Por eso, es que pusimos acá el código, para que se pueda ver como eran en el momento en el que las hicimos.
 
 ## Parte 4
@@ -209,14 +207,17 @@ VGA_plot_screen(uchar* buffer)
 
 
 
-# Puntos estrellas
-
-- [x] Todo lo que implementaron puede ser modularizado de una manera más delicada. Teniendo en cuenta que son funciones para un mismo dispositivo pueden estar en un mismo archivo `vga.{c,h}`.
-- [x] Agregar una nueva `syscall` `plotrectangle(int x1, int y1, int x2, int y2, int color)` para dibujar rectángulos en la pantalla (la idea es no tener que usar `for` para pintar un pixel por vez).
-- [x] Programar la paleta para poder usar todos los colores *(si bien el modo gráfico es de **256** colores, la paleta está programada para 64 colores)*.
-- [x] Recuperar las fuentes que se pierden cuando pasamos de modo gráfico a texto.
-
 # Extras en el kernel
+
+    Nosotros decidimos hacer varias cosas mas en el kernel, algunas por sugerencia del enunciado, y otras porque las necesitamos para hacer el flappy bird. Las cosas que hicimos fueron:
+
+  • Una llamada al sistema `stdin_read` que dice si hay caracteres disponibles en el stdin, y si los hay los saca y los devuelve.
+
+  • Usar 256 colores en el modo gráfico, ya que por defecto se pueden usar solo 64.
+
+  • Recuperar las fuentes al volver a modo texto, ya que si no se hace nada, no se puede leer lo que se escribe en la pantalla.
+
+  • …
 
 ## `stdin_read`
 
