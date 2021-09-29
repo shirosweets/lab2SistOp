@@ -41,7 +41,6 @@ main(int argc, char *argv[])
 {
   bool quit = false;
 
-  VGA_mode_switch(VGA_graphic_320x200x256);
   uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
   if(buffer == NULL){
     printf(2, "Memory error");
@@ -49,6 +48,8 @@ main(int argc, char *argv[])
   }
 
   while(!quit){
+    VGA_mode_switch(VGA_graphic_320x200x256);
+
     int seed = get_seed(argc, argv);
     init_game(seed);
 
@@ -77,7 +78,7 @@ main(int argc, char *argv[])
 
       last_time = new_time;
     }
-
+    VGA_mode_switch(VGA_text_80x25);
     printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
     while(!stdin_ready(&c)){
       sleep(30);
@@ -89,7 +90,6 @@ main(int argc, char *argv[])
 
   free(buffer); buffer = NULL;
 
-  VGA_mode_switch(VGA_text_80x25);
 
   exit();
 }
