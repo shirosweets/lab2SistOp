@@ -88,9 +88,8 @@ main(int argc, char *argv[])
       printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
       while(!stdin_ready(&c)){
         sleep(30);
-      } if (c == '\e' || c == 4){
-        quit = true;
       }
+      quit = c == '\e' || c == 4;
     }
 
   }
