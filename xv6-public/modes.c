@@ -185,10 +185,8 @@ write_regs(uchar *regs)
 void
 set_plane(uint p)
 {
-  uchar pmask;
-
   p &= 3;
-  pmask = 1 << p;
+  uchar pmask = 1 << p;
   /* set read plane */
   outb(VGA_GC_INDEX, 4);
   outb(VGA_GC_DATA, p);
@@ -203,10 +201,8 @@ depending on bits in GC 6
 uint
 get_fb_seg(void)
 {
-  uint seg;
-
   outb(VGA_GC_INDEX, 6);
-  seg = inb(VGA_GC_DATA);
+  uint seg = inb(VGA_GC_DATA);
   seg >>= 2;
   seg &= 3;
   switch(seg){
@@ -231,29 +227,27 @@ write font to plane P4 (assuming planes are named P1, P2, P4, P8)
 void
 write_font(uchar *buf, uint font_height)
 {
-  uchar seq2, seq4, gc4, gc5, gc6;
-
   /* save registers
   set_plane() modifies GC 4 and SEQ 2, so save them as well */
   outb(VGA_SEQ_INDEX, 2);
-  seq2 = inb(VGA_SEQ_DATA);
+  uchar seq2 = inb(VGA_SEQ_DATA);
 
   outb(VGA_SEQ_INDEX, 4);
-  seq4 = inb(VGA_SEQ_DATA);
+  uchar seq4 = inb(VGA_SEQ_DATA);
   /* turn off even-odd addressing (set flat addressing)
   assume: chain-4 addressing already off */
   outb(VGA_SEQ_DATA, seq4 | 0x04);
 
   outb(VGA_GC_INDEX, 4);
-  gc4 = inb(VGA_GC_DATA);
+  uchar gc4 = inb(VGA_GC_DATA);
 
   outb(VGA_GC_INDEX, 5);
-  gc5 = inb(VGA_GC_DATA);
+  uchar gc5 = inb(VGA_GC_DATA);
   /* turn off even-odd addressing */
   outb(VGA_GC_DATA, gc5 & ~0x10);
 
   outb(VGA_GC_INDEX, 6);
-  gc6 = inb(VGA_GC_DATA);
+  uchar gc6 = inb(VGA_GC_DATA);
   /* turn off even-odd addressing */
   outb(VGA_GC_DATA, gc6 & ~0x02);
   /* write font to plane P4 */
@@ -279,10 +273,6 @@ write_font(uchar *buf, uint font_height)
   outb(VGA_GC_INDEX, 6);
   outb(VGA_GC_DATA, gc6);
 }
-/*****************************************************************************
-*****************************************************************************/
-void (*g_write_pixel)(uint x, uint y, uint c);
-uint g_wd, g_ht;
 /*****************************************************************************
 READ AND DUMP VGA REGISTER VALUES FOR CURRENT VIDEO MODE
 This is where g_40x25_text[], g_80x50_text[], etc. came from :)
