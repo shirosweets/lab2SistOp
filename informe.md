@@ -179,7 +179,25 @@ VGA_plot_pixel(int x, int y, uchar color)
 }
 ```
 
+### `VGA_plot_screen`
 
+    Si los programas de usuario a todo lo que dibujan lo tienen que poner en la pantalla pixel por pixel con `VGA_plot_pixel` se demoran mucho, ya que cada llamada al sistema es lenta. Para mitigar eso, en el enunciado se propone hacer una llamada al sistema `plotrectangle` que dibuje un rectángulo todo del mismo color. Esto ayuda un poco, pero no mucho, ya que solo sirve cuando el programa quiere dibujar un cuadrado todo del mismo color.
+
+    Lo que nosotros decidimos hacer es hacer una llamada al sistema `VGA_plot_screen` que toma un arreglo que tiene los colores de todos los pixeles y los pone a todos en la pantalla. Esto permite al programa dibujar todo de forma rápida en un arreglo propio, y después ponerlo al todo al mismo tiempo en la pantalla.
+
+    Esa llamada al sistema fue simplemente un for que copie todo de un arreglo al otro:
+
+```c
+void
+VGA_plot_screen(uchar* buffer)
+{
+  if(actual_mode == VGA_mode_graphic){
+    for(int j = 0; j < VGA_graphic_width*VGA_graphic_hight; j++){
+      VGA_graphic_array[j] = buffer[j];
+    }
+  }
+}
+```
 
 ## Parte 4
 
