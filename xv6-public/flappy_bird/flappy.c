@@ -23,7 +23,8 @@ string_to_int(char* str)
 }
 
 /* Obtiene la semilla de los parametros de el programa
- * La semilla es el primer parametro, si no hay se retorna 0
+ * La semilla es el primer parametro, si no hay se obtiene una
+ * seudo-aleatoriamente con uptime
  * Cuando hay lo que se toma es el valor numerico de los primeros 4 caracteres
  */
 static int
@@ -32,6 +33,9 @@ get_seed(int argc, char *argv[])
   int res = 0;
   if(argc >= 2)
     res = string_to_int(argv[1]);
+  else{
+    res = uptime();
+  }
   return(res);
 }
 
