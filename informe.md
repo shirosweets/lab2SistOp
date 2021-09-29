@@ -10,8 +10,6 @@
 
 ---
 
-> Encargado del informe: Iván Renison
-
 # Índice
 
 # Desarrollo inicial
@@ -218,6 +216,8 @@ VGA_plot_screen(uchar* buffer)
   • Recuperar las fuentes al volver a modo texto, ya que si no se hace nada, no se puede leer lo que se escribe en la pantalla.
 
   • …
+
+    A continuación están explicadas todas:
 
 ## `stdin_read`
 
