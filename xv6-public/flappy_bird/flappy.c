@@ -62,6 +62,8 @@ main(int argc, char *argv[])
 
     char c = '\0';
     int last_time = uptime();
+    unsigned int score = 0;
+    int start_time = last_time;
 
     while(game.is_alive){
       int new_time = uptime();
@@ -75,6 +77,9 @@ main(int argc, char *argv[])
         break;
       }
 
+      int running_time = (new_time - start_time)*0.01;
+      score = ((-horizontal_speed*(running_time+1)) - (VGA_graphic_width/3) + 20) / (offset_tubes) ;
+      
       update_game(jump, new_time - last_time);
 
       draw_game(buffer);
@@ -85,6 +90,7 @@ main(int argc, char *argv[])
     VGA_mode_switch(VGA_text_80x25);
 
     if(!quit){
+      printf(1, "\nPuntaje final: %d", score);
       printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
       while(!stdin_ready(&c)){
         sleep(30);
