@@ -22,7 +22,7 @@ void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
-bool            stdin_ready(char* c);
+bool            stdin_ready(char*);
 
 // exec.c
 int             exec(char*, char**);
