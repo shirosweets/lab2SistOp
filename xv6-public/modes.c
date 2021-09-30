@@ -20,92 +20,8 @@ To do:
 /*****************************************************************************
 MAIN/DEMO ROUTINES
 *****************************************************************************/
-void
-dump(uchar *regs, uint count)
-{
-  uint i = 0;
-  cprintf("\t");
-  for(; count != 0; count--){
-    cprintf("0x%02X,", *regs);
-    i++;
-    if(i >= 8){
-      i = 0;
-      cprintf("\n\t");
-    }
-    else
-      cprintf(" ");
-    regs++;
-  }
-  cprintf("\n");
-}
-/*****************************************************************************
-Imprime los registros del arreglo regs
-*****************************************************************************/
-void
-dump_regs(uchar *regs)
-{
-  cprintf("uchar g_mode[] =\n");
-  cprintf("{\n");
-  /* dump MISCELLANEOUS reg */
-  cprintf("/* MISC */\n");
-  cprintf("\t0x%02X,\n", *regs);
-  regs++;
-  /* dump SEQUENCER regs */
-  cprintf("/* SEQ */\n");
-  dump(regs, VGA_NUM_SEQ_REGS);
-  regs += VGA_NUM_SEQ_REGS;
-  /* dump CRTC regs */
-  cprintf("/* CRTC */\n");
-  dump(regs, VGA_NUM_CRTC_REGS);
-  regs += VGA_NUM_CRTC_REGS;
-  /* dump GRAPHICS CONTROLLER regs */
-  cprintf("/* GC */\n");
-  dump(regs, VGA_NUM_GC_REGS);
-  regs += VGA_NUM_GC_REGS;
-  /* dump ATTRIBUTE CONTROLLER regs */
-  cprintf("/* AC */\n");
-  dump(regs, VGA_NUM_AC_REGS);
-  regs += VGA_NUM_AC_REGS;
-  cprintf("};\n");
-}
-/*****************************************************************************
-Lee los registros actuales y los escribe en el arreglo regs
-*****************************************************************************/
-void
-read_regs(uchar *regs)
-{
-  /* read MISCELLANEOUS reg */
-  *regs = inb(VGA_MISC_READ);
-  regs++;
-  /* read SEQUENCER regs */
-  for(uint i = 0; i < VGA_NUM_SEQ_REGS; i++){
-    outb(VGA_SEQ_INDEX, i);
-    *regs = inb(VGA_SEQ_DATA);
-    regs++;
-  }
-  /* read CRTC regs */
-  for(uint i = 0; i < VGA_NUM_CRTC_REGS; i++){
-    outb(VGA_CRTC_INDEX, i);
-    *regs = inb(VGA_CRTC_DATA);
-    regs++;
-  }
-  /* read GRAPHICS CONTROLLER regs */
-  for(uint i = 0; i < VGA_NUM_GC_REGS; i++){
-    outb(VGA_GC_INDEX, i);
-    *regs = inb(VGA_GC_DATA);
-    regs++;
-  }
-  /* read ATTRIBUTE CONTROLLER regs */
-  for(uint i = 0; i < VGA_NUM_AC_REGS; i++){
-    (void)inb(VGA_INSTAT_READ);
-    outb(VGA_AC_INDEX, i);
-    *regs = inb(VGA_AC_READ);
-    regs++;
-  }
-  /* lock 16-color palette and unblank display */
-  (void)inb(VGA_INSTAT_READ);
-  outb(VGA_AC_INDEX, 0x20);
-}
+
+
 /*****************************************************************************
 Escribe en los registros del arreglo regs
 *****************************************************************************/
@@ -167,7 +83,7 @@ set_plane(uint p)
   outb(VGA_SEQ_DATA, pmask);
 }
 /*****************************************************************************
-VGA framebuffer is at A0000:0000, B0000:0000, or B8000:0000 // A confirmar
+VGA framebuffer is at A0000:0000, B0000:0000, or B8000:0000
 depending on bits in GC 6
 *****************************************************************************/
 uint
@@ -245,17 +161,3 @@ write_font(uchar *buf, uint font_height)
   outb(VGA_GC_INDEX, 6);
   outb(VGA_GC_DATA, gc6);
 }
-/*****************************************************************************
-READ AND DUMP VGA REGISTER VALUES FOR CURRENT VIDEO MODE
-This is where g_40x25_text[], g_80x50_text[], etc. came from :)
-*****************************************************************************/
-void
-dump_state(void)
-{
-  uchar state[VGA_NUM_REGS];
-
-  read_regs(state);
-  dump_regs(state);
-}
-
-
