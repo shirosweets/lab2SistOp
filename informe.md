@@ -209,11 +209,9 @@ VGA_plot_screen(uchar* buffer)
 
   • Una llamada al sistema `stdin_read` que dice si hay caracteres disponibles en el stdin, y si los hay los saca y los devuelve.
 
-  • Usar 256 colores en el modo gráfico, ya que por defecto se pueden usar solo 16.
+  • Usar 256 colores en el modo gráfico, ya que por defecto se pueden usar solo 64.
 
   • Recuperar las fuentes al volver a modo texto, ya que si no se hace nada, no se puede leer lo que se escribe en la pantalla.
-
-  • …
 
     A continuación están explicadas todas:
 
@@ -316,14 +314,6 @@ void VGA_mode_switch(VGA_text_80x25);
 * http://www.techhelpmanual.com/900-video_graphics_array_i_o_ports.html
 
 * http://www.techhelpmanual.com/89-video_memory_layouts.html
-
-## Uso de todos los modos de VGA
-
-        Explicación de VGA
-
-        Explicación de como usamos el `modes.c`
-
-# El kernel final y como usarlo
 
 # El flappy bird
 
