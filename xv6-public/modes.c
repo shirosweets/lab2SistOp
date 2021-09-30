@@ -1,15 +1,3 @@
-/*****************************************************************************
-Sets VGA-compatible video modes without using the BIOS
-Chris Giese <geezer@execpc.com>  http://my.execpc.com/~geezer
-Release date: ?
-This code is public domain (no copyright).
-You can do whatever you want with it.
-
-To do:
-- more registers dumps, for various text modes and ModeX
-- flesh out code to support SVGA chips?
-- do something with 16- and 256-color palettes?
-*****************************************************************************/
 #include "types.h"
 #include "defs.h"
 #include "x86.h"
@@ -17,14 +5,8 @@ To do:
 #include "memlayout.h"
 
 
-/*****************************************************************************
-MAIN/DEMO ROUTINES
-*****************************************************************************/
-
-
-/*****************************************************************************
-Escribe en los registros del arreglo regs
-*****************************************************************************/
+/* Escribe en los registros del arreglo regs
+*/
 void
 write_regs(uchar *regs)
 {
@@ -68,8 +50,7 @@ write_regs(uchar *regs)
   (void)inb(VGA_INSTAT_READ);
   outb(VGA_AC_INDEX, 0x20);
 }
-/*****************************************************************************
-*****************************************************************************/
+
 void
 set_plane(uint p)
 {
@@ -82,6 +63,7 @@ set_plane(uint p)
   outb(VGA_SEQ_INDEX, 2);
   outb(VGA_SEQ_DATA, pmask);
 }
+
 /*****************************************************************************
 VGA framebuffer is at A0000:0000, B0000:0000, or B8000:0000
 depending on bits in GC 6
@@ -109,9 +91,8 @@ get_fb_seg(void)
 }
 
 
-/*****************************************************************************
-write font to plane P4 (assuming planes are named P1, P2, P4, P8)
-*****************************************************************************/
+/* write font to plane P4 (assuming planes are named P1, P2, P4, P8)
+ */
 void
 write_font(uchar *buf, uint font_height)
 {
