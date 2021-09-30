@@ -151,12 +151,13 @@ VGA_set_palette_color(int index, int r, int g, int b)
   outb(VGA_DAC_DATA, b);
 }
 
-// Seetea la paleta del VGA a VGA_palette_256
+/* Seetea la paleta del VGA a palette
+ * palette debe tener 256 elementos */
 void
-VGA_set_palette()
+VGA_set_palette(int* palette)
 {
   for(int index = 0; index < 256; index++){
-    int value = VGA_palette_256[index];
+    int value = palette[index];
     VGA_set_palette_color
       (index, (value>>18) & 0x3f, (value>>10) & 0x3f, (value>>2) & 0x3f);
   }
@@ -311,7 +312,7 @@ VGA_mode_switch(VGA_mode mode)
   else if(mode_is_graphic(mode)){
     write_regs(VGA_modes[mode]);
     actual_mode = mode;
-    VGA_set_palette();
+    VGA_set_palette(VGA_palette_256);
   }
 }
 
