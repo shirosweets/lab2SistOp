@@ -219,6 +219,16 @@ VGA_plot_screen(uchar* buffer)
 
 ## `stdin_read`
 
+    En xv6 la única llamada al sistema que permite leer caracteres de la entrada estándar es `read`. El funcionamiento de `read` es que toma el descriptor de archivo (0 en el caso de la entrada estándar), una dirección de memoria en la que guardar los caracteres, y el máximo de caracteres que guardar.
+
+    Cuando se lee de la entrada estándar con `read` los caracteres no son leídos si no hay un salto de línea, es decir, si se llama a `read` cuando la entrada estándar está vacía, no se retorna hasta que se ingresa un salto de línea.
+
+    Para hacer el flappy bird nosotros necesitamos que cuando se presiona una tecla el flappy salte, y cuando no se presiona una tecla que caiga (en ambos casos el juego tiene que seguir ejecutándose). Por eso, no podíamos usar la función `read`, que no retorna hasta que no se presiona la tecla enter.
+
+    Entonces, para poder hacer el juego, decidimos agregar una nueva llamada al sistema `stdin_read`, la cuál toma una dirección de memoria en la que guardar un carácter, y mira si hay caracteres en la entrada estándar. En el caso de que no haya retorna `false`, y en el caso de que si haya retorna `true`, guarda el primer carácter en la dirección de memoria, y lo saca de la entrada estándar.
+
+    Para poder hacer está función, vimos que cuando se produce un trap por interrupción del teclado, el caracter se guarda en `struct input` que está en `console.c`, que es como un buffer, y cuando se lee un caracter de la entrada estándar, se lo saca de ahí. Por lo cuál en la función `stdin_read` simplemente miramos si hay algún caracter en ese buffer, y si lo hay lo sacamos.
+
 ## Uso de la paleta completa
 
     Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles 16 colores, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
