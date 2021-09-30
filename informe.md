@@ -203,8 +203,6 @@ VGA_plot_screen(uchar* buffer)
 
     Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el VGA. Nosotros decidimos hacer un juego de flappy bird (https://es.wikipedia.org/wiki/Flappy_Bird para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
 
-
-
 # Extras en el kernel
 
     Nosotros decidimos hacer varias cosas mas en el kernel, algunas por sugerencia del enunciado, y otras porque las necesitamos para hacer el flappy bird. Las cosas que hicimos fueron:
@@ -223,19 +221,19 @@ VGA_plot_screen(uchar* buffer)
 
 ## Uso de la paleta completa
 
-Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles 16 colores, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
+    Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles 16 colores, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
 
-Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuntren los colores. La idea para escribir la función que cambia la paleta se sacó de https://github.com/sam46/xv6 y https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html.
+    Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuentren los colores. La idea para escribir la función que cambia la paleta se sacó de https://github.com/sam46/xv6 y de https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html.
 
-Básicamente lo primero que hicimos fue declarar un arreglo con 256 colores básicos de RGB en formato hexadecimal, ya sabemos que el modelo RGB combina los colores primarios (rojo, verde y azul) para generar distintos colores, al expresarse en hexadecimal los primeros 8 bits corresponden a la intensidad del color rojo, los siguientes 8 al color verde y los últimos 8 al color azul. Ejemplo: el color 0xFF0000, 0xFF en hexadecimal es 255 y representa la cantidad de color rojo que hay, como 255 es el máximo quiere decir que el color tiene la mayor cantidad de rojo posible, como los siguientes bytes están en 0, quiere decir que no hay verde ni azul, por lo que el 0xFF0000 representa el rojo.
+    Básicamente lo primero que hicimos fue declarar un arreglo con 256 colores básicos de RGB en formato hexadecimal, ya sabemos que el modelo RGB combina los colores primarios (rojo, verde y azul) para generar distintos colores, al expresarse en hexadecimal los primeros 8 bits corresponden a la intensidad del color rojo, los siguientes 8 al color verde y los últimos 8 al color azul. Ejemplo: el color 0xFF0000, 0xFF en hexadecimal es 255 y representa la cantidad de color rojo que hay, como 255 es el máximo quiere decir que el color tiene la mayor cantidad de rojo posible, como los siguientes bytes están en 0, quiere decir que no hay verde ni azul, por lo que el 0xFF0000 representa el rojo.
 
-Lo que se debe hacer es escribir al puerto 0x3C8 en VGA, que es el que maneja las paletas, y se le indica cual es color de la paleta que se quiere modificar, y el color en si se registra en el puerto 0x3C9, en este último puerto se debe escribir tres veces consecutivas (una para cada color primerio), según las referencias que usamos, si no se escribe tres veces consecutivas al puerto 0x3C9 se puede tener comportamiento indefinido.
+    Lo que se debe hacer es escribir al puerto `0x3C8` en VGA, que es el que maneja las paletas, y se le indica cual es color de la paleta que se quiere modificar, y el color en si se registra en el puerto `0x3C9`, en este último puerto se debe escribir tres veces consecutivas (una para cada color primario), según las referencias que usamos, si no se escribe tres veces consecutivas al puerto `0x3C9` se puede tener comportamiento indefinido.
 
-La función `VGA_set_palette_color(int index, int r, int g, int b)` es la que se encarga de recibir el indice del color de la paleta que se quiere modificar, y el valor de los colores primarios, luego el `VGA_set_palette()` es el que se encarga de recorrer cada color en el arreglo `VGA_palette_256` que contiene los colores en formato hexadecimal, y de llamar a la funcion `VGA_set_palette_color` para escribir los valores en los puertos.
+    La función `VGA_set_palette_color` es la que se encarga de recibir el índice del color de la paleta que se quiere modificar y el valor de los colores primarios, luego el `VGA_set_palette` se encarga de recorrer cada color en el arreglo `VGA_palette_256` que contiene los colores en formato hexadecimal, y de llamar a la función `VGA_set_palette_color` para escribir los valores en los puertos.
 
-Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los ultimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un and bit a bit con el número 0x3F, que representa el 111111, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
+    Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un and bit a bit con el número 0x3F, que representa el 0b111111, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
 
-Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de 8-bit-mode (que es la que tiene 256 colores) publicada en la página https://www.fountainware.com/EXPL/vga_color_palettes.htm
+    Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de 8-bit-mode (que es la que tiene 256 colores) publicada en la página https://www.fountainware.com/EXPL/vga_color_palettes.htm.
 
 ## Recuperar las fuentes al volver a modo texto
 
