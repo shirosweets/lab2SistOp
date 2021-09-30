@@ -27,8 +27,7 @@ OBJS = \
 	uart.o\
 	vectors.o\
 	vm.o\
-	modes.o\
-	VGA_reg.o\
+	VGA.o\
 
 # Cross-compiling (e.g., on Mac OS X)
 # TOOLPREFIX = i386-jos-elf
