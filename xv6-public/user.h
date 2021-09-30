@@ -1,8 +1,6 @@
 struct stat;
 struct rtcdate;
 
-#include "const.h"
-
 // system calls
 int fork(void);
 int exit(void) __attribute__((noreturn));

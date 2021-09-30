@@ -16,34 +16,6 @@ To do:
 #include "VGA_reg.h"
 #include "memlayout.h"
 
-#define peekb(S,O)    *(uchar *)(16uL * (S) + (O))
-#define pokeb(S,O,V)    *(uchar *)(16uL * (S) + (O)) = (V)
-#define pokew(S,O,V)    *(ushort *)(16uL * (S) + (O)) = (V)
-#define _vmemwr(DS,DO,S,N)  memmove((char *)((DS) * 16 + (DO)), S, N)
-
-#define VGA_AC_INDEX 0x3C0
-#define VGA_AC_WRITE 0x3C0
-#define VGA_AC_READ 0x3C1
-#define VGA_MISC_WRITE 0x3C2
-#define VGA_SEQ_INDEX 0x3C4
-#define VGA_SEQ_DATA 0x3C5
-#define VGA_DAC_READ_INDEX 0x3C7
-#define VGA_DAC_WRITE_INDEX 0x3C8
-#define VGA_DAC_DATA 0x3C9
-#define VGA_MISC_READ 0x3CC
-#define VGA_GC_INDEX 0x3CE
-#define VGA_GC_DATA 0x3CF
-  /*      COLOR emulation    MONO emulation */
-#define VGA_CRTC_INDEX 0x3D4    /* 0x3B4 */
-#define VGA_CRTC_DATA 0x3D5    /* 0x3B5 */
-#define VGA_INSTAT_READ 0x3DA
-
-#define VGA_NUM_SEQ_REGS 5
-#define VGA_NUM_CRTC_REGS 25
-#define VGA_NUM_GC_REGS 9
-#define VGA_NUM_AC_REGS 21
-#define VGA_NUM_REGS (1 + VGA_NUM_SEQ_REGS + VGA_NUM_CRTC_REGS + \
-        VGA_NUM_GC_REGS + VGA_NUM_AC_REGS)
 
 /*****************************************************************************
 MAIN/DEMO ROUTINES
@@ -284,43 +256,6 @@ dump_state(void)
 
   read_regs(state);
   dump_regs(state);
-}
-/*****************************************************************************
-SET TEXT MODES
-*****************************************************************************/
-void
-set_text_mode(int hi_res)
-{
-  uint rows, cols, ht;
-
-  if(hi_res){
-    write_regs(g_90x60_text);
-    cols = 90;
-    rows = 60;
-    ht = 8;
-  }
-  else{
-    write_regs(g_80x25_text);
-    cols = 80;
-    rows = 25;
-    ht = 16;
-  }
-  /* set font */
-  if(ht >= 16)
-    write_font(g_8x16_font, 16);
-  else
-    write_font(g_8x8_font, 8);
-  /* tell the BIOS what we've done, so BIOS text output works OK */
-  pokew(0x40, 0x4A, cols);  /* columns on screen */
-  pokew(0x40, 0x4C, cols * rows * 2); /* framebuffer size */
-  pokew(0x40, 0x50, 0);    /* cursor pos'n */
-  pokeb(0x40, 0x60, ht - 1);  /* cursor shape */
-  pokeb(0x40, 0x61, ht - 2);
-  pokeb(0x40, 0x84, rows - 1);  /* rows on screen - 1 */
-  pokeb(0x40, 0x85, ht);    /* char height */
-  /* set white-on-black attributes for all text */
-  for(uint i = 0; i < cols * rows; i++)
-    pokeb(0xB800, i * 2 + 1, 7);
 }
 
 

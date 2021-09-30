@@ -6,8 +6,6 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
-#include "const.h"
-#include "VGA_reg.h"
 
 int
 sys_fork(void)
