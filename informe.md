@@ -317,9 +317,15 @@ void VGA_mode_switch(VGA_text_80x25);
 
 # El flappy bird
 
-## Cómo usarlo
+    Como mencionamos en [Parte 4](Parte-4) nosotros hicimos un flappy bird. El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `cntrl` + `d`.
 
-## Cómo está hecho
+    Los huecos en los tubos se van generando seudo-aleatoriamente según una semilla. Esa semilla se elige al azar al comienzo del juego, salvo que se le pase un parámetro al programa. Cuando se le pasa un parámetro al programa se elige una semilla según el valor numérico de los primeros 4 caracteres del parámetro.
+
+## Funcionamiento
+
+    El flappy funciona
+
+    El código del flappy está dividido en varios módulos. 2 de esos módulos (`random` y `VGA_graphics`) son en realidad módulos mas generales, que sin duda podrían reutilizare para otras cosas. El resto de los módulos son específicos del flappy.
 
 ### Modularización
 
