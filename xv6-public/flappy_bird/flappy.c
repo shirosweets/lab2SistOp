@@ -89,7 +89,7 @@ main(int argc, char *argv[])
       while(!stdin_ready(&c)){
         sleep(30);
       }
-      quit = c == '\e' || c == 4;
+      quit = (c == '\e' || c == 4);
     }
 
   }

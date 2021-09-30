@@ -82,7 +82,7 @@ vgainit(void)
 
 ## Parte 2
 
-    En e sta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
+    En esta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
 
     En ese código hay varios arreglos que tienen los registros de los distintos modos, y también hay una función `write_regs` que escribe los registros.
 
@@ -122,7 +122,7 @@ VGA_to_mode_text(void)
 
     En el archivo `syscall.c` hay un arreglo que tiene las direcciones de memoria en las cuales está el código de cada una de las llamadas al sistema, entonces, la función `syscall` lo que hace es llamar a la función correspondiente de esa llamada, usando el número de esa llamada para saber cuál ejecutar.
 
-    La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` salo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que como `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`.
+    La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` sólo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`.
 
     Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función. En las nuestras hicimos exactamente eso.
 
@@ -211,7 +211,7 @@ VGA_plot_screen(uchar* buffer)
 
   • Una llamada al sistema `stdin_read` que dice si hay caracteres disponibles en el stdin, y si los hay los saca y los devuelve.
 
-  • Usar 256 colores en el modo gráfico, ya que por defecto se pueden usar solo 64.
+  • Usar 256 colores en el modo gráfico, ya que por defecto se pueden usar solo 16.
 
   • Recuperar las fuentes al volver a modo texto, ya que si no se hace nada, no se puede leer lo que se escribe en la pantalla.
 
@@ -223,13 +223,27 @@ VGA_plot_screen(uchar* buffer)
 
 ## Uso de la paleta completa
 
+Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles 16 colores, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
+
+Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuntren los colores. La idea para escribir la función que cambia la paleta se sacó de https://github.com/sam46/xv6 y https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html.
+
+Básicamente lo primero que hicimos fue declarar un arreglo con 256 colores básicos de RGB en formato hexadecimal, ya sabemos que el modelo RGB combina los colores primarios (rojo, verde y azul) para generar distintos colores, al expresarse en hexadecimal los primeros 8 bits corresponden a la intensidad del color rojo, los siguientes 8 al color verde y los últimos 8 al color azul. Ejemplo: el color 0xFF0000, 0xFF en hexadecimal es 255 y representa la cantidad de color rojo que hay, como 255 es el máximo quiere decir que el color tiene la mayor cantidad de rojo posible, como los siguientes bytes están en 0, quiere decir que no hay verde ni azul, por lo que el 0xFF0000 representa el rojo.
+
+Lo que se debe hacer es escribir al puerto 0x3C8 en VGA, que es el que maneja las paletas, y se le indica cual es color de la paleta que se quiere modificar, y el color en si se registra en el puerto 0x3C9, en este último puerto se debe escribir tres veces consecutivas (una para cada color primerio), según las referencias que usamos, si no se escribe tres veces consecutivas al puerto 0x3C9 se puede tener comportamiento indefinido.
+
+La función `VGA_set_palette_color(int index, int r, int g, int b)` es la que se encarga de recibir el indice del color de la paleta que se quiere modificar, y el valor de los colores primarios, luego el `VGA_set_palette()` es el que se encarga de recorrer cada color en el arreglo `VGA_palette_256` que contiene los colores en formato hexadecimal, y de llamar a la funcion `VGA_set_palette_color` para escribir los valores en los puertos.
+
+Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift para obtener los valores del color primario deseado, y luego se hace un and bit a bit con el número 0x3F, que representa el 111111, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos. 
+
+Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de 8-bit-mode (que es la que tiene 256 colores) publicada en la página https://www.fountainware.com/EXPL/vga_color_palettes.htm
+
 ## Recuperar las fuentes al volver a modo texto
 
     Hay dos elementos importantes que participan en el cambio de modos: el espacio de memoria `0xA0000-0xBFFFF` donde se **mapea la información mostrada en la pantalla**, y los registros de VGA donde se configura cómo es interpretada esa sección de la memoria.
 
     Como el **`modo gráfico`** **comparte** una **sección** de la **memoria** con el **`modo texto`**, al dibujar pixeles en el primero se sobrescribe información codificada para el segundo, y al cambiar se sobrescriben los registros. Ambas cosas deben ser recuperadas al estado anterior para que el modo texto funcione correctamente.
 
-    Inicialmente, por simplicidad, implementamos la conservación de las fuentes **copiando toda la sección gráfica de la memoria** en un arreglo estático. Este se copiaba en l array `VGA_graphic_array` (que actualmente está eliminado) e intercambiarlo con el buffer.
+    Inicialmente, por simplicidad, implementamos la conservación de las fuentes **copiando toda la sección gráfica de la memoria** en un arreglo estático. Este se copiaba en el array `VGA_graphic_array` (que actualmente está eliminado) e intercambiarlo con el buffer.
 
 ```c
 /* Intercambia lo que está desde 0xA0000 hasta 0xBFFFF
@@ -242,7 +256,7 @@ void VGA_mode_switch(VGA_mode mode)
 
     Cuando el modo actual es el gráfico, el arreglo conservaba la memoria del texto y viceversa.
 
-    Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6.     Como por ejemplo:
+    Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
 
 | VGA          | XV6      |
 | ------------ | -------- |
