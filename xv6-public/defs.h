@@ -189,20 +189,19 @@ void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
 
-// VGA_reg.c
-void            write_regs(uchar *regs);
-void            write_font(uchar *buf, uint font_height);
-uint            get_fb_seg(void);
+// VGA.c
+void            write_regs(uchar*);
+void            write_font(uchar*, uint font_height);
+void            VGA_set_palette(int*);
+bool            mode_is_text(VGA_mode);
+bool            mode_is_graphic(VGA_mode);
+int             mode_height(VGA_mode);
+int             mode_width(VGA_mode);
+void*           mode_buffer(VGA_mode);
 void            vgainit(void);
-bool            mode_is_text(VGA_mode mode);
-bool            mode_is_graphic(VGA_mode mode);
-int             mode_height(VGA_mode mode);
-int             mode_width(VGA_mode mode);
-void*           mode_buffer(VGA_mode mode);
-void            VGA_mode_switch(VGA_mode mode);
-void            VGA_plot_pixel(int x, int y, uchar color);
-void            VGA_plot_screen(uchar* buffer);
-void            VGA_set_palette(int* palette);
+void            VGA_mode_switch(VGA_mode);
+void            VGA_plot_pixel(int x, int y, uchar);
+void            VGA_plot_screen(uchar*);
 
 
 // number of elements in fixed-size array

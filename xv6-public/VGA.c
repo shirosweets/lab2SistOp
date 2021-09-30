@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "flappy_bird/VGA_graphics.h"
 
+
 /* Escribe en los registros del arreglo regs
 */
 void
@@ -51,7 +52,7 @@ write_regs(uchar *regs)
   outb(VGA_AC_INDEX, 0x20);
 }
 
-void
+static void
 set_plane(uint p)
 {
   p &= 3;
@@ -62,32 +63,6 @@ set_plane(uint p)
   /* set write plane */
   outb(VGA_SEQ_INDEX, 2);
   outb(VGA_SEQ_DATA, pmask);
-}
-
-/*****************************************************************************
-VGA framebuffer is at A0000:0000, B0000:0000, or B8000:0000
-depending on bits in GC 6
-*****************************************************************************/
-uint
-get_fb_seg(void)
-{
-  outb(VGA_GC_INDEX, 6);
-  uint seg = inb(VGA_GC_DATA);
-  seg >>= 2;
-  seg &= 3;
-  switch(seg){
-  case 0:
-  case 1:
-    seg = 0xA0000;
-    break;
-  case 2:
-    seg = 0xB0000;
-    break;
-  case 3:
-    seg = 0xB8000;
-    break;
-  }
-  return seg;
 }
 
 /* write font to plane P4 (assuming planes are named P1, P2, P4, P8)
@@ -278,7 +253,6 @@ vgainit(void)
   }
 }
 
-
 /* Llamada al sistema que cambia de modo al modo dado,
  * si es un modo invalido no hace nada
  *
@@ -353,7 +327,6 @@ VGA_plot_screen(uchar* buffer)
     }
   }
 }
-
 
 int
 sys_VGA_mode_switch(void)
@@ -696,8 +669,6 @@ uchar g_8x16_font[4096] =
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-
-// Paleta de 256 colores sacada de http://es.uwenku.com/question/p-prlqzqje-r.html
 int VGA_palette_256[256] =
 {
   0x000000, 0x0000a8, 0x00a800, 0x00a8a8, 0xa80000, 0xa800a8, 0xa85400, 0xa8a8a8,
@@ -733,7 +704,6 @@ int VGA_palette_256[256] =
   0x2c402c, 0x2c4030, 0x2c4034, 0x2c403c, 0x2c4040, 0x2c3c40, 0x2c3440, 0x2c3040,
   0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000
 };
-
 
 uchar* VGA_modes[VGA_mode_amount] =
 {
