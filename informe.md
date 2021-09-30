@@ -197,7 +197,7 @@ VGA_plot_screen(uchar* buffer)
 }
 ```
 
-    A esas funciones al principio las habíamos hecho en el archivo `proc.c`, porque vimos que ahí estaban implementadas algunas de las otras llamadas al sistema, pero luego las movimos a otros archivos en los que tuviera mas sentido que estén (en `proc.c` no tenía sentido porque es para las funciones relacionadas con los procesos), y también las modificamos un poco por distintos motivos. Por eso, es que pusimos acá el código, para que se pueda ver como eran en el momento en el que las hicimos.
+    A esas funciones al principio las habíamos hecho en el archivo `proc.c`, porque vimos que ahí estaban implementadas algunas de las otras llamadas al sistema, pero luego las movimos a `VGA.c`, y también las modificamos un poco por distintos motivos. Por eso, es que pusimos acá el código, para que se pueda ver como eran en el momento en el que las hicimos.
 
 ## Parte 4
 
