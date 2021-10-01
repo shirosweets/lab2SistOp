@@ -12,6 +12,24 @@
 
 # Índice
 
+- [Desarrollo inicial](#desarrollo-inicial)
+  - [Parte 1](#parte-1)
+  - [Parte 2](#parte-2)
+  - [Parte 3](#parte-3)
+    - [`VGA_mode_switch`](#vga_mode_switch)
+    - [`VGA_plot_pixel`](#vga_plot_pixel)
+    - [`VGA_plot_screen`](#vga_plot_screen)
+  - [Parte 4](#parte-4)
+- [Extras en el kernel](#extras-en-el-kernel)
+  - [`stdin_read`](#stdin_read)
+  - [Uso de la paleta completa](#uso-de-la-paleta-completa)
+  - [Recuperar las fuentes al volver a modo texto](#recuperar-las-fuentes-al-volver-a-modo-texto)
+- [El flappy bird](#el-flappy-bird)
+  - [Funcionamiento](#funcionamiento)
+    - [Modularización](#modularización)
+- [Estilo del código](#estilo-del-código)
+- [Nuestra forma de trabajar](#nuestra-forma-de-trabajar)
+
 # Desarrollo inicial
 
 ## Parte 1
@@ -247,7 +265,7 @@ Ejemplo: el color `0xFF0000`, `0xFF` en hexadecimal es 255 y representa la canti
 
     Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un **and bit a bit** (*ver mini explicación abajo*) con el número `0x3F`, que representa el `0b111111`, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
 
-Mini explicación and bit a bit:
+Mini explicación **and bit a bit**:
 
 ```c
 a     = 0b1010101010
