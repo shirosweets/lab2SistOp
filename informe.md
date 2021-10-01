@@ -377,21 +377,62 @@ void VGA_mode_switch(VGA_text_80x25);
 
 ![Flappy Bird](./Imagenes_informe/Flappy_Bird.png)
 
-    El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `ctrl` + `d`.
+    Para jugar al flappy simplemente hay que iniciar xv6 (`make qemu` desde la carpeta `xv6-public`) y ejecutar `flappy`. Con eso ya se inicia el juego con una semilla aleatoria (la cuál determina las alturas de los huecos por los que hay que pasar). Si se desea especificar la semilla se puede hacer pasando algo como segundo parámetro, y los valores numéricos de los primeros 4 caracteres del segundo parámetro serán usados para generar la semilla.
 
-    Los huecos en los tubos se van generando pseudo-aleatoriamente según una semilla. Esa semilla se elige al azar al comienzo del juego, salvo que se le pase un parámetro al programa. Cuando se le pasa un parámetro al programa se elige una semilla según el valor numérico de los primeros 4 caracteres del parámetro.
+    Cuando se choca contra algo, se vuelve a la consola, imprimiéndose el puntare. Para volver a jugar simplemente hay que presionar cualquier tecla. Para salir del juego y cerrar el programa hay que presionar la tecla escape, o hacer `ctrl + d` (lo cual manda un final de archivo). 
 
 ## Funcionamiento
 
-    El flappy funciona
+    El juego funciona con una estructura en la que se guardan los datos dinámicos del juego (los que cambian), y un buffer en el que dibuja lo que va en la pantalla en cada fotograma antes de pasárselo al kernel para que lo muestre por la pantalla.
 
-    El código del flappy está dividido en varios módulos. 2 de esos módulos (`random` y `VGA_graphics`) son en realidad módulos mas generales, que sin duda podrían reutilizare para otras cosas. El resto de los módulos son específicos del flappy.
+    La parte principal del programa, que es lo que ejecuta el juego en sí, tiene un siclo que se ejecuta 1 vez por cada fotograma y cada vez mira si se presiono una tecla (con nuestra llamada al sistema `stdin_read`), actualiza los datos internos, dibuja todo en el buffer secundario, llama al kernel para que lo ponga en la pantalla y mide el tiempo de ejecución del cuerpo del siclo (para poder hacer que las velocidades de los objetos sean iguales sin importar que tan rápido está ejecutándose el juego).
+
+    Para hacer todo eso, el código está dividido en varios módulos. Eso hace que el `Makefile` que viene en `xv6` no lo compile bien, ya que esta hecho para compilar a los programas de usuario (los `UPROG` en el `Makefile`) como si estuvieran todos en un solo archivo. Para poder compilar el flappy teniéndolo dividido en varios archivos lo que hicimos fue poner todos los archivos del flappy en una carpeta y agregar una regla espacial para compilar nuestro programa:
+
+```makefile
+_flappy: $(ULIB)
+	cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
+```
+
+    Como se puede ver, esta regla no tiene como dependencia los archivos `.c` y `.h` del programa, lo cuál causa que si se los modifica no los vuelva a compilar, teniendo que hacer `make clean` cada ves que se modifica algo del flappy.
+
+    El motivo por el cuál está así, es que no logramos poner a los archivos como dependencia. Intentamos poner como dependencia `flappy_bird/flappy.c` y `./flappy_bird/flappy.c`, pero da error:
+
+```
+flappy_bird/flappy.c: file not recognized: file format not recognized
+make: *** [Makefile:162: _flappy] Error 1
+```
+
+    También probamos poner `flappy_bird` como dependencia, como para que dependa de la carpeta entera, pero por mas que modifiquemos archivos de adentro de la carpeta, no re-compila.
 
 ### Modularización
 
-            Módulos mas "generales" (`random` y `VGA_graphics`)
+A continuación una pequeña explicación de que hace cada módulo y como funciona:
 
-            Módulos del flappy
+#### `random`
+
+
+
+#### `VGA_graphics`
+
+
+
+#### `flappy_bird_TAD`
+
+
+
+#### `flappy_bird_graphics`
+
+
+
+#### `flappy_bird_logic`
+
+
+
+#### `flappy` (main)
+
+
 
 # Estilo del código
 
