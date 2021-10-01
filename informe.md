@@ -20,7 +20,7 @@
 
     Para hacer esto se da la siguiente información:
 
-    Se explica que VGA trabaja con buffers, en los cuáles está guardada la información que se está mostrando por la pantalla. Que cuando VGA está configurado en modo texto de `80×25` caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
+    Se explica que VGA trabaja con buffers, en los cuáles está guardada la información que se está mostrando por la pantalla. Cuando VGA está configurado en modo texto de `80×25` caracteres (que es como viene configurado cuando se inicia el sistema) el buffer está en la dirección `0xB0000`. Y que cada elemento del buffer se compone de 2 bytes, uno para el código ASCII del caracter, y otro para los atributos, o sea, el color del texto, el color del fondo y la fuente que se usa.
 
     Se da esta imagen que explica mejor los bits de los elementos del buffer:
 
@@ -82,7 +82,7 @@ vgainit(void)
 
 ## Parte 2
 
-    En esta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código es la página https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c.
+    En esta parte se pide hacer funciones para cambiar entre modo gráfico y modo texto en el kernel (es decir, para ser ejecutadas en modo kernel). Para lograr eso se da como ayuda el código [modes.c](https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c).
 
     En ese código hay varios arreglos que tienen los registros de los distintos modos, y también hay una función `write_regs` que escribe los registros.
 
@@ -108,7 +108,9 @@ VGA_to_mode_text(void)
 
     Inicialmente este código se encontraba en el archivo `console.c`, pero luego de la modularización se colocaron todos las funciones relacionadas con VGA en el archivo `VGA_regs.c`.
 
-    En el archivo `VGA_regs.c` se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función `write_regs` se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo, por ejemplo al ejecutar el programa `flappy` desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automáticamente.
+    En el archivo `VGA_regs.c` se encuentra la declaración de los arreglos del modo gráfico y el modo texto, la función `write_regs` se encarga de escribir los registros necesarios para realizar el cambio al modo deseado, además, si bien se puede cambiar entre modos no es algo que el usuario pueda hacer libremente, solo sucede en el caso de que algún programa de usuario que ejecute necesite cambiar de modo.
+
+    Por ejemplo: al ejecutar el programa `flappy` desde la consola se cambia a modo gráfico, y al salir del programa se cambia de vuelta a modo texto, es un cambio que realiza el programa automáticamente.
 
     Cuando se realiza un cambio del modo gráfico al modo texto, se ejecuta la función `write_fonts`, la cual se encuentra en `modes.c` y se encarga de recuperar las fuentes para que al volver al modo texto se pueda visualizar la consola correctamente y no queden datos que se escribieron al estar en modo gráfico.
 
@@ -128,7 +130,9 @@ VGA_to_mode_text(void)
 
 ### `VGA_mode_switch`
 
-    En esta llamada al sistema (que en el enunciado se pide como `modeswitch`, pero le cambiamos el nombre para que quede mas acorde al resto de las funciones que estábamos haciendo), lo que primero hicimos fue básicamente ver a que modo se quería cambiar, y hacer mas o menos lo mismo que en el punto 2. Después, cuando íbamos a hacer la siguiente llamada al sistema, nos dimos cuenta que hace falta poder saber cuál es el modo actual, así que agregamos una variable global que guarda el modo actual, y que se actualiza en cada cambio de modo. Con eso, el código nos quedó así:
+    En esta llamada al sistema (que en el enunciado se pide como `modeswitch`, pero le cambiamos el nombre para que quede más acorde al resto de las funciones que estábamos haciendo), lo que primero hicimos fue básicamente ver a que modo se quería cambiar, y hacer mas o menos lo mismo que en el punto 2.
+
+    Después, cuando íbamos a hacer la siguiente llamada al sistema, nos dimos cuenta que hace falta poder saber cuál es el modo actual, así que agregamos una variable global que guarda el modo actual, y que se actualiza en cada cambio de modo. Con eso, el código nos quedó así:
 
 ```c
 typedef int VGA_mode;
@@ -155,9 +159,9 @@ VGA_mode_switch(VGA_mode mode)
 
     Para que los programas de usuario pueden dibujar cosas en la pantalla, en el enunciado se pide hacer una llamada el sistema que tome las coordenadas y el color, y pinte un pixel en la pantalla.
 
-    No se especifica nada sobre que tiene que pasar si se trata de pintar un pixel de fuera de la pantalla, pero, nosotros decidimos hacer que simplemente no se pinte, ya que eso permite que si se está dibujando algo grande que se sale de la pantalla, se puede dibujar con normalidad sin tener que hacer verificaciones extra.
+    Ya que no se especificaba nada acerca de qué tiene que pasar si se trata de pintar un pixel de fuera de la pantalla, nosotros decidimos hacer que simplemente no se pinte, ya que esto nos permite que si se está dibujando algo grande que se sale de la pantalla, se pueda dibujar con normalidad sin tener que hacer verificaciones extras.
 
-    Otra cosa que no se aclara es que tiene que pasar si se trata de pintar un pixel estando en modo texto. Nosotros decidimos también hacer que simplemente no se haga nada.
+    Otra cosa que no se aclara es qué tiene que pasar si se trata de pintar un pixel estando en modo texto. Nosotros decidimos también hacer que simplemente no se haga nada.
 
     Con eso, el código nos quedó así:
 
@@ -183,7 +187,7 @@ VGA_plot_pixel(int x, int y, uchar color)
 
     Lo que nosotros decidimos hacer es hacer una llamada al sistema `VGA_plot_screen` que toma un arreglo que tiene los colores de todos los pixeles y los pone a todos en la pantalla. Esto permite al programa dibujar todo de forma rápida en un arreglo propio, y después ponerlo al todo al mismo tiempo en la pantalla.
 
-    Esa llamada al sistema fue simplemente un for que copie todo de un arreglo al otro:
+    Esa llamada al sistema fue simplemente un `for` que copie todo de un arreglo al otro:
 
 ```c
 void
@@ -201,7 +205,7 @@ VGA_plot_screen(uchar* buffer)
 
 ## Parte 4
 
-    Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el VGA. Nosotros decidimos hacer un juego de flappy bird (https://es.wikipedia.org/wiki/Flappy_Bird para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
+    Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el **VGA**. Nosotros decidimos hacer un juego de flappy bird (https://es.wikipedia.org/wiki/Flappy_Bird para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
 
 # Extras en el kernel
 
@@ -217,31 +221,41 @@ VGA_plot_screen(uchar* buffer)
 
 ## `stdin_read`
 
-    En xv6 la única llamada al sistema que permite leer caracteres de la entrada estándar es `read`. El funcionamiento de `read` es que toma el descriptor de archivo (0 en el caso de la entrada estándar), una dirección de memoria en la que guardar los caracteres, y el máximo de caracteres que guardar.
+    En **xv6** la única llamada al sistema que permite leer caracteres de la entrada estándar es `read`. El funcionamiento de `read` es que toma el descriptor de archivo (0 en el caso de la entrada estándar), una dirección de memoria en la que guardar los caracteres, y el máximo de caracteres que guardar.
 
     Cuando se lee de la entrada estándar con `read` los caracteres no son leídos si no hay un salto de línea, es decir, si se llama a `read` cuando la entrada estándar está vacía, no se retorna hasta que se ingresa un salto de línea.
 
-    Para hacer el flappy bird nosotros necesitamos que cuando se presiona una tecla el flappy salte, y cuando no se presiona una tecla que caiga (en ambos casos el juego tiene que seguir ejecutándose). Por eso, no podíamos usar la función `read`, que no retorna hasta que no se presiona la tecla enter.
+    Para hacer el flappy bird nosotros necesitamos que *cuando se presiona una tecla el flappy salte*, y cuando no se presiona una tecla que caiga (en ambos casos el juego tiene que seguir ejecutándose). Por eso, no podíamos usar la función `read`, que no retorna hasta que no se presiona la tecla enter.
 
-    Entonces, para poder hacer el juego, decidimos agregar una nueva llamada al sistema `stdin_read`, la cuál toma una dirección de memoria en la que guardar un carácter, y mira si hay caracteres en la entrada estándar. En el caso de que no haya retorna `false`, y en el caso de que si haya retorna `true`, guarda el primer carácter en la dirección de memoria, y lo saca de la entrada estándar.
+    Entonces, para poder hacer el juego, decidimos agregar una nueva llamada al sistema `stdin_read`, la cuál toma una dirección de memoria en la que guardar un caracter, y mira si hay caracteres en la entrada estándar. En el caso de que no haya retorna `false`, y en el caso de que si haya retorna `true`, guarda el primer caracter en la dirección de memoria, y lo saca de la entrada estándar.
 
-    Para poder hacer está función, vimos que cuando se produce un trap por interrupción del teclado, el caracter se guarda en `struct input` que está en `console.c`, que es como un buffer, y cuando se lee un caracter de la entrada estándar, se lo saca de ahí. Por lo cuál en la función `stdin_read` simplemente miramos si hay algún caracter en ese buffer, y si lo hay lo sacamos.
+    Para poder hacer está función, vimos que cuando se produce un **trap por interrupción del teclado**, el caracter se guarda en `struct input` que está en `console.c`, que es como un buffer, y cuando se lee un caracter de la entrada estándar, se lo saca de ahí. Por lo cuál en la función `stdin_read` simplemente miramos si hay algún caracter en ese buffer, y si lo hay lo sacamos.
 
 ## Uso de la paleta completa
 
-    Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles 16 colores, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
+    Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles *16 colores*, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
 
-    Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuentren los colores. La idea para escribir la función que cambia la paleta se sacó de https://github.com/sam46/xv6 y de https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html.
+    Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuentren los colores. La idea para escribir la función que cambia la paleta se sacó de [sam46/xv6](https://github.com/sam46/xv6) y de [cGraphicsPalette](https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html).
 
-    Básicamente lo primero que hicimos fue declarar un arreglo con 256 colores básicos de RGB en formato hexadecimal, ya sabemos que el modelo RGB combina los colores primarios (rojo, verde y azul) para generar distintos colores, al expresarse en hexadecimal los primeros 8 bits corresponden a la intensidad del color rojo, los siguientes 8 al color verde y los últimos 8 al color azul. Ejemplo: el color 0xFF0000, 0xFF en hexadecimal es 255 y representa la cantidad de color rojo que hay, como 255 es el máximo quiere decir que el color tiene la mayor cantidad de rojo posible, como los siguientes bytes están en 0, quiere decir que no hay verde ni azul, por lo que el 0xFF0000 representa el rojo.
+    Básicamente lo primero que hicimos fue **declarar un arreglo con 256 colores básicos de RGB en formato hexadecimal**, ya sabemos que el modelo RGB combina los colores primarios (rojo, verde y azul) para generar distintos colores, al expresarse en hexadecimal los primeros 8 bits corresponden a la intensidad del color rojo, los siguientes 8 al color verde y los últimos 8 al color azul.
+
+Ejemplo: el color `0xFF0000`, `0xFF` en hexadecimal es 255 y representa la cantidad de color rojo que hay, como 255 es el máximo quiere decir que el color tiene la mayor cantidad de rojo posible, como los siguientes bytes están en 0, quiere decir que no hay verde ni azul, por lo que el `0xFF0000` representa el rojo.
 
     Lo que se debe hacer es escribir al puerto `0x3C8` en VGA, que es el que maneja las paletas, y se le indica cual es color de la paleta que se quiere modificar, y el color en si se registra en el puerto `0x3C9`, en este último puerto se debe escribir tres veces consecutivas (una para cada color primario), según las referencias que usamos, si no se escribe tres veces consecutivas al puerto `0x3C9` se puede tener comportamiento indefinido.
 
     La función `VGA_set_palette_color` es la que se encarga de recibir el índice del color de la paleta que se quiere modificar y el valor de los colores primarios, luego el `VGA_set_palette` se encarga de recorrer cada color en el arreglo `VGA_palette_256` que contiene los colores en formato hexadecimal, y de llamar a la función `VGA_set_palette_color` para escribir los valores en los puertos.
 
-    Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un and bit a bit con el número 0x3F, que representa el 0b111111, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
+    Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un **and bit a bit** (*ver mini explicación abajo*) con el número `0x3F`, que representa el `0b111111`, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
 
-    Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de 8-bit-mode (que es la que tiene 256 colores) publicada en la página https://www.fountainware.com/EXPL/vga_color_palettes.htm.
+Mini explicación and bit a bit:
+
+```c
+a     = 0b1010101010
+b     = 0b0101011011
+a & b = 0b0000001010
+```
+
+    Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de `8-bit-mode` (que es la que tiene 256 colores) publicada en la página [vga_color_palettes](https://www.fountainware.com/EXPL/vga_color_palettes.htm).
 
 ## Recuperar las fuentes al volver a modo texto
 
@@ -264,10 +278,11 @@ void VGA_mode_switch(VGA_mode mode)
 
     Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
 
-| VGA          | XV6      |
-| ------------ | -------- |
-| `inportb()`  | `inb()`  |
-| `outportb()` | `outb()` |
+| VGA          | XV6         |
+| ------------ | ----------- |
+| `inportb()`  | `inb()`     |
+| `outportb()` | `outb()`    |
+| `P2V()`      | `vmemwr()`  |
 
     Utilizando las funciones:
 
@@ -294,10 +309,10 @@ void VGA_mode_switch(VGA_text_80x25);
     El último inconveniente que tuvimos fue elegir correctamente la **base en memoria** donde se debían escribir las fuentes, el valor correcto era:
 
 ```c
-// Anterior, incorrecto
-- #define VGA_font_array 0xA0000
+// Anterior, incorrecta base
+- #define VGA_font_array P2V(0xA0000)
 
-// Ahora, correcto
+// Ahora, correcta base
 + #define VGA_font_array P2V(0xB8000)
 ```
 
@@ -306,7 +321,7 @@ void VGA_mode_switch(VGA_text_80x25);
 * http://www.osdever.net/FreeVGA/vga/vga.htm
 
 * http://www.osdever.net/FreeVGA/vga/vgareg.htm
-  
+
   * http://www.osdever.net/FreeVGA/vga/vgareg.htm#intro
 
 * http://www.techhelpmanual.com/70-video_graphics_array__vga_.html
@@ -317,9 +332,9 @@ void VGA_mode_switch(VGA_text_80x25);
 
 # El flappy bird
 
-    Como mencionamos en [Parte 4](Parte-4) nosotros hicimos un flappy bird. El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `cntrl` + `d`.
+    Como mencionamos en [Parte 4](Parte-4) nosotros hicimos un flappy bird. El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `ctrl` + `d`.
 
-    Los huecos en los tubos se van generando seudo-aleatoriamente según una semilla. Esa semilla se elige al azar al comienzo del juego, salvo que se le pase un parámetro al programa. Cuando se le pasa un parámetro al programa se elige una semilla según el valor numérico de los primeros 4 caracteres del parámetro.
+    Los huecos en los tubos se van generando pseudo-aleatoriamente según una semilla. Esa semilla se elige al azar al comienzo del juego, salvo que se le pase un parámetro al programa. Cuando se le pasa un parámetro al programa se elige una semilla según el valor numérico de los primeros 4 caracteres del parámetro.
 
 ## Funcionamiento
 
