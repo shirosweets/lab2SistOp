@@ -24,7 +24,7 @@ string_to_int(char* str)
 
 /* Obtiene la semilla de los parametros de el programa
  * La semilla es el primer parametro, si no hay se obtiene una
- * seudo-aleatoriamente con uptime
+ * pseudo-aleatoriamente con uptime
  * Cuando hay lo que se toma es el valor numerico de los primeros 4 caracteres
  */
 static int
@@ -39,69 +39,83 @@ get_seed(int argc, char *argv[])
   return(res);
 }
 
+/* Ejecuta el siclo principal del juego
+ * Toma como parametro la semilla
+ * El valor que devuelve dice si hay que cerrar el programa o no
+ */
+static bool
+game_loop(int seed)
+{
+  bool quit = false;
+  uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
+  if(buffer == NULL){
+    printf(2, "Memory error");
+    quit = true;
+    return(quit);
+  }
+
+  VGA_mode_switch(VGA_graphic_320x200x256);
+
+  init_game(seed);
+
+  draw_game(buffer);
+  VGA_plot_screen(buffer);
+
+  char c = '\0';
+  int start_time = uptime();
+  int last_time = start_time;
+
+  while(game.is_alive){
+    int new_time = uptime();
+
+    bool jump = stdin_ready(&c);
+
+    // '\e' = tecla esc
+    // 4 = fin de archivo (contrl + d)
+    quit = (c == '\e' || c == 4);
+
+    update_game(jump, new_time - last_time);
+
+    draw_game(buffer);
+    VGA_plot_screen(buffer);
+
+    last_time = new_time;
+  }
+  VGA_mode_switch(VGA_text_80x25);
+  free(buffer); buffer = NULL;
+
+  int running_time_secunds = (last_time - start_time)/100;
+  /* Como siempre se avanza a la misma velocidad, 
+     el puntaje se relaciona linealmente con el tiempo */
+  int score =
+    (-horizontal_speed*running_time_secunds - start_first_tube_x + start_flappy_pos_x)
+      /offset_tubes + 1;
+
+  printf(1, "Puntaje final: %d\n", score);
+
+  return(quit);
+}
 
 int
 main(int argc, char *argv[])
 {
   bool quit = false;
 
-  uchar* buffer = malloc(VGA_graphic_height*VGA_graphic_width);
-  if(buffer == NULL){
-    printf(2, "Memory error");
-    exit();
-  }
-
   while(!quit){
-    VGA_mode_switch(VGA_graphic_320x200x256);
-
     int seed = get_seed(argc, argv);
-    init_game(seed);
-
-    draw_game(buffer);
-    VGA_plot_screen(buffer);
-
-    char c = '\0';
-    int last_time = uptime();
-    unsigned int score = 0;
-    int start_time = last_time;
-
-    while(game.is_alive){
-      int new_time = uptime();
-
-      bool jump = stdin_ready(&c);
-
-      // '\e' = tecla esc
-      // 4 = fin de archivo (contrl + d)
-      if(c == '\e' || c == 4){
-        quit = true;
-        break;
-      }
-
-      int running_time = (new_time - start_time)*0.01;
-      score = ((-horizontal_speed*(running_time+1)) - (VGA_graphic_width/3) + 20) / (offset_tubes) ;
-      
-      update_game(jump, new_time - last_time);
-
-      draw_game(buffer);
-      VGA_plot_screen(buffer);
-
-      last_time = new_time;
-    }
-    VGA_mode_switch(VGA_text_80x25);
+    quit = game_loop(seed);
 
     if(!quit){
-      printf(1, "\nPuntaje final: %d", score);
-      printf(1, "\nPresiona escape para salir del juego, o cualquier otra tecla para jugar de nuevo\n");
+      char c = '\0';
+      printf(1,
+        "Presiona esc para salir del juego, o cualquier otra tecla para jugar de nuevo\n"
+      );
       while(!stdin_ready(&c)){
         sleep(30);
       }
       quit = (c == '\e' || c == 4);
     }
-
   }
-
-  free(buffer); buffer = NULL;
-
 
   exit();
 }

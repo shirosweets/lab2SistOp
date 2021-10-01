@@ -32,6 +32,9 @@ typedef float acceleration; // pixels/secunds²
 
 #define ground_height 190
 
+#define start_first_tube_x VGA_graphic_width/3
+#define start_flappy_pos_x 20
+
 typedef struct _s_game_status
 {
   // Posición del flappy
