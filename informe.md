@@ -58,7 +58,7 @@
 
     Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del **kernel** y la llamamos al comienzo de `main` en `main.c`.
 
-    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en "Extras en el kernel" (poner link)). Las versiones originales eran así:
+    A esas funciones en ese momento las hicimos en `console.c`, pero después las movimos a `VGA_reg.c`, que es donde se pueden ver ahora, y también las modificamos un poco (ver explicación en [Extras en el kernel](#extras-en-el-kernel)). Las versiones originales eran así:
 
 ```c
 typedef struct{char s_ASCII_code; char s_atributes;} VGA_char;
@@ -134,15 +134,15 @@ VGA_to_mode_text(void)
 
 ## Parte 3
 
-    Todo el código de la parte 2 es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, y por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y también una llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario.
+    Todo el código de la [parte 2](#parte-2) es código para ser ejecutado en el kernel, pero no puede ser ejecutado en modo usuario, y por ende, en la parte 3 se pide implementar una llamada al sistema para que los programas de usuario puedan cambiar de modo, y también una llamada al sistema para pintar en la pantalla, ya que para pintar en la pantalla hay que guardar los valores de los colores en ciertas direcciones de memoria, lo cuál no se puede hacer en modo usuario.
 
-    En xv6 las llamadas al sistema se puede hacer desde un programa de usuario usando la función cuyo prototipo está en `user.h`. Cuando se llama a una de esas funciones lo que pasa es que se ejecuta una función definida en `usys.S` a través de un macro, la cuál produce el trap de llamada al sistema que entra en modo kernel.
+    En xv6 las llamadas al sistema se pueden hacer desde un programa de usuario usando la función cuyo prototipo está en `user.h`. Cuando se llama a una de esas funciones lo que pasa es que se ejecuta una función definida en `usys.S` a través de un macro, la cuál produce el trap de llamada al sistema que entra en modo kernel.
 
     Para que el kernel pueda saber cuál llamada al sistema ejecutar, cada llamada al sistema tiene un número asignado en `syscall.h`, el cuál es puesto en un registro por el macro de `usys.S` antes de hacer el trap. Cuando el trap se produce, se ejecuta la función `trap`, la cuál ve que es un trap por llamada al sistema y llama a la función `syscall` de `syscall.c`.
 
     En el archivo `syscall.c` hay un arreglo que tiene las direcciones de memoria en las cuales está el código de cada una de las llamadas al sistema, entonces, la función `syscall` lo que hace es llamar a la función correspondiente de esa llamada, usando el número de esa llamada para saber cuál ejecutar.
 
-    La función de la cuál está la dirección de memoria en el arreglo de `syscall.c` es una función que se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` sólo), y se tiene que encargar de, además de ejecutar la llamada al sistema en si, obtener los parámetros de la llamada, ya que `syscall` desconoce cuales son los parámetros, y tiene que ejecutar una función que toma `void`.
+    La función en la cuál está la dirección de memoria en el arreglo de `syscall.c` se llama `sys_nombreDeLaLlamada` (y no `nombreDeLaLlamada` solo), y se tiene que encargar de, además de ejecutar la llamada al sistema en sí, obtener los parámetros de la llamada, ya que `syscall` desconoce cuáles son los parámetros, y tiene que ejecutar una función que toma `void`.
 
     Para obtener los parámetros desde `sys_nombreDeLaLlamada` se pueden usar unas funciones que están definidas en `syscall.c` y que se encargan de hacerlo tomando el número de parámetro. Muchas de las llamadas al sistema en la función `sys_nombreDeLaLlamada` se encargan de obtener los parámetros y luego llamar a una función `nombreDeLaLlamada` que se encargue de ejecutar la función. En las nuestras hicimos exactamente eso.
 
@@ -223,11 +223,11 @@ VGA_plot_screen(uchar* buffer)
 
 ## Parte 4
 
-    Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el **VGA**. Nosotros decidimos hacer un juego de flappy bird (https://es.wikipedia.org/wiki/Flappy_Bird para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
+    Para la parte 4 el enunciado hay que hacer algún programa de usuario que use el **VGA**. Nosotros decidimos hacer un juego de Flappy Bird ([Wikipedia - Flappy Bird](https://es.wikipedia.org/wiki/Flappy_Bird) para información sobre el original). Empezamos creando una carpeta para el juego y haciendo algunas cosas, pero nos dimos cuenta de que necesitamos implementar algunas cosas extra en el kernel antes de poder implementar completamente el juego.
 
 # Extras en el kernel
 
-    Nosotros decidimos hacer varias cosas mas en el kernel, algunas por sugerencia del enunciado, y otras porque las necesitamos para hacer el flappy bird. Las cosas que hicimos fueron:
+    Nosotros decidimos hacer varias cosas más en el kernel, algunas por sugerencia del enunciado, y otras porque las necesitamos para hacer el Flappy Bird. Las cosas que hicimos fueron:
 
   • Una llamada al sistema `stdin_read` que dice si hay caracteres disponibles en el stdin, y si los hay los saca y los devuelve.
 
@@ -243,7 +243,7 @@ VGA_plot_screen(uchar* buffer)
 
     Cuando se lee de la entrada estándar con `read` los caracteres no son leídos si no hay un salto de línea, es decir, si se llama a `read` cuando la entrada estándar está vacía, no se retorna hasta que se ingresa un salto de línea.
 
-    Para hacer el flappy bird nosotros necesitamos que *cuando se presiona una tecla el flappy salte*, y cuando no se presiona una tecla que caiga (en ambos casos el juego tiene que seguir ejecutándose). Por eso, no podíamos usar la función `read`, que no retorna hasta que no se presiona la tecla enter.
+    Para hacer el Flappy Bird nosotros necesitamos que *cuando se presiona una tecla el flappy salte*, y cuando no se presiona una tecla que caiga (en ambos casos el juego tiene que seguir ejecutándose). Por eso, no podíamos usar la función `read`, que no retorna hasta que no se presiona la tecla enter.
 
     Entonces, para poder hacer el juego, decidimos agregar una nueva llamada al sistema `stdin_read`, la cuál toma una dirección de memoria en la que guardar un caracter, y mira si hay caracteres en la entrada estándar. En el caso de que no haya retorna `false`, y en el caso de que si haya retorna `true`, guarda el primer caracter en la dirección de memoria, y lo saca de la entrada estándar.
 
@@ -251,7 +251,7 @@ VGA_plot_screen(uchar* buffer)
 
 ## Uso de la paleta completa
 
-    Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles *16 colores*, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el flappy bird.
+    Al cambiar a modo gráfico, si no se hace ninguno cambio adicional sólo se tienen disponibles *16 colores*, la idea era modificar la paleta para poder tener el uso de los 256 colores y poder graficar de mejor manera el Flappy Bird.
 
     Para poder extender la paleta hay que asignar cada color a través de los puertos de VGA, ya que no hay ningún lugar en la memoria donde se encuentren los colores. La idea para escribir la función que cambia la paleta se sacó de [sam46/xv6](https://github.com/sam46/xv6) y de [cGraphicsPalette](https://www.oocities.org/siliconvalley/park/7113/OldPages/cGraphicsPalette.html).
 
@@ -352,7 +352,11 @@ void VGA_mode_switch(VGA_text_80x25);
 
 # El flappy bird
 
-    Como mencionamos en [Parte 4](Parte-4) nosotros hicimos un flappy bird. El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `ctrl` + `d`.
+    Como mencionamos en [Parte 4](#parte-4) nosotros hicimos un Flappy Bird, a continuación una imagen de cómo se ve:
+
+![Flappy Bird](./Imagenes_informe/flappy_bird_v1.png)
+
+    El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `ctrl` + `d`.
 
     Los huecos en los tubos se van generando pseudo-aleatoriamente según una semilla. Esa semilla se elige al azar al comienzo del juego, salvo que se le pase un parámetro al programa. Cuando se le pasa un parámetro al programa se elige una semilla según el valor numérico de los primeros 4 caracteres del parámetro.
 
