@@ -263,14 +263,14 @@ Ejemplo: el color `0xFF0000`, `0xFF` en hexadecimal es 255 y representa la canti
 
     La función `VGA_set_palette_color` es la que se encarga de recibir el índice del color de la paleta que se quiere modificar y el valor de los colores primarios, luego el `VGA_set_palette` se encarga de recorrer cada color en el arreglo `VGA_palette_256` que contiene los colores en formato hexadecimal, y de llamar a la función `VGA_set_palette_color` para escribir los valores en los puertos.
 
-    Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un **and bit a bit** (*ver mini explicación abajo*) con el número `0x3F`, que representa el `0b111111`, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
+    Es importante recalcar que los puertos de VGA sólo reciben 6 bits, y un color RGB en formato hexadecimal tiene 24 bits, 8 para cada color primario, por esto para poder almacenar los bits correctamente primero lo que se hace es un shift del valor en hexadecimal de tal forma que los últimos 6 bits sean los 6 bits más significativos de cada color primario, y luego se hace un **and bit a bit** (*ver mini explicación abajo*) con el número `0x3F`, que representa el `0b00111111`, de esta forma sólo obtenemos 6 bits para cada color primario y los podemos escribir correctamente en los puertos.
 
 Mini explicación **and bit a bit**:
 
 ```c
-a     = 0b1010101010
-b     = 0b0101011011
-a & b = 0b0000001010
+a     = 0b10110010
+b     = 0b00111111
+a & b = 0b00110010
 ```
 
     Al final, para poder cambiar correctamente la paleta lo que se hace es que al cambiar al modo gráfico luego de escribir sobre los registros necesarios se hace una llamada a `VGA_set_palette_color`. Para conocer como acceder a cada color utilizamos la paleta de `8-bit-mode` (que es la que tiene 256 colores) publicada en la página [vga_color_palettes](https://www.fountainware.com/EXPL/vga_color_palettes.htm).
@@ -296,11 +296,11 @@ void VGA_mode_switch(VGA_mode mode)
 
     Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
 
-| VGA          | XV6         |
-| ------------ | ----------- |
-| `inportb()`  | `inb()`     |
-| `outportb()` | `outb()`    |
-| `P2V()`      | `vmemwr()`  |
+| VGA          | XV6        |
+| ------------ | ---------- |
+| `inportb()`  | `inb()`    |
+| `outportb()` | `outb()`   |
+| `P2V()`      | `vmemwr()` |
 
     Utilizando las funciones:
 
@@ -341,7 +341,7 @@ void VGA_mode_switch(VGA_text_80x25);
 * http://www.osdever.net/FreeVGA/vga/vga.htm
 
 * http://www.osdever.net/FreeVGA/vga/vgareg.htm
-
+  
   * http://www.osdever.net/FreeVGA/vga/vgareg.htm#intro
 
 * http://www.techhelpmanual.com/70-video_graphics_array__vga_.html
