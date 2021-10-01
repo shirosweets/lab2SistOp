@@ -277,6 +277,33 @@ a & b = 0b00110010
 
 ## Recuperar las fuentes al volver a modo texto
 
+    En modo texto cada caracter tiene (en el caso del `80×25`) 8×16 pixeles que pueden ser del color del caracter o del color del fondo. La información de como va cada pixel VGA la guarda como 128 bits consecutivos en memoria, en el que cada 8 bits se representa una fila de las 16 filas. Si se ven los 128 bits como un arreglo de 16 `uchar`s, se puede ver un poco la letra. Por ejemplo, esta sería la letra `B`:
+
+```
+0b00000000
+0b00000000
+0b11111100
+0b01100110
+0b01100110
+0b01100110
+0b01111100
+0b01100110
+0b01100110
+0b01100110
+0b01100110
+0b11111100
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+```
+
+    A toda la información de cada uno de los 256 caracteres cuando se está en modo texto, VGA la tiene guardada en su propia memoria, pero cuando se pasa a modo gráfico la borra, y si después se vuelve a modo texto, hay basura en esa parte de la memoria, y no se puede leer nada de lo que se imprime en la pantalla:
+
+![Fuentes_ilegibles.png](Imagenes_informe/Fuentes_ilegibles.png)
+
+    VGA tiene una opción para pasarla la fuente que uno quiera.
+
     Hay dos elementos importantes que participan en el cambio de modos: el espacio de memoria `0xA0000-0xBFFFF` donde se **mapea la información mostrada en la pantalla**, y los registros de VGA donde se configura cómo es interpretada esa sección de la memoria.
 
     Como el **`modo gráfico`** **comparte** una **sección** de la **memoria** con el **`modo texto`**, al dibujar pixeles en el primero se sobrescribe información codificada para el segundo, y al cambiar se sobrescriben los registros. Ambas cosas deben ser recuperadas al estado anterior para que el modo texto funcione correctamente.
@@ -296,21 +323,15 @@ void VGA_mode_switch(VGA_mode mode)
 
     Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6. Como por ejemplo:
 
-| VGA          | XV6        |
-| ------------ | ---------- |
-| `inportb()`  | `inb()`    |
-| `outportb()` | `outb()`   |
-| `P2V()`      | `vmemwr()` |
+| VGA          | XV6      |
+| ------------ | -------- |
+| `inportb()`  | `inb()`  |
+| `outportb()` | `outb()` |
+| `vmemwr()`   | `P2V()`  |
 
     Utilizando las funciones:
 
 ```c
-/* Imprime los registros del arreglo regs */
-void dump_regs(uchar *regs);
-
-/* Lee los registros actuales y los escribe en el arreglo regs */
-void read_regs(uchar *regs);
-
 /* Escribe en los registros del arreglo regs */
 void write_regs(uchar *regs);
 
