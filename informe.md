@@ -306,6 +306,8 @@ void write_font(uchar *buf, uint font_height);
 void VGA_mode_switch(VGA_text_80x25);
 ```
 
+    La función `vmemwr()` es *"Virtual Memory Write"* y esencialmente escribe en el espacio de Kernel traduciendo una *dirección física a la virtual correspondiente*. La adaptación en `xv6` fue simplemente usar la escritura normal de memoria pero aplicando la traducción provista P2V (*Physical to Virtual*).
+
     El último inconveniente que tuvimos fue elegir correctamente la **base en memoria** donde se debían escribir las fuentes, el valor correcto era:
 
 ```c
