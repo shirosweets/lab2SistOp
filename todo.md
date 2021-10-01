@@ -11,7 +11,8 @@
 
 - [ ] Implementar los extras del laboratorio
 
-  - [ ] Todo lo que implementaron puede ser modularizado de una manera más delicada. Teniendo en cuenta que son funciones para un mismo dispositivo pueden estar en un mismo archivo `vga.{c,h}`.  - [x] Agregar una nueva `syscall` `plotrectangle(int x1, int y1, int x2, int y2, int color)` para dibujar rectángulos en la pantalla (la idea es no tener que usar `for` para pintar un pixel por vez).
+  - [ ] Todo lo que implementaron puede ser modularizado de una manera más delicada. Teniendo en cuenta que son funciones para un mismo dispositivo pueden estar en un mismo archivo `vga.{c,h}`.
+  - [x] Agregar una nueva `syscall` `plotrectangle(int x1, int y1, int x2, int y2, int color)` para dibujar rectángulos en la pantalla (la idea es no tener que usar `for` para pintar un pixel por vez).
   - [x] Programar la paleta para poder usar todos los colores *(si bien el modo gráfico es de **256** colores, la paleta está programada para 64 colores)*. (Estrella 1 - Vale)
   - [x] Recuperar las fuentes que se pierden cuando pasamos de modo gráfico a texto. (Estrella 2 - Vale)
 
@@ -31,7 +32,7 @@
   - [/] Punto estrella 1 de la paleta de colores.
   - [ ] Actualización sin pérdida de información del modo texto al modo gráfico.
   - [ ] Actualización sin pérdida de información del modo gráfico al modo texto. (si es posible!)
-  - [ ] Investigar y explicar el modo texto-gráfico.
+  - [x] Investigar y explicar el modo texto-gráfico.
   - [/] Investigar implementación para leer el input.
   - [x] Borrar `backup.txt`
   - [ ] Borrar `console.h`
