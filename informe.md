@@ -375,7 +375,7 @@ void VGA_mode_switch(VGA_text_80x25);
 
     Como mencionamos en [Parte 4](#parte-4) nosotros hicimos un Flappy Bird, a continuación una imagen de cómo se ve:
 
-![Flappy Bird](./Imagenes_informe/flappy_bird_v1.png)
+![Flappy Bird](./Imagenes_informe/Flappy_Bird.png)
 
     El flappy bird esta como un programa de usuario, que cuando se compila y se inicia xv6 aparece en el ejecutable `flappy`. Para poder jugarlo hay que primero ejecutar ese ejecutable, y luego hay que pasando por los huecos de los tubos (lo verde son tubos) haciendo saltar al flappy. Para hacerlo saltar hay que presionar alguna tecla, que no sea la tecla escape, que se usa para salir del juego. Para salir del juego también se puede hacer con `ctrl` + `d`.
 
