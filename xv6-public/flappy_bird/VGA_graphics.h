@@ -13,7 +13,7 @@ void draw_pixel(uchar* buffer, x_coord x, y_coord y, uchar color);
 
 /* Pinta una línea horizontal en buffer con color, comenzando desde el parámetro
  * x0 y terminando en el x1, se pintará la línea siempre que las coordenadas
- * esten dentro de la pantalla.
+ * estén dentro de la pantalla.
  */
 void draw_horizontal_line
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y, uchar color);
@@ -30,7 +30,7 @@ void draw_vertical_line
 void draw_rectangle
   (uchar* buffer, x_coord x0, x_coord x1, y_coord y0, y_coord y1, uchar color);
 
-/* Pinta en buffer un circulo de radio r centrado en (x, y)
+/* Pinta un circulo de radio r centrado en (x, y)
  */
 void draw_circle(uchar* buffer, x_coord x, y_coord y, int r, uchar color);
 
