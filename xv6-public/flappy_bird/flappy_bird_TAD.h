@@ -10,8 +10,7 @@ typedef int width;
 typedef int height;
 
 typedef float distance;     // pixels
-typedef float speed;        // pixels/secunds
-typedef float acceleration; // pixels/secunds²
+typedef float speed;        // pixels/seconds
 
 
 #define offset_tubes 72
@@ -27,7 +26,7 @@ typedef float acceleration; // pixels/secunds²
 
 #define horizontal_speed -80
 #define jump_speed -100
-#define gravity -220
+#define gravity -220 // pixels/seconds²
 // jump_speed y gravity son negativos porque el eje 'y' crece hacia abajo
 
 #define ground_height 190
