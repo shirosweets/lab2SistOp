@@ -13,7 +13,7 @@ new_hole_tube_y_pos(y_coord y)
   do{
     int rand = new_random_less_than(max_diff_hight_tubes);
     res = y + rand;
-    // Genero nuevas alturas hasta que haya una que este en el rango correcto
+    // Genero nuevas alturas hasta que haya una que esté en el rango correcto
   } while(
     res - width_hole_tube/2 - min_distance_to_border < 0
       || res + width_hole_tube/2 + min_distance_to_border >= ground_height
@@ -47,31 +47,31 @@ init_game(int seed)
 static void
 update_positions(bool jump, int delta_time)
 {
-  float delta_time_secunds = ((float)delta_time)/100;
+  float delta_time_seconds = ((float)delta_time)/100;
 
   game.vertical_speed =
     jump ? jump_speed
-         : game.vertical_speed - gravity * delta_time_secunds;
+         : game.vertical_speed - gravity * delta_time_seconds;
 
   game.flappy_pos_y =
-    game.flappy_pos_y + game.vertical_speed * delta_time_secunds;
+    game.flappy_pos_y + game.vertical_speed * delta_time_seconds;
 
   game.first_tube_x =
-    game.first_tube_x + horizontal_speed * delta_time_secunds;
+    game.first_tube_x + horizontal_speed * delta_time_seconds;
 }
 
-/* Si hay un tubo que ya se dejó de ver lo elimina y agrega uno nuevo
- * en a la derecha
+/* Si hay un tubo que ya se dejó de ver lo elimina
+ * y agrega uno nuevo a la derecha
  */
 static void
 update_tubes(void)
 {
   if(game.first_tube_x < (float)-width_tube/2){
     // Si el primer tubo ya está afuera de la pantalla
-
     for(uint i = 0; i + 1 < amount_of_tubes; i++){
       game.hole_tubes_y[i] = game.hole_tubes_y[i+1];
     }
+
     game.hole_tubes_y[amount_of_tubes-1] =
       new_hole_tube_y_pos(game.hole_tubes_y[amount_of_tubes-2]);
 
@@ -104,7 +104,7 @@ has_collitions(void)
     /* Una vez que el tubo está más a la derecha que flappy es claro que
        ese tubo, ni los que siguen tienen colisiones con el flappy */
 
-    // Estas asignaciones no necesitarian ejecutarse la primera vez, pero si las demás
+    // Estas asignaciones no necesitarían ejecutarse la primera vez, pero si las demás
     center_tube = game.first_tube_x + ((float)i)*offset_tubes;
     left_side_tube = center_tube - width_tube/2;
     right_side_tube = center_tube + width_tube/2;
@@ -123,7 +123,7 @@ has_collitions(void)
       (top_part_flappy < top_hole_tube
         || bottom_part_flappy > bottom_hole_tube
       )
-      ;
+    ;
 
     i++;
   }
