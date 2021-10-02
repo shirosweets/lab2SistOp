@@ -418,10 +418,6 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
     Para evitar que que se salga de la pantalla cada vez que se genera la altura de un nuevo tubo se mira que esté en el rango `[width_hole_tube/2 + min_distance_to_border, ground_height - width_hole_tube/2 - min_distance_to_border]` (donde esas variables también son defines) y si no está se vuelve a generar una altura hasta que se genere alguna que si esté.
 
-En este archivo se encuentran funciones auxiliares para dibujar cosas en pantalla haciendo uso de la función `draw_pixel`, decidimos crear esta función nueva para dibujar cosas en un buffer, ya que la función `VGA_plot_pixel` hace una llamada a sistema para dibujar un pixel en la pantalla y es más eficiente dibujar todo en un buffer y luego usando `VGA_plot_screen` representarlo por la pantalla.
-
-Las funciones creadas en este archivo incluyen `draw_horizontal_line` que dibuja una línea horizontal, `draw_vertical_line` que dibuja una línea vertical, `draw_rectangle` que dibuja un rectángulo y `draw_circle` que dibuja un círculo. Todas estas funciones se utilizaron para realizar la parte gráfica del flappy. Todas las funciones toman como parámetro las coordenadas del buffer donde se va a pintar la figura respectiva, y el color que se va a usar.
-
     En C ya existen librerías para trabajar con números aleatorios, pero como nosotros estamos trabajando en xv6, no las podemos usar (o no es tan simple usarlas), así que decidimos hacer todas las funciones por nosotros mismos en el módulo `random`. 
 
     El módulo funciona guardando una semilla en una variable global, y cada vez que necesita un número aleatorio usa la semilla y la actualiza. Para obtener los números aleatorios tiene 3 funciones publicas (en el `.h`), pero la importante es `new_random_less_than` que obtiene un número entre `-n` y `n`, y que es la que usamos en el flappy.
