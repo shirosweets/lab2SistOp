@@ -442,3 +442,12 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+int
+sys_stdin_ready(void)
+{
+  char* c = NULL;
+  if(argptr(0, &c, 1))
+    return -1;
+  return(stdin_ready(c));
+}
