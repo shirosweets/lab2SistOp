@@ -472,11 +472,28 @@ while(!stdin_ready(&c)){
 
     Entendiendo como funciona `stdin_ready` es claro que hacer eso es muy ineficiente ya que se está todo el tiempo preguntándole al sistema si hay algún caracter. El motivo por el cuál lo hicimos así es porque la única otra llamada al sistema que hay para leer caracteres es `read`, pero, `read` no lee de la entrada estándar hasta que no se presiona enter, por lo cuál si usábamos `read` iba a ser menos interactivo.
 
-Explicación `flappy` en el informe
-
-# Estilo del código
-
 # Nuestra forma de trabajar
+
+    En el archivo [todo.md](todo.md) se encuentran las diferentes consignas y tareas que realizábamos (no siempre es commiteado).
+
+    Pair programming con la extensión de [Live Share](https://visualstudio.microsoft.com/services/live-share/) de Visual Studio Code.
+
+    Comunicación: [Telegram](https://web.telegram.org/) y [Discord](https://discord.com/).
+
+## Estilo del código
+
+    En xv6 no hay ninguna política completamente definida sobre el estilo del código, e incluso algunas cosas no son iguales en todos los archivos, así que nosotros tratamos de seguirlo en las cosas en las que era igual en todos lados:
+    Indentación de 2 espacios.
+
+    El tipo de las funciones arriba del nombre, y la llave que abre el cuerpo de la función abajo.
+
+    Usar los tipos acortados de `types.h` (`uint`, `ushort`, etc.).
+
+    Los `.h` del kernel de xv6 no tienen `ifndef` `define`, eso dentro del kernel lo mantuvimos, pero en nuestro programa de usuario si usamos los `ifndef` `define`.
+
+## Modularización de xv6
+
+    También, de forma aparte al laboratorio modificamos xv6 para separar en distintos archivos los de xv6 en carpetas para el kernel, los programas de usuario y el `mkfs`. Eso se encuentra en [GitHub - IvanRenison/xv6-modularized](https://github.com/IvanRenison/xv6-modularized).
 
 ---
 
