@@ -27,8 +27,15 @@
 - [El flappy bird](#el-flappy-bird)
   - [Funcionamiento](#funcionamiento)
     - [Modularización](#modularización)
-- [Estilo del código](#estilo-del-código)
+      - [`random`](#random)
+      - [`VGA_graphics`](#vga_graphics)
+      - [`flappy_bird_TAD`](#flappy_bird_tad)
+      - [`flappy_bird_graphics`](#flappy_bird_graphics)
+      - [`flappy_bird_logic`](#flappy_bird_logic)
+      - [`flappy` (main)](#flappy-main)
 - [Nuestra forma de trabajar](#nuestra-forma-de-trabajar)
+  - [Estilo del código](#estilo-del-código)
+  - [Modularización de xv6](#modularización-de-xv6)
 
 # Desarrollo inicial
 
