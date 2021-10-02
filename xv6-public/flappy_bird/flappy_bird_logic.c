@@ -9,10 +9,9 @@
 static y_coord
 new_hole_tube_y_pos(y_coord y)
 {
-  int rand;
   y_coord res;
   do{
-    rand = new_random_less_than(max_diff_hight_tubes);
+    int rand = new_random_less_than(max_diff_hight_tubes);
     res = y + rand;
     // Genero nuevas alturas hasta que haya una que este en el rango correcto
   } while(
@@ -50,12 +49,15 @@ update_positions(bool jump, int delta_time)
 {
   float delta_time_secunds = ((float)delta_time)/100;
 
-  game.vertical_speed = jump ? jump_speed
-                              : game.vertical_speed - gravity * delta_time_secunds;
+  game.vertical_speed =
+    jump ? jump_speed
+         : game.vertical_speed - gravity * delta_time_secunds;
 
-  game.flappy_pos_y = game.flappy_pos_y + game.vertical_speed * delta_time_secunds;
+  game.flappy_pos_y =
+    game.flappy_pos_y + game.vertical_speed * delta_time_secunds;
 
-  game.first_tube_x = game.first_tube_x + horizontal_speed * delta_time_secunds;
+  game.first_tube_x =
+    game.first_tube_x + horizontal_speed * delta_time_secunds;
 }
 
 /* Si hay un tubo que ya se dejó de ver lo elimina y agrega uno nuevo
