@@ -458,6 +458,22 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
 #### `flappy` (main)
 
+    Este es el archivo principal del programa, y el que se encarga de ejecutar el ciclo principal del juego.
+
+    Como cuando el juego en si finaliza el programa no se cierra, si no que se va al modo texto y se imprime el puntaje y un mensaje para volver a jugar o no, la función `main` cuanta con un ciclo en el cuál se ejecuta el juego en si (la función `game_loop`) y luego se imprime el mensaje y se espera a que se presione una tecla.
+
+    Para detectar si se presiono una tecla se utiliza este ciclo:
+
+```c
+while(!stdin_ready(&c)){
+  sleep(30);
+}
+```
+
+    Entendiendo como funciona `stdin_ready` es claro que hacer eso es muy ineficiente ya que se está todo el tiempo preguntándole al sistema si hay algún caracter. El motivo por el cuál lo hicimos así es porque la única otra llamada al sistema que hay para leer caracteres es `read`, pero, `read` no lee de la entrada estándar hasta que no se presiona enter, por lo cuál si usábamos `read` iba a ser menos interactivo.
+
+Explicación `flappy` en el informe
+
 # Estilo del código
 
 # Nuestra forma de trabajar
