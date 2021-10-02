@@ -6,7 +6,7 @@
 #include "flappy_bird_graphics.h"
 #include "flappy_bird_TAD.h"
 
-/* Convierte un string en un int según el valor numerico de los
+/* Convierte un string en un int según el valor numérico de los
  * primeros 4 caracteres
  * Si str es NULL retorna 0
  */
@@ -14,18 +14,18 @@ static int
 string_to_int(char* str)
 {
   int res = 0;
-  if(str != NULL){
+  if(str != NULL)
     for(uint i = 0; str[i] != '\0' && i < 4; i++){
-      res = (res << 1) | (int)str[i];
+      res = (res << 8) | (int)str[i];
     }
-  }
+
   return(res);
 }
 
-/* Obtiene la semilla de los parametros de el programa
- * La semilla es el primer parametro, si no hay se obtiene una
+/* Obtiene la semilla de los parámetros de el programa
+ * La semilla es el primer parámetro, si no hay se obtiene una
  * pseudo-aleatoriamente con uptime
- * Cuando hay lo que se toma es el valor numerico de los primeros 4 caracteres
+ * Cuando hay lo que se toma es el valor numérico de los primeros 4 caracteres
  */
 static int
 get_seed(int argc, char *argv[])
@@ -33,14 +33,13 @@ get_seed(int argc, char *argv[])
   int res = 0;
   if(argc >= 2)
     res = string_to_int(argv[1]);
-  else{
+  else
     res = uptime();
-  }
   return(res);
 }
 
-/* Ejecuta el siclo principal del juego
- * Toma como parametro la semilla
+/* Ejecuta el ciclo principal del juego
+ * Toma como parámetro la semilla
  * El valor que devuelve dice si hay que cerrar el programa o no
  */
 static bool
@@ -84,12 +83,13 @@ game_loop(int seed)
   VGA_mode_switch(VGA_text_80x25);
   free(buffer); buffer = NULL;
 
-  int running_time_secunds = (last_time - start_time)/100;
-  /* Como siempre se avanza a la misma velocidad, 
+  int running_time_seconds = (last_time - start_time)/100;
+  /* Como siempre se avanza a la misma velocidad,
      el puntaje se relaciona linealmente con el tiempo */
   int score =
-    (-horizontal_speed*running_time_secunds - start_first_tube_x + start_flappy_pos_x)
-      /offset_tubes + 1;
+    (-horizontal_speed*running_time_seconds -
+      start_first_tube_x - start_flappy_pos_x
+    )/offset_tubes + 1;
 
   printf(1, "Puntaje final: %d\n", score);
 
