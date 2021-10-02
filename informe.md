@@ -379,15 +379,15 @@ void VGA_mode_switch(VGA_text_80x25);
 
     Para jugar al flappy simplemente hay que iniciar xv6 (`make qemu` desde la carpeta `xv6-public`) y ejecutar `flappy`. Con eso ya se inicia el juego con una semilla aleatoria (la cuál determina las alturas de los huecos por los que hay que pasar). Si se desea especificar la semilla se puede hacer pasando algo como segundo parámetro, y los valores numéricos de los primeros 4 caracteres del segundo parámetro serán usados para generar la semilla.
 
-    Cuando se choca contra algo, se vuelve a la consola, imprimiéndose el puntare. Para volver a jugar simplemente hay que presionar cualquier tecla. Para salir del juego y cerrar el programa hay que presionar la tecla escape, o hacer `ctrl + d` (lo cual manda un final de archivo). 
+    Cuando se choca contra algo, se vuelve a la consola, imprimiéndose el puntaje. Para volver a jugar simplemente hay que presionar cualquier tecla. Para salir del juego y cerrar el programa hay que presionar la tecla escape, o hacer `ctrl + d` (lo cual manda un final de archivo). 
 
 ## Funcionamiento
 
     El juego funciona con una estructura en la que se guardan los datos dinámicos del juego (los que cambian), y un buffer en el que dibuja lo que va en la pantalla en cada fotograma antes de pasárselo al kernel para que lo muestre por la pantalla.
 
-    La parte principal del programa, que es lo que ejecuta el juego en sí, tiene un siclo que se ejecuta 1 vez por cada fotograma y cada vez mira si se presiono una tecla (con nuestra llamada al sistema `stdin_read`), actualiza los datos internos, dibuja todo en el buffer secundario, llama al kernel para que lo ponga en la pantalla y mide el tiempo de ejecución del cuerpo del siclo (para poder hacer que las velocidades de los objetos sean iguales sin importar que tan rápido está ejecutándose el juego).
+    La parte principal del programa, que es lo que ejecuta el juego en sí, tiene un ciclo que se ejecuta 1 vez por cada fotograma y cada vez mira si se presiono una tecla (con nuestra llamada al sistema `stdin_read`), actualiza los datos internos, dibuja todo en el buffer secundario, llama al kernel para que lo ponga en la pantalla y mide el tiempo de ejecución del cuerpo del ciclo (para poder hacer que las velocidades de los objetos sean iguales sin importar que tan rápido está ejecutándose el juego).
 
-    Para hacer todo eso, el código está dividido en varios módulos. Eso hace que el `Makefile` que viene en `xv6` no lo compile bien, ya que esta hecho para compilar a los programas de usuario (los `UPROG` en el `Makefile`) como si estuvieran todos en un solo archivo. Para poder compilar el flappy teniéndolo dividido en varios archivos lo que hicimos fue poner todos los archivos del flappy en una carpeta y agregar una regla espacial para compilar nuestro programa:
+    Para hacer todo eso, el código está dividido en varios módulos. Eso hace que el `Makefile` que viene en `xv6` no lo compile bien, ya que esta hecho para compilar a los programas de usuario (los `UPROG` en el `Makefile`) como si estuvieran todos en un solo archivo. Para poder compilar el flappy teniéndolo dividido en varios archivos lo que hicimos fue poner todos los archivos del flappy en una carpeta y agregar una regla especial para compilar nuestro programa:
 
 ```makefile
 _flappy: $(ULIB)
@@ -416,15 +416,23 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
 #### `VGA_graphics`
 
+En este archivo se encuentran funciones auxiliares para dibujar cosas en pantalla haciendo uso de la funcion `draw_pixel`, decidimos crear esta función nueva para dibujar cosas en un buffer, ya que la función `VGA_plot_pixel` hace una llamada a sistema para dibujar un pixel en la pantalla y es más eficiente dibujar todo en un buffer y luego usando `VGA_plot_screen` representarlo por la pantalla.
 
+Las funciones creadas en este archivo incluyen `draw_horizontal_line` que dibuja una línea horizontal, `draw_vertical_line` que dibuja una línea vertical, `draw_rectangle` que dibuja un rectángulo y `draw_circle` que dibuja un círculo. Todas estas funciones se utilizaron para realizar la parte gráfica del flappy. Todas las funciones toman como parámetro las coordenadas del buffer donde se va a pintar la figura respectiva, y el color que se va a usar.
 
 #### `flappy_bird_TAD`
 
+Acá se encuentran las definiciones de varios macros que ayudan a la ligibilidad del código, además de que hace que sea más facil modificar los parámetros del juego, por ejemplo la variable `flappy_radius` que cambia el tamaño del flappy, o la variable `offset_tubes` que determina la distancia que hay entre cada tubo.
 
+Otra cosa que también se encuentra en este archivo es el struct de game_status, la variable game es de este tipo y es donde se almacenan los datos que se deben actualizar al dibujar el juego en cada iteración del ciclo.
 
 #### `flappy_bird_graphics`
 
+Acá se encuentra la parte gráfica del juego, están definidas las funciones que se encargan de dibujar el fondo, el flappy y los tubos, acá también se encuentran definidos varios macros que hacen mas fácil la modificación de los parámetros, como por ejemplo el color de los tubos, el color del flappy, o la altura a la que se dibujan las nubes.
 
+La función `draw_background` se encarga de pintar el fondo, haciendo llamadas a las funciones `draw_sky` que dibuja el cielo, `draw_clouds` que dibuja las nubes, `draw_bushes` que dibuja la vegetación y `draw_ground` que dibuja el suelo.
+
+Luego están las funciones `draw_tubes` que se encarga de dibujar los tubos y la función `draw_flappy` que se encarga de dibujar el flappy, por último la función `draw_game` se encarga de hacer llamadas a las funciones mencionadas anteriormente parade esta manera dibujar todo el juego en el buffer, esta es la función que se utiliza en el ciclo principal del juego para dibujar en cada iteración.
 
 #### `flappy_bird_logic`
 
