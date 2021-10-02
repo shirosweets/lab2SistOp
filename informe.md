@@ -446,6 +446,16 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
 #### `flappy_bird_logic`
 
+    Este es el módulo que se encarga de actualizar el estado interno del juego. Tiene 2 funciones publicas, `init_game` que inicializa el `game_status game` y se la llamada al comienzo del juego, y `update_game` que toma la cantidad de tiempo que paso desde la última llamada a `update_game`, y si tiene que saltar o no, y actualiza el estado interno del juego, moviendo el flappy y los tubos (agregando y eliminando tubos cuando hace falta).
+
+    Internamente se divide en tres partes:
+
+    Por un lado se actualizan las posiciones del flappy y del tubo, y la velocidad del flappy.
+
+    Por otro lado se eliminan los tubos que ya no están visibles, y se agregan tubos cuando hace falta.
+
+    Y por otro lado se chequea si el flappy se chocó contra algo o no.
+
 #### `flappy` (main)
 
 # Estilo del código
