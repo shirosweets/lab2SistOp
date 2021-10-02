@@ -391,8 +391,8 @@ void VGA_mode_switch(VGA_text_80x25);
 
 ```makefile
 _flappy: $(ULIB)
-	cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
+    cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
+    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
 ```
 
     Como se puede ver, esta regla no tiene como dependencia los archivos `.c` y `.h` del programa, lo cuál causa que si se los modifica no los vuelva a compilar, teniendo que hacer `make clean` cada ves que se modifica algo del flappy.
@@ -412,35 +412,45 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
 #### `random`
 
+    En el flappy las alturas de los huecos por los que tiene que pasar el flappy se van generando pseudo-aleatoriamente. La altura de cada hueco (que se mide en pixeles) se determina según la altura del hueco anterior y un número aleatorio que dice la diferencia con la altura del hueco anterior. Obviamente ese número que determina la diferencia no puede ser cualquier `int`, porque eso permitiría que la diferencia entre un tubo y otro sea demasiado grande como para que se pueda pasar, y también podría que pasar el hueco queda fuera de la pantalla.
 
+    Para evitar que la diferencia de alturas sea demasiado grande se usa un número aleatorio que esté en el rango `[-max_diff_hight_tubes, max_diff_hight_tubes]` \(donde `max_diff_hight_tubes` es un define de `50`).
 
-#### `VGA_graphics`
+    Para evitar que que se salga de la pantalla cada vez que se genera la altura de un nuevo tubo se mira que esté en el rango `[width_hole_tube/2 + min_distance_to_border, ground_height - width_hole_tube/2 - min_distance_to_border]` (donde esas variables también son defines) y si no está se vuelve a generar una altura hasta que se genere alguna que si esté.
 
-En este archivo se encuentran funciones auxiliares para dibujar cosas en pantalla haciendo uso de la funcion `draw_pixel`, decidimos crear esta función nueva para dibujar cosas en un buffer, ya que la función `VGA_plot_pixel` hace una llamada a sistema para dibujar un pixel en la pantalla y es más eficiente dibujar todo en un buffer y luego usando `VGA_plot_screen` representarlo por la pantalla.
+En este archivo se encuentran funciones auxiliares para dibujar cosas en pantalla haciendo uso de la función `draw_pixel`, decidimos crear esta función nueva para dibujar cosas en un buffer, ya que la función `VGA_plot_pixel` hace una llamada a sistema para dibujar un pixel en la pantalla y es más eficiente dibujar todo en un buffer y luego usando `VGA_plot_screen` representarlo por la pantalla.
 
 Las funciones creadas en este archivo incluyen `draw_horizontal_line` que dibuja una línea horizontal, `draw_vertical_line` que dibuja una línea vertical, `draw_rectangle` que dibuja un rectángulo y `draw_circle` que dibuja un círculo. Todas estas funciones se utilizaron para realizar la parte gráfica del flappy. Todas las funciones toman como parámetro las coordenadas del buffer donde se va a pintar la figura respectiva, y el color que se va a usar.
 
+    En C ya existen librerías para trabajar con números aleatorios, pero como nosotros estamos trabajando en xv6, no las podemos usar (o no es tan simple usarlas), así que decidimos hacer todas las funciones por nosotros mismos en el módulo `random`. 
+
+    El módulo funciona guardando una semilla en una variable global, y cada vez que necesita un número aleatorio usa la semilla y la actualiza. Para obtener los números aleatorios tiene 3 funciones publicas (en el `.h`), pero la importante es `new_random_less_than` que obtiene un número entre `-n` y `n`, y que es la que usamos en el flappy.
+
+    Las explicaciones de que hace cada función se pueden ver en `random.h` y las de como funcionan `random.c`.
+
+#### `VGA_graphics`
+
+    En este archivo se encuentran funciones auxiliares para dibujar cosas en pantalla haciendo uso de la función `draw_pixel`, decidimos crear esta función nueva para dibujar cosas en un buffer, ya que la función `VGA_plot_pixel` hace una llamada a sistema para dibujar un pixel en la pantalla y es más eficiente dibujar todo en un buffer y luego usando `VGA_plot_screen` representarlo por la pantalla.
+
+    Las funciones creadas en este archivo incluyen `draw_horizontal_line` que dibuja una línea horizontal, `draw_vertical_line` que dibuja una línea vertical, `draw_rectangle` que dibuja un rectángulo y `draw_circle` que dibuja un círculo. Todas estas funciones se utilizaron para realizar la parte gráfica del flappy. Todas las funciones toman como parámetro la direción de memoria del buffer, las coordenadas donde se va a pintar la figura respectiva y el color que se va a usar.
+
 #### `flappy_bird_TAD`
 
-Acá se encuentran las definiciones de varios macros que ayudan a la ligibilidad del código, además de que hace que sea más facil modificar los parámetros del juego, por ejemplo la variable `flappy_radius` que cambia el tamaño del flappy, o la variable `offset_tubes` que determina la distancia que hay entre cada tubo.
+    Acá se encuentran las definiciones de varios macros que ayudan a la legibilidad del código, además de que hace que sea más fácil modificar los parámetros del juego, por ejemplo la variable `flappy_radius` que cambia el tamaño del flappy, o la variable `offset_tubes` que determina la distancia que hay entre cada tubo.
 
-Otra cosa que también se encuentra en este archivo es el struct de game_status, la variable game es de este tipo y es donde se almacenan los datos que se deben actualizar al dibujar el juego en cada iteración del ciclo.
+    Otra cosa que también se encuentra en este archivo es el struct de `game_status`, la variable global `game` es de este tipo y es donde se almacenan los datos que se deben actualizar al dibujar el juego en cada iteración del ciclo.
 
 #### `flappy_bird_graphics`
 
-Acá se encuentra la parte gráfica del juego, están definidas las funciones que se encargan de dibujar el fondo, el flappy y los tubos, acá también se encuentran definidos varios macros que hacen mas fácil la modificación de los parámetros, como por ejemplo el color de los tubos, el color del flappy, o la altura a la que se dibujan las nubes.
+    Acá se encuentra la parte gráfica del juego, están definidas las funciones que se encargan de dibujar el fondo, el flappy y los tubos, acá también se encuentran definidos varios macros que hacen mas fácil la modificación de los parámetros, como por ejemplo el color de los tubos, el color del flappy, o la altura a la que se dibujan las nubes.
 
-La función `draw_background` se encarga de pintar el fondo, haciendo llamadas a las funciones `draw_sky` que dibuja el cielo, `draw_clouds` que dibuja las nubes, `draw_bushes` que dibuja la vegetación y `draw_ground` que dibuja el suelo.
+    La función `draw_background` se encarga de pintar el fondo, haciendo llamadas a las funciones `draw_sky` que dibuja el cielo, `draw_clouds` que dibuja las nubes, `draw_bush` que dibuja la vegetación y `draw_ground` que dibuja el suelo.
 
-Luego están las funciones `draw_tubes` que se encarga de dibujar los tubos y la función `draw_flappy` que se encarga de dibujar el flappy, por último la función `draw_game` se encarga de hacer llamadas a las funciones mencionadas anteriormente parade esta manera dibujar todo el juego en el buffer, esta es la función que se utiliza en el ciclo principal del juego para dibujar en cada iteración.
+    Luego está las función `draw_tubes` que se encarga de dibujar los tubos, la función `draw_flappy` que se encarga de dibujar el flappy y por último la función `draw_game` que se encarga de hacer llamadas a las funciones mencionadas anteriormente para de esta manera dibujar todo el juego en el buffer, esta es la función que se utiliza en el ciclo principal del juego para dibujar en cada iteración.
 
 #### `flappy_bird_logic`
 
-
-
 #### `flappy` (main)
-
-
 
 # Estilo del código
 
