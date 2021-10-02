@@ -391,8 +391,8 @@ void VGA_mode_switch(VGA_text_80x25);
 
 ```makefile
 _flappy: $(ULIB)
-	cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
+    cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
+    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
 ```
 
     Como se puede ver, esta regla no tiene como dependencia los archivos `.c` y `.h` del programa, lo cuál causa que si se los modifica no los vuelva a compilar, teniendo que hacer `make clean` cada ves que se modifica algo del flappy.
@@ -412,27 +412,27 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
 #### `random`
 
+    En el flappy las alturas de los huecos por los que tiene que pasar el flappy se van generando pseudo-aleatoriamente. La altura de cada hueco (que se mide en pixeles) se determina según la altura del hueco anterior y un número aleatorio que dice la diferencia con la altura del hueco anterior. Obviamente ese número que determina la diferencia no puede ser cualquier `int`, porque eso permitiría que la diferencia entre un tubo y otro sea demasiado grande como para que se pueda pasar, y también podría que pasar el hueco queda fuera de la pantalla.
 
+    Para evitar que la diferencia de alturas sea demasiado grande se usa un número aleatorio que esté en el rango `[-max_diff_hight_tubes, max_diff_hight_tubes]` \(donde `max_diff_hight_tubes` es un define de `50`).
+
+    Para evitar que que se salga de la pantalla cada vez que se genera la altura de un nuevo tubo se mira que esté en el rango `[width_hole_tube/2 + min_distance_to_border, ground_height - width_hole_tube/2 - min_distance_to_border]` (donde esas variables también son defines) y si no está se vuelve a generar una altura hasta que se genere alguna que si esté.
+
+    En C ya existen librerías para trabajar con números aleatorios, pero como nosotros estamos trabajando en xv6, no las podemos usar (o no es tan simple usarlas), así que decidimos hacer todas las funciones por nosotros mismos en el módulo `random`. 
+
+    El módulo funciona guardando una semilla en una variable global, y cada vez que necesita un número aleatorio usa la semilla y la actualiza. Para obtener los números aleatorios tiene 3 funciones publicas (en el `.h`), pero la importante es `new_random_less_than` que obtiene un número entre `-n` y `n`, y que es la que usamos en el flappy.
+
+    Las explicaciones de que hace cada función se pueden ver en `random.h` y las de como funcionan `random.c`.
 
 #### `VGA_graphics`
 
-
-
 #### `flappy_bird_TAD`
-
-
 
 #### `flappy_bird_graphics`
 
-
-
 #### `flappy_bird_logic`
 
-
-
 #### `flappy` (main)
-
-
 
 # Estilo del código
 
