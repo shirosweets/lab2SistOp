@@ -21,7 +21,7 @@ typedef float acceleration; // pixels/secunds²
 #define width_hole_tube 70
 
 #define max_diff_hight_tubes 50
-#define min_distance_to_borden 10
+#define min_distance_to_border 10
 
 #define flappy_radius 8
 

@@ -15,8 +15,8 @@ new_hole_tube_y_pos(y_coord y)
     rand = new_random_less_than(max_diff_hight_tubes);
     res = y + rand;
     // Genero nuevas alturas hasta que haya una que este en el rango correcto
-  } while(res - width_hole_tube/2 - min_distance_to_borden < 0
-            || res + width_hole_tube/2 + min_distance_to_borden >= ground_height);
+  } while(res - width_hole_tube/2 - min_distance_to_border < 0
+            || res + width_hole_tube/2 + min_distance_to_border >= ground_height);
   return(res);
 }
 
