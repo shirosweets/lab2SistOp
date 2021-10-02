@@ -3,7 +3,7 @@
 
 #include "flappy_bird_TAD.h"
 
-// buffer de tamaño VGA_graphic_width*VGA_graphic_hight
+// buffer de tamaño VGA_graphic_width*VGA_graphic_height
 void draw_game(uchar* buffer);
 
 

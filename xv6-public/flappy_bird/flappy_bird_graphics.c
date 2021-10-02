@@ -33,30 +33,135 @@ draw_tube(uchar* buffer, x_coord x, y_coord y)
   y_coord top_part_hole = y - width_hole_tube/2;
 
   // Tubo de arriba
-  draw_rectangle(buffer, left_side-2, right_side+2, 0, top_part_hole+2, tubes_shadow_color);
+  // Borde negro
+  draw_rectangle(
+    buffer,
+    left_side-2, right_side+2,
+    0, top_part_hole+2,
+    tubes_shadow_color);
+  // Degradado
   x_coord first_third = left_side + width_tube/3;
-  draw_rectangle(buffer, left_side, first_third, 0, top_part_hole, tubes1_color);
+
+  draw_rectangle(
+    buffer,
+    left_side, first_third,
+    0, top_part_hole,
+    tubes1_color);
   x_coord second_third = first_third + width_tube/3;
-  draw_rectangle(buffer, first_third, second_third, 0, top_part_hole, tubes2_color);
-  draw_rectangle(buffer, second_third, right_side, 0, top_part_hole, tubes3_color);
-  draw_vertical_line(buffer, 0, top_part_hole, second_third+1, line_color);
-  draw_rectangle(buffer, left_side-4, right_side+4, top_part_hole-5, top_part_hole+2, tubes_shadow_color);
-  draw_rectangle(buffer, left_side-3, first_third-1, top_part_hole-4, top_part_hole+1, tubes1_color);
-  draw_rectangle(buffer, first_third-1, second_third+3, top_part_hole-4, top_part_hole+1, tubes2_color);
-  draw_vertical_line(buffer, top_part_hole-4, top_part_hole+1, second_third, line_color);
-  draw_rectangle(buffer, second_third+1, right_side+3, top_part_hole-4, top_part_hole+1, tubes3_color);
+
+  draw_rectangle(
+    buffer,
+    first_third, second_third,
+    0, top_part_hole,
+    tubes2_color);
+
+  draw_rectangle(
+    buffer,
+    second_third, right_side,
+    0, top_part_hole,
+    tubes3_color);
+
+  draw_vertical_line(
+    buffer,
+    0, top_part_hole, second_third+1,
+    line_color);
+
+  // Boca del tubo
+  // Borde negro
+  draw_rectangle(
+    buffer,
+    left_side-4, right_side+4,
+    top_part_hole-5, top_part_hole+2,
+    tubes_shadow_color);
+
+  // Degradado
+  draw_rectangle(
+    buffer,
+    left_side-3, first_third-1,
+    top_part_hole-4, top_part_hole+1,
+    tubes1_color);
+
+  draw_rectangle(
+    buffer,
+    first_third-1, second_third+3,
+    top_part_hole-4, top_part_hole+1,
+    tubes2_color);
+
+  draw_vertical_line(
+    buffer,
+    top_part_hole-4, top_part_hole+1, second_third,
+    line_color);
+
+  draw_rectangle(
+    buffer,
+    second_third+1, right_side+3,
+    top_part_hole-4, top_part_hole+1,
+    tubes3_color);
 
   // Tubo de abajo
-  draw_rectangle(buffer, left_side-2, right_side+2, bottom_part_hole-2, ground_height-1, tubes_shadow_color);
-  draw_rectangle(buffer, left_side, first_third, bottom_part_hole, ground_height-1, tubes1_color);
-  draw_rectangle(buffer, first_third, second_third, bottom_part_hole, ground_height-1, tubes2_color);
-  draw_rectangle(buffer, second_third, right_side, bottom_part_hole, ground_height-1, tubes3_color);
-  draw_vertical_line(buffer, bottom_part_hole, ground_height-1, second_third, line_color);
-  draw_rectangle(buffer, left_side-4, right_side+4, bottom_part_hole-5, bottom_part_hole+2, tubes_shadow_color);
-  draw_rectangle(buffer, left_side-3, first_third+1, bottom_part_hole-4, bottom_part_hole+1, tubes1_color);
-  draw_rectangle(buffer, first_third-1, second_third+3, bottom_part_hole-4, bottom_part_hole+1, tubes2_color);
-  draw_vertical_line(buffer, bottom_part_hole-4, bottom_part_hole+1, second_third+1, line_color);
-  draw_rectangle(buffer, second_third+2, right_side+3, bottom_part_hole-4, bottom_part_hole+1, tubes3_color);}
+  // Borde negro
+  draw_rectangle(
+    buffer,
+    left_side-2, right_side+2,
+    bottom_part_hole-2, ground_height-1,
+    tubes_shadow_color);
+
+  // Degradado
+  draw_rectangle(
+    buffer,
+    left_side, first_third,
+    bottom_part_hole, ground_height-1,
+    tubes1_color);
+
+  draw_rectangle(
+    buffer,
+    first_third, second_third,
+    bottom_part_hole, ground_height-1,
+    tubes2_color);
+
+  draw_rectangle(
+    buffer,
+    second_third, right_side,
+    bottom_part_hole, ground_height-1,
+    tubes3_color);
+
+  draw_vertical_line(
+    buffer,
+    bottom_part_hole, ground_height-1, second_third,
+    line_color);
+
+  // Boca del tubo
+  // Borde negro
+  draw_rectangle(
+    buffer,
+    left_side-4, right_side+4,
+    bottom_part_hole-5, bottom_part_hole+2,
+    tubes_shadow_color);
+
+  // Degradado
+  draw_rectangle(
+    buffer,
+    left_side-3, first_third+1,
+    bottom_part_hole-4, bottom_part_hole+1,
+    tubes1_color);
+
+  draw_rectangle(
+    buffer,
+    first_third-1, second_third+3,
+    bottom_part_hole-4, bottom_part_hole+1,
+    tubes2_color);
+
+  draw_vertical_line(
+    buffer,
+    bottom_part_hole-4, bottom_part_hole+1, second_third+1,
+    line_color);
+
+  draw_rectangle(
+    buffer,
+    second_third+2, right_side+3,
+    bottom_part_hole-4, bottom_part_hole+1,
+    tubes3_color);
+}
 
 /* Dibuja en buffer todos los tubos de game
  */
@@ -71,17 +176,43 @@ draw_tubes(uchar* buffer)
 
 /* Dibuja el flappy con la parte inferior izquierda en (x, y)
  */
-// Para mejorar
 static void
 draw_flappy(uchar* buffer, x_coord x, y_coord y)
 {
-  draw_circle(buffer, x + flappy_radius, y - flappy_radius, flappy_radius, flappy_color);
-  draw_circle(buffer, x + (flappy_radius+7), y - flappy_radius - 3, flappy_radius/2, flappy_eye_color);
-  draw_circle(buffer, x + (flappy_radius+7), y - flappy_radius - 3, flappy_radius/4, flappy_pupil_color);
-  draw_circle(buffer, x + (flappy_radius-7), y - flappy_radius - 1, flappy_radius/2, flappy_wing_color);
-  draw_circle(buffer, x + (flappy_radius-7), y - flappy_radius - 2, flappy_radius/2-1, flappy_eye_color);
-  draw_circle(buffer, x + (flappy_radius+7), y - flappy_radius + 2, flappy_radius/3+1, flappy_mouth_color);
-  draw_horizontal_line(buffer, x + flappy_radius, x + flappy_radius + 10, y - flappy_radius + 3, flappy_pupil_color);
+  draw_circle(
+    buffer,
+    x + flappy_radius, y - flappy_radius,
+    flappy_radius, flappy_color);
+
+  draw_circle(
+    buffer,
+    x + (flappy_radius+7), y - flappy_radius - 3,
+    flappy_radius/2, flappy_eye_color);
+
+  draw_circle(
+    buffer,
+    x + (flappy_radius+7), y - flappy_radius - 3,
+    flappy_radius/4, flappy_pupil_color);
+
+  draw_circle(
+    buffer,
+    x + (flappy_radius-7), y - flappy_radius - 1,
+    flappy_radius/2, flappy_wing_color);
+
+  draw_circle(
+    buffer,
+    x + (flappy_radius-7), y - flappy_radius - 2,
+    flappy_radius/2-1, flappy_eye_color);
+
+  draw_circle(
+    buffer,
+    x + (flappy_radius+7), y - flappy_radius + 2,
+    flappy_radius/3+1, flappy_mouth_color);
+
+  draw_horizontal_line(
+    buffer,
+    x + flappy_radius, x + flappy_radius + 10,
+    y - flappy_radius + 3, flappy_pupil_color);
 }
 
 
@@ -103,7 +234,8 @@ draw_clouds(uchar* buffer)
     draw_circle(buffer, i, clouds_height, r, clouds_color);
     r += 5;
   }
-  draw_rectangle(buffer, 0, VGA_graphic_width, clouds_height, bush_height, clouds_color);
+  draw_rectangle(
+    buffer, 0, VGA_graphic_width, clouds_height, bush_height, clouds_color);
 }
 
 static void
@@ -115,13 +247,18 @@ draw_bush(uchar* buffer)
   for(x_coord i = 20; i < VGA_graphic_width; i += 10){
     draw_circle(buffer, i, bush_height, 4, bush_color);
   }
-  draw_rectangle(buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
+  draw_rectangle(
+    buffer, 0, VGA_graphic_width, bush_height, ground_height, bush_color);
 }
 
 static void
 draw_ground(uchar* buffer)
 {
-  draw_rectangle(buffer, 0, VGA_graphic_width, ground_height, VGA_graphic_height, ground_color);
+  draw_rectangle(
+    buffer,
+    0, VGA_graphic_width,
+    ground_height, VGA_graphic_height,
+    ground_color);
 }
 
 static void
