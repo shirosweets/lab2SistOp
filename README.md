@@ -1,4 +1,4 @@
-# Laboratorio N°2: Sistemas Opertivos - 2021
+# Laboratorio N°2: Sistemas Operativos - 2021
 
 Segundo cuatrimestre, FAMAF.
 
