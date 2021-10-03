@@ -259,8 +259,8 @@ set_digit_true(digit_cell number)
 #define score_offset_height score_dbox_height
 #define score_offset_width score_dbox_width * score_total_digit_boxes
 
-#define score_box_w0_x VGA_graphic_width - 150
-#define score_box_w0_y VGA_graphic_height - 100 // FIXME
+#define score_box_w0_x VGA_graphic_width - 50 // FIXME
+#define score_box_w0_y VGA_graphic_height - 50 // FIXME
 
 /*
  * Toma la configuración de qué celdas pintar de la variable number
