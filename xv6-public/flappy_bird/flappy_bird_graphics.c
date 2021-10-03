@@ -259,6 +259,9 @@ set_digit_true(digit_cell number)
 #define score_offset_height score_dbox_height
 #define score_offset_width score_dbox_width * score_total_digit_boxes
 
+#define score_box_w0_x VGA_graphic_width - 150
+#define score_box_w0_y VGA_graphic_height - 100 // FIXME
+
 /*
  * Toma la configuración de qué celdas pintar de la variable number
  * y cuál casilla pintar de la variable position.
@@ -269,14 +272,14 @@ static void
 draw_digit(uchar* buffer, uint position, digit_cell number)
 {
   // w0: primer pixel (inferior derecho) de la casilla actual
-  uint w0 = VGA_graphic_width - score_dbox_width * position;
+  uint w0 = score_box_w0_x - score_dbox_width * position;
   uint x0, x1, y0, y1;
 
   if(number.cells[0]){
     // Dibujamos celda 0
     x0 = w0 - score_dbox_width + 1;
     x1 = x0;
-    y0 = VGA_graphic_height - score_dbox_height + 2;
+    y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -285,7 +288,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 1
     x0 = w0 - score_dbox_width + 2;
     x1 = x0 + score_cell_line_px;
-    y0 = VGA_graphic_height - score_dbox_height + 1;
+    y0 = score_box_w0_y - score_dbox_height + 1;
     y1 = y0;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -294,7 +297,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 2
     x0 = w0 - 1;
     x1 = x0;
-    y0 = VGA_graphic_height - score_dbox_height + 2;
+    y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -303,7 +306,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 3
     x0 = w0 - score_dbox_width + 2;
     x1 = x0 + score_cell_line_px;
-    y0 = VGA_graphic_height - (score_cell_line_px + 3);
+    y0 = score_box_w0_y - (score_cell_line_px + 3);
     y1 = y0;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -312,7 +315,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 4
     x0 = w0 - score_dbox_width + 1;
     x1 = x0;
-    y0 = VGA_graphic_height - (score_cell_line_px + 2);
+    y0 = score_box_w0_y - (score_cell_line_px + 2);
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -321,7 +324,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 5
     x0 = w0 - score_dbox_width + 2;
     x1 = x0;
-    y0 = VGA_graphic_height - 1;
+    y0 = score_box_w0_y - 1;
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -330,7 +333,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 6
     x0 = w0 - 1;
     x1 = x0;
-    y0 = VGA_graphic_height - (score_cell_line_px + 2);
+    y0 = score_box_w0_y - (score_cell_line_px + 2);
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
