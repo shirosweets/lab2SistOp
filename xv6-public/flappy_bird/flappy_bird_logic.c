@@ -30,6 +30,16 @@ init_game(int seed)
 
   game.vertical_speed = 0;
 
+  game.horizontal_speed = -55; // -80;
+
+  game.score_threshold = false;
+
+  game.score_increment = 100;
+
+  game.tubes_passed = 0;
+
+  game.current_score = 0;
+
   global_seed = seed;
   game.first_tube_x = start_first_tube_x;
 
@@ -56,8 +66,35 @@ update_positions(bool jump, int delta_time)
   game.flappy_pos_y =
     game.flappy_pos_y + game.vertical_speed * delta_time_seconds;
 
-  game.first_tube_x =
-    game.first_tube_x + horizontal_speed * delta_time_seconds;
+  game.first_tube_x = game.first_tube_x + game.horizontal_speed * delta_time_secunds;
+}
+
+static void
+update_score(void)
+{
+  int distance_flappy_tube = game.first_tube_x - game.flappy_pos_x;
+  if(distance_flappy_tube < 0 && !game.score_threshold){
+    game.current_score += game.score_increment;
+    game.score_threshold = true;
+    game.tubes_passed += 1;
+    update_speed();
+  }
+}
+
+static void
+update_speed(void)
+{
+  // Incrementa la ganancia de puntos
+  if(
+    game.tubes_passed % 5 == 0) {
+    game.score_increment += 50;
+  }
+
+  // Incrementa la velocidad horizontal
+  if(game.tubes_passed % 6 == 0 &&
+    game.horizontal_speed >= limit_horizontal_speed) {
+    game.horizontal_speed -= 10;
+  }
 }
 
 /* Si hay un tubo que ya se dejó de ver lo elimina
@@ -76,6 +113,7 @@ update_tubes(void)
       new_hole_tube_y_pos(game.hole_tubes_y[amount_of_tubes-2]);
 
     game.first_tube_x = game.first_tube_x + offset_tubes;
+    game.score_threshold = false;
   }
 }
 
@@ -135,6 +173,7 @@ void
 update_game(bool jump, int delta_time)
 {
   update_positions(jump, delta_time);
+  update_score();
   update_tubes();
   game.is_alive = game.is_alive && !has_collitions();
 }
