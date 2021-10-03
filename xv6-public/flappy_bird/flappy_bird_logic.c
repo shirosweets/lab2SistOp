@@ -173,7 +173,7 @@ void
 update_game(bool jump, int delta_time)
 {
   update_positions(jump, delta_time);
-  update_score();
   update_tubes();
-  game.is_alive = game.is_alive && !has_collitions();
+  update_score();
+  // game.is_alive = game.is_alive && !has_collitions();
 }
