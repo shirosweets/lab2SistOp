@@ -275,6 +275,8 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
   uint w0 = score_box_w0_x - score_dbox_width * position;
   uint x0, x1, y0, y1;
 
+  set_digit_true(number);
+
   if(number.cells[0]){
     // Dibujamos celda 0
     x0 = w0 - score_dbox_width + 1;
@@ -290,7 +292,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - score_dbox_height + 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, bush_color);  // FIXME
   }
 
   if(number.cells[2]){
@@ -299,7 +301,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, sky_color);  // FIXME
   }
 
   if(number.cells[3]){
@@ -308,7 +310,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - (score_cell_line_px + 3);
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, clouds_color);  // FIXME
   }
 
   if(number.cells[4]){
@@ -503,8 +505,8 @@ draw_score(uchar* buffer)
 {
   draw_rectangle(
     buffer,
-    VGA_graphic_width-80, VGA_graphic_width,
-    VGA_graphic_height-13, VGA_graphic_height,
+    score_box_w0_x-score_offset_width, score_box_w0_x,
+    score_box_w0_y-score_offset_height, score_box_w0_y,
     score_background_color);
   uint current_digit = 0;
   uint aux_score = game.current_score;
