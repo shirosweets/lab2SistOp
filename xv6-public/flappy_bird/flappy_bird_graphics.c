@@ -21,6 +21,7 @@
 #define flappy_mouth_color 0x28
 #define tubes_shadow_color 0x00
 #define flappy_color 0x00
+#define score_background_color 0x00
 
 /* Dibuja un tubo con el centro del hueco en (x, y)
  */
@@ -215,7 +216,215 @@ draw_flappy(uchar* buffer, x_coord x, y_coord y)
     y - flappy_radius + 3, flappy_pupil_color);
 }
 
+/*
+/
+*/
 
+// Configuración de cada número para dibujar en una casilla
+struct _digit_cell{
+  /* Cada celda representa una linea del gráfico de cada
+   * de cada casilla de dígito. Distintas configuraciones
+   * 'iluminan' cada celda, determinando distintos números
+  */
+  bool cells[7];
+};
+
+typedef struct _digit_cell digit_cell;
+
+/// INICIO NUMEROS INDIVIDUALES
+
+static void
+set_digit_false(digit_cell number)
+{
+  for (uint i = 0; i < 7; ++i)
+    number.cells[i] = false;
+}
+
+static void
+set_digit_true(digit_cell number)
+{
+  for (uint i = 0; i < 7; ++i)
+    number.cells[i] = true;
+}
+
+static void
+draw_digit(uint position, digit_cell number)
+{
+  // UwU
+}
+
+static void
+draw_zero(uint position)
+{
+  digit_cell zero;
+  set_digit_true(zero);
+  zero.cells[3] = false;
+  draw_digit(position, zero);
+}
+
+static void
+draw_one(uint position)
+{
+  digit_cell one;
+  set_digit_false(one);
+  one.cells[2] = true;
+  one.cells[6] = true;
+  draw_digit(position, one);
+}
+
+static void
+draw_two(uint position)
+{
+  digit_cell two;
+  set_digit_true(two);
+  two.cells[0] = false;
+  two.cells[6] = false;
+  draw_digit(position, two);
+}
+
+static void
+draw_three(uint position)
+{
+  digit_cell three;
+  set_digit_true(three);
+  three.cells[0] = false;
+  three.cells[4] = false;
+  draw_digit(position, three);
+}
+
+static void
+draw_four(uint position)
+{
+  digit_cell four;
+  set_digit_true(four);
+  four.cells[1] = false;
+  four.cells[4] = false;
+  four.cells[5] = false;
+  draw_digit(position, four);
+}
+
+static void
+draw_five(uint position)
+{
+  digit_cell five;
+  set_digit_true(five);
+  five.cells[2] = false;
+  five.cells[4] = false;
+  draw_digit(position, five);
+}
+
+static void
+draw_six(uint position)
+{
+  digit_cell six;
+  set_digit_true(six);
+  six.cells[2] = false;
+  draw_digit(position, six);
+}
+
+static void
+draw_seven(uint position)
+{
+  digit_cell seven;
+  set_digit_false(seven);
+  seven.cells[1] = true;
+  seven.cells[2] = true;
+  seven.cells[6] = true;
+  draw_digit(position, seven);
+}
+
+static void
+draw_eight(uint position)
+{
+  digit_cell eight;
+  set_digit_true(eight);
+  draw_digit(position, eight);
+}
+
+static void
+draw_nine(uint position)
+{
+  digit_cell nine;
+  set_digit_true(nine);
+  nine.cells[4] = false;
+  draw_digit(position, nine);
+}
+
+/*
+* Llama a la función correspondiente al dígito
+* para renderizarlo en pantalla en la casilla
+* señalada para ese mismo.
+*/
+static void
+draw_check_digit(uint digit, uint position){
+  switch (digit)
+    {
+    case 0:
+      draw_zero(position);
+      break;
+
+    case 1:
+      draw_one(position);
+      break;
+
+    case 2:
+      draw_two(position);
+      break;
+
+    case 3:
+      draw_three(position);
+      break;
+
+    case 4:
+      draw_four(position);
+      break;
+
+    case 5:
+      draw_five(position);
+      break;
+
+    case 6:
+      draw_six(position);
+      break;
+
+    case 7:
+      draw_seven(position);
+      break;
+
+    case 8:
+      draw_eight(position);
+      break;
+
+    case 9:
+      draw_nine(position);
+      break;
+
+    default:
+      break;
+    }
+}
+
+/// FIN DIBUJAR NUMEROS INDIVIDUALES
+
+/*
+ * Dibuja en pantalla el score actual hasta 10
+ * casillas. Las casillas están enumeradas desde
+ * 0 hasta 9. La casilla 0 es la casilla correspondiente
+ * a la unidad (primer casilla de la derecha).
+*/
+static void
+draw_score(uchar* buffer)
+{
+  draw_rectangle(buffer, 0, 200, 0, 200, score_background_color);
+  uint current_digit = 0;
+  uint aux_score = game.current_score;
+  for(uint pos_digit = 0; pos_digit < 10 && aux_score > 0; ++pos_digit){
+    // Extraigo el último dígito el score actual
+    current_digit = aux_score % 10;
+    aux_score = aux_score / 10;
+    draw_check_digit(current_digit, pos_digit);
+  }
+}
 
 static void
 draw_sky(uchar* buffer)
@@ -270,8 +479,6 @@ draw_background(uchar* buffer)
   draw_ground(buffer);
 }
 
-
-
 // buffer de tamaño VGA_graphic_width*VGA_graphic_height
 void
 draw_game(uchar* buffer)
@@ -279,4 +486,5 @@ draw_game(uchar* buffer)
   draw_background(buffer);
   draw_tubes(buffer);
   draw_flappy(buffer, (int)game.flappy_pos_x, (int)game.flappy_pos_y);
+  draw_score(buffer);
 }
