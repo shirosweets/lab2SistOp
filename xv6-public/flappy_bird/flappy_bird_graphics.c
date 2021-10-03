@@ -252,15 +252,15 @@ set_digit_true(digit_cell number)
 //
 # define score_cell_line_px 4
 // dbox = digit box: tamaño de la casilla donde se dibujar el dígito
-#define score_dbox_height score_cell_line_px * 2 + 5
-#define score_dbox_width score_cell_line_px + 4
+#define score_dbox_height (score_cell_line_px * 2 + 5)
+#define score_dbox_width (score_cell_line_px + 4)
 //
 #define score_total_digit_boxes 10
 #define score_offset_height score_dbox_height
-#define score_offset_width score_dbox_width * score_total_digit_boxes
+#define score_offset_width (score_dbox_width * score_total_digit_boxes)
 
-#define score_box_w0_x VGA_graphic_width - 50 // FIXME
-#define score_box_w0_y VGA_graphic_height - 50 // FIXME
+#define score_box_w0_x (VGA_graphic_width - 50) // FIXME
+#define score_box_w0_y (VGA_graphic_height - 50) // FIXME
 
 /*
  * Toma la configuración de qué celdas pintar de la variable number
@@ -272,14 +272,14 @@ static void
 draw_digit(uchar* buffer, uint position, digit_cell number)
 {
   // w0: primer pixel (inferior derecho) de la casilla actual
-  uint w0 = score_box_w0_x - score_dbox_width * position;
+  uint w0x = score_box_w0_x - score_dbox_width * position;
   uint x0, x1, y0, y1;
 
   set_digit_true(number);
 
   if(number.cells[0]){
     // Dibujamos celda 0
-    x0 = w0 - score_dbox_width + 1;
+    x0 = w0x - score_dbox_width + 1;
     x1 = x0;
     y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
@@ -288,7 +288,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[1]){
     // Dibujamos celda 1
-    x0 = w0 - score_dbox_width + 2;
+    x0 = w0x - score_dbox_width + 2;
     x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - score_dbox_height + 1;
     y1 = y0;
@@ -297,7 +297,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[2]){
     // Dibujamos celda 2
-    x0 = w0 - 1;
+    x0 = w0x - 1;
     x1 = x0;
     y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
@@ -306,7 +306,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[3]){
     // Dibujamos celda 3
-    x0 = w0 - score_dbox_width + 2;
+    x0 = w0x - score_dbox_width + 2;
     x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - (score_cell_line_px + 3);
     y1 = y0;
@@ -315,7 +315,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[4]){
     // Dibujamos celda 4
-    x0 = w0 - score_dbox_width + 1;
+    x0 = w0x - score_dbox_width + 1;
     x1 = x0;
     y0 = score_box_w0_y - (score_cell_line_px + 2);
     y1 = y0 + score_cell_line_px;
@@ -324,7 +324,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[5]){
     // Dibujamos celda 5
-    x0 = w0 - score_dbox_width + 2;
+    x0 = w0x - score_dbox_width + 2;
     x1 = x0;
     y0 = score_box_w0_y - 1;
     y1 = y0 + score_cell_line_px;
@@ -333,7 +333,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
 
   if(number.cells[6]){
     // Dibujamos celda 6
-    x0 = w0 - 1;
+    x0 = w0x - 1;
     x1 = x0;
     y0 = score_box_w0_y - (score_cell_line_px + 2);
     y1 = y0 + score_cell_line_px;
@@ -515,6 +515,7 @@ draw_score(uchar* buffer)
     current_digit = aux_score % 10;
     aux_score = aux_score / 10;
     draw_check_digit(buffer, current_digit, pos_digit);
+    break;
   }
 }
 
