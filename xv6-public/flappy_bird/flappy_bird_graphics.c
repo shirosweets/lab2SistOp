@@ -170,7 +170,8 @@ static void
 draw_tubes(uchar* buffer)
 {
   for(uint i = 0u; i < amount_of_tubes; i++){
-    draw_tube(buffer, ((int)game.first_tube_x) + i*offset_tubes, game.hole_tubes_y[i]);
+    draw_tube(
+      buffer, ((int)game.first_tube_x) + i*offset_tubes, game.hole_tubes_y[i]);
   }
 }
 
@@ -420,7 +421,11 @@ draw_check_digit(uint digit, uint position){
 static void
 draw_score(uchar* buffer)
 {
-  draw_rectangle(buffer, 50, 70, 100, 120, score_background_color);
+  draw_rectangle(
+    buffer,
+    VGA_graphic_width-80, VGA_graphic_width,
+    VGA_graphic_height-13, VGA_graphic_height,
+    score_background_color);
   uint current_digit = 0;
   uint aux_score = game.current_score;
   for(uint pos_digit = 0; pos_digit < 10 && aux_score > 0; ++pos_digit){
