@@ -247,10 +247,15 @@ set_digit_true(digit_cell number)
     number.cells[i] = true;
 }
 
+# define score_offset_width
+
 static void
 draw_digit(uint position, digit_cell number)
 {
   // UwU
+
+  // 0, zero
+  // [true, true, true, false, true, true, true]
 }
 
 static void
@@ -415,7 +420,7 @@ draw_check_digit(uint digit, uint position){
 static void
 draw_score(uchar* buffer)
 {
-  draw_rectangle(buffer, 0, 200, 0, 200, score_background_color);
+  draw_rectangle(buffer, 50, 70, 100, 120, score_background_color);
   uint current_digit = 0;
   uint aux_score = game.current_score;
   for(uint pos_digit = 0; pos_digit < 10 && aux_score > 0; ++pos_digit){
