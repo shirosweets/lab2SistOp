@@ -79,9 +79,9 @@ update_speed(void)
   }
 
   // Incrementa la velocidad horizontal
-  if(game.tubes_passed % 6 == 0 &&
+  if(game.tubes_passed % 7 == 0 &&
     game.horizontal_speed >= limit_horizontal_speed) {
-    game.horizontal_speed -= 10;
+    game.horizontal_speed -= 5;
   }
 }
 
