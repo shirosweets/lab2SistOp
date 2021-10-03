@@ -66,19 +66,7 @@ update_positions(bool jump, int delta_time)
   game.flappy_pos_y =
     game.flappy_pos_y + game.vertical_speed * delta_time_seconds;
 
-  game.first_tube_x = game.first_tube_x + game.horizontal_speed * delta_time_secunds;
-}
-
-static void
-update_score(void)
-{
-  int distance_flappy_tube = game.first_tube_x - game.flappy_pos_x;
-  if(distance_flappy_tube < 0 && !game.score_threshold){
-    game.current_score += game.score_increment;
-    game.score_threshold = true;
-    game.tubes_passed += 1;
-    update_speed();
-  }
+  game.first_tube_x = game.first_tube_x + game.horizontal_speed * delta_time_seconds;
 }
 
 static void
@@ -94,6 +82,18 @@ update_speed(void)
   if(game.tubes_passed % 6 == 0 &&
     game.horizontal_speed >= limit_horizontal_speed) {
     game.horizontal_speed -= 10;
+  }
+}
+
+static void
+update_score(void)
+{
+  int distance_flappy_tube = game.first_tube_x - game.flappy_pos_x;
+  if(distance_flappy_tube < 0 && !game.score_threshold){
+    game.current_score += game.score_increment;
+    game.score_threshold = true;
+    game.tubes_passed += 1;
+    update_speed();
   }
 }
 
@@ -175,5 +175,6 @@ update_game(bool jump, int delta_time)
   update_positions(jump, delta_time);
   update_tubes();
   update_score();
-  // game.is_alive = game.is_alive && !has_collitions();
+  game.is_alive = game.is_alive && !has_collitions();
+  game.is_alive = true; // FIXME
 }

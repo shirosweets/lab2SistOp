@@ -83,8 +83,6 @@ game_loop(int seed)
   VGA_mode_switch(VGA_text_80x25);
   free(buffer); buffer = NULL;
 
-  int running_time_secunds = (last_time - start_time)/100;
-
   // Puntaje y tubos al final la partida
   printf(1, "Puntaje final: %d\n \nTubos superados: %d\n", game.current_score, game.tubes_passed);
 
