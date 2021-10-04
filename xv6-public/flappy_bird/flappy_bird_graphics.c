@@ -317,9 +317,9 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 4
     x0 = w0x - score_dbox_width + 1;
     x1 = x0;
-    y0 = score_box_w0_y - score_cell_line_px - 2;
+    y0 = score_box_w0_y - score_cell_line_px - 1;
     y1 = y0 + score_cell_line_px;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, flappy_wing_color);
   }
 
   if(number.cells[5]){
@@ -335,7 +335,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 6
     x0 = w0x - 1;
     x1 = x0;
-    y0 = score_box_w0_y - (score_cell_line_px + 2);
+    y0 = score_box_w0_y - score_cell_line_px - 1;
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
