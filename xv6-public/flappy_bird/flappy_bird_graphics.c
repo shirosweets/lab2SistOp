@@ -24,6 +24,13 @@
 #define score_background_color 0x00
 #define score_digit_color 0x28
 
+#define score_color_yellow 0x2E
+#define score_color_purple 0x39
+#define score_color_pink 0x26
+#define score_color_orange 0x2A
+#define score_color_cyan 0x0B
+#define score_color_white 0x0F
+
 /* Dibuja un tubo con el centro del hueco en (x, y)
  */
 static void
@@ -259,8 +266,8 @@ set_digit_true(digit_cell number)
 #define score_offset_height score_dbox_height
 #define score_offset_width (score_dbox_width * score_total_digit_boxes)
 
-#define score_box_w0_x (VGA_graphic_width - 50) // FIXME
-#define score_box_w0_y (VGA_graphic_height - 50) // FIXME
+#define score_box_w0_x VGA_graphic_width
+#define score_box_w0_y VGA_graphic_height
 
 /*
  * Toma la configuración de qué celdas pintar de la variable number
@@ -295,7 +302,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = wtl_y + 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_yellow);
   }
 
   if(number.cells[2]){
@@ -304,7 +311,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wtl_y + 2;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_purple);
   }
 
   if(number.cells[3]){
@@ -313,7 +320,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = score_box_w0_y - score_cell_line_px - 2;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_pink);
   }
 
   if(number.cells[4]){
@@ -322,7 +329,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wbr_y - score_cell_line_px - 1;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_orange);
   }
 
   if(number.cells[5]){
@@ -331,7 +338,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = wbr_y - 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_cyan);
   }
 
   if(number.cells[6]){
@@ -340,7 +347,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wbr_y - score_cell_line_px - 1;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_color_white);
   }
 
   draw_pixel(buffer, wbr_x, wbr_y, tubes1_color);
@@ -351,8 +358,14 @@ static void
 draw_zero(uchar* buffer, uint position)
 {
   digit_cell zero;
-  set_digit_true(zero);
-  zero.cells[3] = false;
+  //set_digit_true(zero);
+  zero.cells[0] = true;
+  zero.cells[1] = true;
+  zero.cells[2] = true;
+  zero.cells[3] = false;  // OK
+  zero.cells[4] = true;
+  zero.cells[5] = true;
+  zero.cells[6] = true;
   draw_digit(buffer, position, zero);
 }
 
@@ -360,9 +373,14 @@ static void
 draw_one(uchar* buffer, uint position)
 {
   digit_cell one;
-  set_digit_false(one);
-  // one.cells[2] = true;
-  // one.cells[6] = true;
+  //set_digit_false(one);
+  one.cells[0] = false;
+  one.cells[1] = false;
+  one.cells[2] = true;  // OK
+  one.cells[3] = false;
+  one.cells[4] = false;
+  one.cells[5] = false;
+  one.cells[6] = true;  // OK
   draw_digit(buffer, position, one);
 }
 
@@ -370,9 +388,14 @@ static void
 draw_two(uchar* buffer, uint position)
 {
   digit_cell two;
-  set_digit_true(two);
-  two.cells[0] = false;
-  two.cells[6] = false;
+  //set_digit_true(two);
+  two.cells[0] = false; // OK
+  two.cells[1] = true;
+  two.cells[2] = true;
+  two.cells[3] = true;
+  two.cells[4] = true;
+  two.cells[5] = true;
+  two.cells[6] = false; // OK
   draw_digit(buffer, position, two);
 }
 
@@ -380,9 +403,14 @@ static void
 draw_three(uchar* buffer, uint position)
 {
   digit_cell three;
-  set_digit_true(three);
-  three.cells[0] = false;
-  three.cells[4] = false;
+  //set_digit_true(three);
+  three.cells[0] = false; // OK
+  three.cells[1] = true;
+  three.cells[2] = true;
+  three.cells[3] = true;
+  three.cells[4] = false; // OK
+  three.cells[5] = true;
+  three.cells[6] = true;
   draw_digit(buffer, position, three);
 }
 
@@ -390,10 +418,14 @@ static void
 draw_four(uchar* buffer, uint position)
 {
   digit_cell four;
-  set_digit_true(four);
-  four.cells[1] = false;
-  four.cells[4] = false;
-  four.cells[5] = false;
+  //set_digit_true(four);
+  four.cells[0] = true;
+  four.cells[1] = false; // OK
+  four.cells[2] = true;
+  four.cells[3] = true;
+  four.cells[4] = false; // OK
+  four.cells[5] = false; // OK
+  four.cells[6] = true;
   draw_digit(buffer, position, four);
 }
 
@@ -401,9 +433,14 @@ static void
 draw_five(uchar* buffer, uint position)
 {
   digit_cell five;
-  set_digit_true(five);
-  five.cells[2] = false;
-  five.cells[4] = false;
+  //set_digit_true(five);
+  five.cells[0] = true;
+  five.cells[1] = true;
+  five.cells[2] = false;  // OK
+  five.cells[3] = true;
+  five.cells[4] = false;  // OK
+  five.cells[5] = true;
+  five.cells[6] = true;
   draw_digit(buffer, position, five);
 }
 
@@ -411,8 +448,14 @@ static void
 draw_six(uchar* buffer, uint position)
 {
   digit_cell six;
-  set_digit_true(six);
-  six.cells[2] = false;
+  //set_digit_true(six);
+  six.cells[0] = true;
+  six.cells[1] = true;
+  six.cells[2] = false; // OK
+  six.cells[3] = true;
+  six.cells[4] = true;
+  six.cells[5] = true;
+  six.cells[6] = true;
   draw_digit(buffer, position, six);
 }
 
@@ -420,10 +463,14 @@ static void
 draw_seven(uchar* buffer, uint position)
 {
   digit_cell seven;
-  set_digit_false(seven);
-  seven.cells[1] = true;
-  seven.cells[2] = true;
-  seven.cells[6] = true;
+  //set_digit_false(seven);
+  seven.cells[0] = false;
+  seven.cells[1] = true; // OK
+  seven.cells[2] = true; // OK
+  seven.cells[3] = false;
+  seven.cells[4] = false;
+  seven.cells[5] = false;
+  seven.cells[6] = true; // OK
   draw_digit(buffer, position, seven);
 }
 
@@ -431,7 +478,14 @@ static void
 draw_eight(uchar* buffer, uint position)
 {
   digit_cell eight;
-  set_digit_true(eight);
+  //set_digit_true(eight);
+  eight.cells[0] = true;
+  eight.cells[1] = true;
+  eight.cells[2] = true;
+  eight.cells[3] = true;
+  eight.cells[4] = true;
+  eight.cells[5] = true;
+  eight.cells[6] = true;
   draw_digit(buffer, position, eight);
 }
 
@@ -439,8 +493,14 @@ static void
 draw_nine(uchar* buffer, uint position)
 {
   digit_cell nine;
-  set_digit_true(nine);
-  nine.cells[4] = false;
+  //set_digit_true(nine);
+  nine.cells[0] = true;
+  nine.cells[1] = true;
+  nine.cells[2] = true;
+  nine.cells[3] = true;
+  nine.cells[4] = false; // OK
+  nine.cells[5] = true;
+  nine.cells[6] = true;
   draw_digit(buffer, position, nine);
 }
 
