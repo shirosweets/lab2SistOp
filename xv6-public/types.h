@@ -1,3 +1,6 @@
+#ifndef TYPES_H
+#define TYPES_H
+
 typedef unsigned int   uint;
 typedef unsigned short ushort;
 typedef unsigned char  uchar;
@@ -19,4 +22,4 @@ typedef enum
   VGA_graphic_320x200x256,
 } VGA_mode;
 
-
+#endif

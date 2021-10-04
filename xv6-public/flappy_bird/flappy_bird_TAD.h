@@ -36,12 +36,25 @@ typedef float speed;        // pixels/seconds
 
 typedef struct _s_game_status
 {
-  // Posición del flappy
+  // Posición en x del flappy
   distance flappy_pos_x;
+  // Posición en y del flappy
   distance flappy_pos_y;
 
-  // Velocidad del flappy
+  // Velocidad vertical del flappy
   speed vertical_speed;
+
+  // Valor que se suma al puntaje respecto a la velocidad horizonal del flappy
+  int score_increment;
+
+  // Cantidad de tubos que el jugador logró atravezar
+  int tubes_passed;
+
+  // Booleano que guarda si ya computó el puntaje del tubo actual
+  bool score_threshold;
+
+  // Puntaje actual
+  int current_score;
 
   // Distancia en x hasta el borde de la pantalla del centro primer tubo
   distance first_tube_x;
@@ -49,6 +62,7 @@ typedef struct _s_game_status
   // Posiciones de en y de los centros de todos los tubos
   y_coord hole_tubes_y[amount_of_tubes];
 
+  // Si el flappy está vivo
   bool is_alive;
 } game_status;
 

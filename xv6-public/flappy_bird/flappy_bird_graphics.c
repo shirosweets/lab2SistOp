@@ -2,6 +2,7 @@
 
 #include "VGA_graphics.h"
 #include "flappy_bird_TAD.h"
+#include "flappy_bird_score.h"
 
 #define clouds_height 100
 #define bush_height 150
@@ -279,4 +280,5 @@ draw_game(uchar* buffer)
   draw_background(buffer);
   draw_tubes(buffer);
   draw_flappy(buffer, (int)game.flappy_pos_x, (int)game.flappy_pos_y);
+  draw_score(buffer, game.current_score);
 }
