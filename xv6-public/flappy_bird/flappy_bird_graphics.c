@@ -510,8 +510,8 @@ draw_score(uchar* buffer)
 {
   draw_rectangle(
     buffer,
-    score_box_w0_x-score_offset_width, score_box_w0_x,
-    score_box_w0_y-score_offset_height, score_box_w0_y,
+    score_box_w0_x-score_offset_width+1, score_box_w0_x,
+    score_box_w0_y-score_offset_height+1, score_box_w0_y,
     score_background_color);
   uint current_digit = 0;
   uint aux_score = game.current_score;
