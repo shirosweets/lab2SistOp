@@ -176,5 +176,5 @@ update_game(bool jump, int delta_time)
   update_tubes();
   update_score();
   game.is_alive = game.is_alive && !has_collitions();
-  game.is_alive = true; // FIXME
+  //game.is_alive = true; // FIXME
 }
