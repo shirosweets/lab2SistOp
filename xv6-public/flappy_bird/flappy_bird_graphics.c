@@ -292,7 +292,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - score_dbox_height + 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, bush_color);  // FIXME
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[2]){
@@ -301,23 +301,23 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = score_box_w0_y - score_dbox_height + 2;
     y1 = y0 + score_cell_line_px;
-    draw_rectangle(buffer, x0, x1, y0, y1, sky_color);  // FIXME
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[3]){
     // Dibujamos celda 3
     x0 = w0x - score_dbox_width + 2;
     x1 = x0 + score_cell_line_px;
-    y0 = score_box_w0_y - (score_cell_line_px + 3);
+    y0 = score_box_w0_y - score_cell_line_px - 2;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, clouds_color);  // FIXME
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[4]){
     // Dibujamos celda 4
     x0 = w0x - score_dbox_width + 1;
     x1 = x0;
-    y0 = score_box_w0_y - (score_cell_line_px + 2);
+    y0 = score_box_w0_y - score_cell_line_px - 2;
     y1 = y0 + score_cell_line_px;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
@@ -325,9 +325,9 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
   if(number.cells[5]){
     // Dibujamos celda 5
     x0 = w0x - score_dbox_width + 2;
-    x1 = x0;
+    x1 = x0 + score_cell_line_px;
     y0 = score_box_w0_y - 1;
-    y1 = y0 + score_cell_line_px;
+    y1 = y0;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
