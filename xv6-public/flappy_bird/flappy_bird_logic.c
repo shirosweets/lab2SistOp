@@ -30,11 +30,11 @@ init_game(int seed)
 
   game.vertical_speed = 0;
 
-  game.horizontal_speed = -55; // -80;
+  game.horizontal_speed = -50;
 
   game.score_threshold = false;
 
-  game.score_increment = 1; // FIXME
+  game.score_increment = 100;
 
   game.tubes_passed = 0;
 
@@ -74,8 +74,8 @@ update_speed(void)
 {
   // Incrementa la ganancia de puntos
   if(
-    game.tubes_passed % 5 == 0) {
-    game.score_increment += 0; // FIXME: 50
+    game.tubes_passed % 10 == 0) {
+    game.score_increment += 100;
   }
 
   // Incrementa la velocidad horizontal

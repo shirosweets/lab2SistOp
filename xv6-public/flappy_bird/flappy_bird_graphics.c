@@ -242,19 +242,25 @@ typedef struct _digit_cell digit_cell;
 
 /// INICIO NUMEROS INDIVIDUALES
 
-static inline void
-set_digit_false(digit_cell number)
-{
-  for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index)
-    number.cells[digit_cell_index] = false;
-}
+// static void
+// set_digit_false(digit_cell number)  // FIXME
+// {
+//   for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index){
+//     if(number.cells[digit_cell_index]){
+//       number.cells[digit_cell_index] = false;
+//     }
+//   }
+// }
 
-static inline void
-set_digit_true(digit_cell number)
-{
-  for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index)
-    number.cells[digit_cell_index] = true;
-}
+// static void
+// set_digit_true(digit_cell number)  // FIXME
+// {
+//   for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index){
+//     if(!number.cells[digit_cell_index]){
+//       number.cells[digit_cell_index] = true;
+//     }
+//   }
+// }
 
 //
 # define score_cell_line_px 4
@@ -358,7 +364,7 @@ static void
 draw_zero(uchar* buffer, uint position)
 {
   digit_cell zero;
-  //set_digit_true(zero);
+  //set_digit_true(zero);  // FIXME
   zero.cells[0] = true;
   zero.cells[1] = true;
   zero.cells[2] = true;
@@ -373,7 +379,7 @@ static void
 draw_one(uchar* buffer, uint position)
 {
   digit_cell one;
-  //set_digit_false(one);
+  //set_digit_false(one);  // FIXME
   one.cells[0] = false;
   one.cells[1] = false;
   one.cells[2] = true;  // OK
@@ -388,7 +394,7 @@ static void
 draw_two(uchar* buffer, uint position)
 {
   digit_cell two;
-  //set_digit_true(two);
+  //set_digit_true(two);  // FIXME
   two.cells[0] = false; // OK
   two.cells[1] = true;
   two.cells[2] = true;
@@ -403,7 +409,7 @@ static void
 draw_three(uchar* buffer, uint position)
 {
   digit_cell three;
-  //set_digit_true(three);
+  //set_digit_true(three);  // FIXME
   three.cells[0] = false; // OK
   three.cells[1] = true;
   three.cells[2] = true;
@@ -418,7 +424,7 @@ static void
 draw_four(uchar* buffer, uint position)
 {
   digit_cell four;
-  //set_digit_true(four);
+  //set_digit_true(four);  // FIXME
   four.cells[0] = true;
   four.cells[1] = false; // OK
   four.cells[2] = true;
@@ -433,7 +439,7 @@ static void
 draw_five(uchar* buffer, uint position)
 {
   digit_cell five;
-  //set_digit_true(five);
+  //set_digit_true(five);  // FIXME
   five.cells[0] = true;
   five.cells[1] = true;
   five.cells[2] = false;  // OK
@@ -448,7 +454,7 @@ static void
 draw_six(uchar* buffer, uint position)
 {
   digit_cell six;
-  //set_digit_true(six);
+  //set_digit_true(six);  // FIXME
   six.cells[0] = true;
   six.cells[1] = true;
   six.cells[2] = false; // OK
@@ -463,7 +469,7 @@ static void
 draw_seven(uchar* buffer, uint position)
 {
   digit_cell seven;
-  //set_digit_false(seven);
+  //set_digit_false(seven);  // FIXME
   seven.cells[0] = false;
   seven.cells[1] = true; // OK
   seven.cells[2] = true; // OK
@@ -478,7 +484,7 @@ static void
 draw_eight(uchar* buffer, uint position)
 {
   digit_cell eight;
-  //set_digit_true(eight);
+  //set_digit_true(eight);  // FIXME
   eight.cells[0] = true;
   eight.cells[1] = true;
   eight.cells[2] = true;
@@ -493,7 +499,7 @@ static void
 draw_nine(uchar* buffer, uint position)
 {
   digit_cell nine;
-  //set_digit_true(nine);
+  //set_digit_true(nine);  // FIXME
   nine.cells[0] = true;
   nine.cells[1] = true;
   nine.cells[2] = true;
