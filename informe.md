@@ -465,6 +465,8 @@ while(!stdin_ready(&c)){
 
     Entendiendo como funciona `stdin_ready` es claro que hacer eso es muy ineficiente ya que se está todo el tiempo preguntándole al sistema si hay algún carácter. El motivo por el cuál lo hicimos así es porque la única otra llamada al sistema que hay para leer caracteres es `read`, pero `read` no lee de la entrada estándar hasta que no se presiona enter, por lo cuál si usábamos `read` iba a ser menos interactivo.
 
+  **Observación**: A veces ocurre un bug en el cual el juego detecta que se perdió aunque no es así, no sabemos a que se debe este error pero probando si logramos que el juego funcione correctamente y sin bugs compilando sin O2, por lo que pensamos que debe ser un problema de la optimización.  
+
 # Nuestra forma de trabajar
 
     En el archivo [todo.md](todo.md) se encuentran las diferentes consignas y tareas que realizábamos (no siempre es commiteado).
