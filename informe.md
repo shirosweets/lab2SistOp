@@ -33,6 +33,7 @@
       - [`flappy_bird_graphics`](#flappy_bird_graphics)
       - [`flappy_bird_logic`](#flappy_bird_logic)
       - [`flappy` (main)](#flappy-main)
+      - [`flappy bird: score`](#flappy-bird:-score)
 - [Nuestra forma de trabajar](#nuestra-forma-de-trabajar)
   - [Estilo del código](#estilo-del-código)
   - [Modularización de xv6](#modularización-de-xv6)
@@ -286,7 +287,7 @@ a & b = 0b00110010
 
     En modo texto cada caracter tiene (en el caso del `80×25`) 8×16 pixeles que pueden ser del color del caracter o del color del fondo. La información de como va cada pixel VGA la guarda como 128 bits consecutivos en memoria, en el que cada 8 bits se representa una fila de las 16 filas. Si se ven los 128 bits como un arreglo de 16 `uchar`s, se puede ver un poco la letra. Por ejemplo, esta sería la letra `B`:
 
-```
+```c
 0b00000000
 0b00000000
 0b11111100
@@ -369,7 +370,7 @@ void VGA_mode_switch(VGA_text_80x25);
 * http://www.osdever.net/FreeVGA/vga/vga.htm
 
 * http://www.osdever.net/FreeVGA/vga/vgareg.htm
-  
+
   * http://www.osdever.net/FreeVGA/vga/vgareg.htm#intro
 
 * http://www.techhelpmanual.com/70-video_graphics_array__vga_.html
@@ -386,7 +387,7 @@ void VGA_mode_switch(VGA_text_80x25);
 
     Para jugar al flappy simplemente hay que iniciar xv6 (`make qemu` desde la carpeta `xv6-public`) y ejecutar `flappy`. Con eso ya se inicia el juego con una semilla aleatoria (la cuál determina las alturas de los huecos por los que hay que pasar). Si se desea especificar la semilla se puede hacer pasando algo como segundo parámetro, y los valores numéricos de los primeros 4 caracteres del segundo parámetro serán usados para generar la semilla.
 
-    Cuando se choca contra algo, se vuelve a la consola, imprimiéndose el puntaje. Para volver a jugar simplemente hay que presionar cualquier tecla. Para salir del juego y cerrar el programa hay que presionar la tecla escape, o hacer `ctrl + d` (lo cual manda un final de archivo). 
+    Cuando se choca contra algo, se vuelve a la consola, imprimiéndose el puntaje. Para volver a jugar simplemente hay que presionar cualquier tecla. Para salir del juego y cerrar el programa hay que presionar la tecla escape, o hacer `ctrl + d` (lo cual manda un final de archivo).
 
 ## Funcionamiento
 
@@ -425,7 +426,7 @@ A continuación una pequeña explicación de que hace cada módulo y como funcio
 
     Para evitar que que se salga de la pantalla cada vez que se genera la altura de un nuevo tubo se mira que esté en el rango `[width_hole_tube/2 + min_distance_to_border, ground_height - width_hole_tube/2 - min_distance_to_border]` (donde esas variables también son defines) y si no está se vuelve a generar una altura hasta que se genere alguna que si esté.
 
-    En C ya existen librerías para trabajar con números aleatorios, pero como nosotros estamos trabajando en xv6, no las podemos usar (o no es tan simple usarlas), así que decidimos hacer todas las funciones por nosotros mismos en el módulo `random`. 
+    En C ya existen librerías para trabajar con números aleatorios, pero como nosotros estamos trabajando en xv6, no las podemos usar (o no es tan simple usarlas), así que decidimos hacer todas las funciones por nosotros mismos en el módulo `random`.
 
     El módulo funciona guardando una semilla en una variable global, y cada vez que necesita un número aleatorio usa la semilla y la actualiza. Para obtener los números aleatorios tiene 3 funciones publicas (en el `.h`), pero la importante es `new_random_less_than` que obtiene un número entre `-n` y `n`, y que es la que usamos en el flappy.
 
@@ -478,6 +479,75 @@ while(!stdin_ready(&c)){
 ```
 
     Entendiendo como funciona `stdin_ready` es claro que hacer eso es muy ineficiente ya que se está todo el tiempo preguntándole al sistema si hay algún caracter. El motivo por el cuál lo hicimos así es porque la única otra llamada al sistema que hay para leer caracteres es `read`, pero, `read` no lee de la entrada estándar hasta que no se presiona enter, por lo cuál si usábamos `read` iba a ser menos interactivo.
+
+### `flappy bird: score`
+
+```c
+// Configuración de cada número para dibujar en una casilla
+struct _digit_cell{
+  /* Cada celda representa una linea del gráfico de cada
+   * de cada casilla de dígito. Distintas configuraciones
+   * 'iluminan' cada celda, determinando distintos números
+  */
+  bool cells[7];
+};
+```
+
+Existen 10 casillas de dígitos y cada una contiene una celda de dígito. A continuación la configuración de cada celda respecto a la estructura anteriormente mencionada:
+
+![Celdas de dígitos](./Imagenes_informe/flappy_bird_score.jpg)
+
+Si quisiéramos dibujar por ejemplo un `0` (cero/zero) deberíamos setear el struc de la siguiente manera:
+
+```c
+digit_cell zero;
+
+zero.cells[0] = true;  // ROJO
+zero.cells[1] = true;  // VERDE
+zero.cells[2] = true;  // MORADO
+zero.cells[3] = false;  // ROSA (no visible para el cero)
+zero.cells[4] = true;  // NARANJA
+zero.cells[5] = true;  // CIAN
+zero.cells[6] = true;  // BLANCO
+```
+
+En la siguiente imagen se puede observar cada línea de la celda diferenciadas por colores:
+
+![Celdas de dígitos v1](./Imagenes_informe/flappy_bird_score_v1.png)
+
+```c
+/*
+ * Dibuja en pantalla el score actual hasta 10
+ * casillas. Las casillas están enumeradas desde
+ * 0 hasta 9. La casilla 0 es la casilla correspondiente
+ * a la unidad (primer casilla de la derecha).
+*/
+static void draw_score(uchar* buffer);
+
+/*
+* Llama a la función correspondiente al dígito
+* para renderizarlo en pantalla en la casilla
+* señalada para ese mismo.
+*/
+static void draw_check_digit(uchar* buffer, uint digit, uint position);
+
+/*
+ * Toma la configuración de qué celdas pintar de la variable number
+ * y cuál casilla pintar de la variable position.
+ *
+ * Pinta las líneas respecto al dígito que deba ser.
+*/
+static void draw_digit(uchar* buffer, uint position, digit_cell number);
+```
+
+Versión final del score:
+
+![Celdas de dígitos v2](./Imagenes_informe/flappy_bird_score_v2.png)
+
+Dato curioso: el orden de las líneas de la celda fueron definidas en el orden que se realiza el trazado al dibujar un cisne
+
+![Celdas de dígitos: dato curioso - celda](./Imagenes_informe/score_celda.jpg)
+![Celdas de dígitos: dato curioso - cisne](./Imagenes_informe/score_cisne.jpg)
 
 # Nuestra forma de trabajar
 
