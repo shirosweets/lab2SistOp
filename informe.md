@@ -324,14 +324,17 @@ void VGA_mode_switch(VGA_mode mode)
 
     Eventualmente esta idea fue descartada ya que no funcionaba correctamente y se optó por replicar el código de la *super ayuda* adaptado a nuestra arquitectura de xv6, utilizando la función `write_font`, cambiando los `outportb` e `inportb` por `outb` e `inb` como en la parte 2 y cambiando la llamada a `vmemwr` por un `for`, ya que la función `vmemwr()` es *"Virtual Memory Write"* y esencialmente escribe en el espacio de Kernel traduciendo una *dirección física a la virtual correspondiente*.
     La parte del `vmemwr` en el original era así:
+
 ```c
-	for(i = 0; i < 256; i++)
-	{
-		vmemwr(16384u * 0 + i * 32, buf, font_height);
-		buf += font_height;
-	}
+    for(i = 0; i < 256; i++)
+    {
+        vmemwr(16384u * 0 + i * 32, buf, font_height);
+        buf += font_height;
+    }
 ```
+
 La adaptación en `xv6` fue usar la escritura normal de memoria pero aplicando la traducción provista P2V (*Physical to Virtual*):
+
 ```c
 #define VGA_font_array P2V(0xB8000)
 
@@ -345,6 +348,7 @@ La adaptación en `xv6` fue usar la escritura normal de memoria pero aplicando l
 ```
 
     Para efectivamente recuperar las fuentes, en la función `VGA_mode_switch` cuando se pasa a modo texto agregamos una llamada a `write_font` con `g_8x16_font` así:
+
 ```c
     // Se ponen las fuentes
     write_font(g_8x16_font, 16);
@@ -384,8 +388,8 @@ La adaptación en `xv6` fue usar la escritura normal de memoria pero aplicando l
 
 ```makefile
 _flappy: $(ULIB)
-	cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
+    cd flappy_bird ; $(CC) $(CFLAGS) -c *.c
+    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ flappy_bird/*.o $^
 ```
 
     Como se puede ver, esta regla no tiene como dependencia los archivos `.c` y `.h` del programa, lo cuál causa que si se los modifica no los vuelva a compilar, teniendo que hacer `make clean` cada vez que se modifica algo del flappy.
@@ -465,7 +469,9 @@ while(!stdin_ready(&c)){
 
     Entendiendo como funciona `stdin_ready` es claro que hacer eso es muy ineficiente ya que se está todo el tiempo preguntándole al sistema si hay algún carácter. El motivo por el cuál lo hicimos así es porque la única otra llamada al sistema que hay para leer caracteres es `read`, pero `read` no lee de la entrada estándar hasta que no se presiona enter, por lo cuál si usábamos `read` iba a ser menos interactivo.
 
-  **Observación**: A veces ocurre un bug en el cual el juego detecta que se perdió aunque no es así, no sabemos a que se debe este error pero probando si logramos que el juego funcione correctamente y sin bugs compilando sin O2, por lo que pensamos que debe ser un problema de la optimización.  
+
+
+**Observación**: A veces ocurre un bug en el cual el juego detecta que se perdió aunque no es así, no sabemos a que se debe este error pero probando, descubrimos que el juego funciona correctamente y sin bugs compilando sin `-O2`, por lo que pensamos que debe ser un problema de la optimización.
 
 # Nuestra forma de trabajar
 
