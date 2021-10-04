@@ -275,8 +275,6 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
   uint w0x = score_box_w0_x - score_dbox_width * position;
   uint x0, x1, y0, y1;
 
-  set_digit_true(number);
-
   if(number.cells[0]){
     // Dibujamos celda 0
     x0 = w0x - score_dbox_width + 2;
@@ -515,7 +513,6 @@ draw_score(uchar* buffer)
     current_digit = aux_score % 10;
     aux_score = aux_score / 10;
     draw_check_digit(buffer, current_digit, pos_digit);
-    break;
   }
 }
 
