@@ -64,7 +64,7 @@ game_loop(int seed)
   int start_time = uptime();
   int last_time = start_time;
 
-  while(game.is_alive){
+  while(!quit && game.is_alive){
     int new_time = uptime();
 
     bool jump = stdin_ready(&c);
