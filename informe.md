@@ -12,6 +12,8 @@
 
 # Índice
 
+- [Instalación](#instalación)
+- [¿Cómo correrlo?](#¿cómo-correrlo?)
 - [Desarrollo inicial](#desarrollo-inicial)
   - [Parte 1](#parte-1)
   - [Parte 2](#parte-2)
@@ -38,6 +40,27 @@
   - [Estilo del código](#estilo-del-código)
   - [Modularización de xv6](#modularización-de-xv6)
 
+# Instalación
+## QEMU
+
+```bash
+sudo apt-get update -y
+```
+
+```bash
+sudo apt-get install -y qemu-system-i386
+```
+
+# ¿Cómo correrlo?
+
+```bash
+cd xv6-public ; make clean && make qemu
+```
+
+Aparecerá una ventana donde deberemos escribir la palabra `flappy` y presionar `<Enter>`, luego nos aparecerá el juego que podremos jugar presionando cualquier tecla para hacer que el flappy salte:
+
+![Menú](./assets/how_to_run.png)
+
 # Desarrollo inicial
 
 ## Parte 1
@@ -50,7 +73,7 @@
 
     Se da esta imagen que explica mejor los bits de los elementos del buffer:
 
-![bits_text_buffer.png](./Imagenes_informe/bits_text_buffer.png)
+![bits_text_buffer.png](./assets/bits_text_buffer.png)
 
     Se da un ejemplo en el cuál se guardan caracteres en el buffer con esta forma:
 
@@ -62,7 +85,7 @@
 
     Utilizando esas dos funciones hicimos la función `vgainit` para que muestre un el pie de pantalla así:
 
-![pie_de_pantalla_vgainit.png](./Imagenes_informe/pie_de_pantalla_vgainit.png)
+![pie_de_pantalla_vgainit.png](./assets/pie_de_pantalla_vgainit.png)
 
     Por último, al prototipo de la función `vgainit` lo agregamos a `defs.h` para que pueda ser usada desde cualquier lugar del **kernel** y la llamamos al comienzo de `main` en `main.c`.
 
@@ -308,7 +331,7 @@ a & b = 0b00110010
 
     A toda la información de cada uno de los 256 caracteres cuando se está en modo texto, VGA la tiene guardada en su propia memoria, pero cuando se pasa a modo gráfico la borra, y si después se vuelve a modo texto, hay basura en esa parte de la memoria, y no se puede leer nada de lo que se imprime en la pantalla:
 
-![Fuentes_ilegibles.png](Imagenes_informe/Fuentes_ilegibles.png)
+![Fuentes_ilegibles.png](assets/Fuentes_ilegibles.png)
 
     VGA tiene una opción para pasarla la fuente que uno quiera.
 
@@ -383,7 +406,7 @@ void VGA_mode_switch(VGA_text_80x25);
 
     Como mencionamos en [Parte 4](#parte-4) nosotros hicimos un Flappy Bird, a continuación una imagen de cómo se ve:
 
-![Flappy Bird](./Imagenes_informe/Flappy_Bird.png)
+![Flappy Bird](./assets/Flappy_Bird.png)
 
     Para jugar al flappy simplemente hay que iniciar xv6 (`make qemu` desde la carpeta `xv6-public`) y ejecutar `flappy`. Con eso ya se inicia el juego con una semilla aleatoria (la cuál determina las alturas de los huecos por los que hay que pasar). Si se desea especificar la semilla se puede hacer pasando algo como segundo parámetro, y los valores numéricos de los primeros 4 caracteres del segundo parámetro serán usados para generar la semilla.
 
@@ -495,7 +518,7 @@ struct _digit_cell{
 
 Existen 10 casillas de dígitos y cada una contiene una celda de dígito. A continuación la configuración de cada celda respecto a la estructura anteriormente mencionada:
 
-![Celdas de dígitos](./Imagenes_informe/flappy_bird_score.jpg)
+![Celdas de dígitos](./assets/flappy_bird_score.jpg)
 
 Si quisiéramos dibujar por ejemplo un `0` (cero/zero) deberíamos setear el struc de la siguiente manera:
 
@@ -513,7 +536,7 @@ zero.cells[6] = true;  // BLANCO
 
 En la siguiente imagen se puede observar cada línea de la celda diferenciadas por colores:
 
-![Celdas de dígitos v1](./Imagenes_informe/flappy_bird_score_v1.png)
+![Celdas de dígitos v1](./assets/flappy_bird_score_v1.png)
 
 ```c
 /*
@@ -542,12 +565,19 @@ static void draw_digit(uchar* buffer, uint position, digit_cell number);
 
 Versión final del score:
 
-![Celdas de dígitos v2](./Imagenes_informe/flappy_bird_score_v2.png)
+![Celdas de dígitos v2](./assets/flappy_bird_score_v2.png)
+
+Al perder se nos mostrará la puntuación final y la cantidad de tubos superados:
+![Score final](./assets/flappy_bird_score_game_over.png)
+
+- Video en Youtube (*hacer click en la imagen*):
+
+[![Video Youtube](https://img.youtube.com/vi/9HXrArUGIjY/0.jpg)](https://www.youtube.com/watch?v=9HXrArUGIjY)
 
 Dato curioso: el orden de las líneas de la celda fueron definidas en el orden que se realiza el trazado al dibujar un cisne
 
-![Celdas de dígitos: dato curioso - celda](./Imagenes_informe/score_celda.jpg)
-![Celdas de dígitos: dato curioso - cisne](./Imagenes_informe/score_cisne.jpg)
+![Celdas de dígitos: dato curioso - celda](./assets/score_celda.jpg)
+![Celdas de dígitos: dato curioso - cisne](./assets/score_cisne.jpg)
 
 # Nuestra forma de trabajar
 
