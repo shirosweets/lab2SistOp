@@ -308,7 +308,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = wtl_y + 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_yellow);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[2]){
@@ -317,7 +317,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wtl_y + 2;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_purple);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[3]){
@@ -326,7 +326,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = score_box_w0_y - score_cell_line_px - 2;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_pink);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[4]){
@@ -335,7 +335,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wbr_y - score_cell_line_px - 1;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_orange);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[5]){
@@ -344,7 +344,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0 + line_offset;
     y0 = wbr_y - 1;
     y1 = y0;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_cyan);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[6]){
@@ -353,7 +353,7 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     x1 = x0;
     y0 = wbr_y - score_cell_line_px - 1;
     y1 = y0 + line_offset;
-    draw_rectangle(buffer, x0, x1, y0, y1, score_color_white);
+    draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   draw_pixel(buffer, wbr_x, wbr_y, tubes1_color);
