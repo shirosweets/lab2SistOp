@@ -235,18 +235,18 @@ typedef struct _digit_cell digit_cell;
 
 /// INICIO NUMEROS INDIVIDUALES
 
-static void
+static inline void
 set_digit_false(digit_cell number)
 {
   for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index)
     number.cells[digit_cell_index] = false;
 }
 
-static void
+static inline void
 set_digit_true(digit_cell number)
 {
-  for (uint i = 0; i < 7; ++i)
-    number.cells[i] = true;
+  for (uint digit_cell_index = 0; digit_cell_index < 7; ++digit_cell_index)
+    number.cells[digit_cell_index] = true;
 }
 
 //
