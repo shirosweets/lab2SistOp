@@ -320,15 +320,15 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 4
     x0 = wtl_x + 1;
     x1 = x0;
-    y0 = score_box_w0_y - score_cell_line_px - 1;
-    y1 = y0 + score_cell_line_px;
+    y0 = wbr_y - score_cell_line_px - 1;
+    y1 = y0 + line_offset;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
   if(number.cells[5]){
     // Dibujamos celda 5
     x0 = wtl_x + 2;
-    x1 = x0 + score_cell_line_px;
+    x1 = x0 + line_offset;
     y0 = wbr_y - 1;
     y1 = y0;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
@@ -338,8 +338,8 @@ draw_digit(uchar* buffer, uint position, digit_cell number)
     // Dibujamos celda 6
     x0 = wbr_x - 1;
     x1 = x0;
-    y0 = score_box_w0_y - score_cell_line_px - 1;
-    y1 = y0 + score_cell_line_px;
+    y0 = wbr_y - score_cell_line_px - 1;
+    y1 = y0 + line_offset;
     draw_rectangle(buffer, x0, x1, y0, y1, score_digit_color);
   }
 
@@ -361,8 +361,8 @@ draw_one(uchar* buffer, uint position)
 {
   digit_cell one;
   set_digit_false(one);
-  one.cells[2] = true;
-  one.cells[6] = true;
+  // one.cells[2] = true;
+  // one.cells[6] = true;
   draw_digit(buffer, position, one);
 }
 
@@ -451,8 +451,7 @@ draw_nine(uchar* buffer, uint position)
 */
 static void
 draw_check_digit(uchar* buffer, uint digit, uint position){
-  switch (digit)
-    {
+  switch (digit){
     case 0:
       draw_zero(buffer, position);
       break;
@@ -495,7 +494,7 @@ draw_check_digit(uchar* buffer, uint digit, uint position){
 
     default:
       break;
-    }
+  }
 }
 
 /// FIN DIBUJAR NUMEROS INDIVIDUALES
