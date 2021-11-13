@@ -534,6 +534,8 @@ procdump(void)
 }
 
 
+// (milagro) No dejen codigo muerto
+
 // https://files.osdev.org/mirrors/geezer/osd/graphics/modes.c
 // unsigned char g_320x200x256[] =
 // {
@@ -625,6 +627,3 @@ VGA_switch_buffers(void)
 
 
 ///
-
-
-

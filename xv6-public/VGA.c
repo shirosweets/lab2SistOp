@@ -4,6 +4,8 @@
 #include "VGA.h"
 #include "memlayout.h"
 #include "flappy_bird/VGA_graphics.h"
+// (milagro) No deberian estar importando algo del espacio de usuario en un
+// archivo del espacio kernel.
 
 
 /* Escribe en los registros del arreglo regs
@@ -26,6 +28,7 @@ write_regs(uchar *regs)
   outb(VGA_CRTC_INDEX, 0x11);
   outb(VGA_CRTC_DATA, inb(VGA_CRTC_DATA) & ~0x80);
   /* make sure they remain unlocked */
+  // (milagro) No dejen codigo muerto
   // regs[0x03] |= 0x80;
   // regs[0x11] &= ~0x80;
   /* write CRTC regs */
@@ -187,6 +190,8 @@ mode_height(VGA_mode mode)
   return(res);
 }
 
+// (milagro) Todos los comentarios deben estar en ingles, a menos que sean
+// correcciones para les alumnes :P
 /* Retorna la dirección de memoría del comienzo del buffer cuando mode
  * es el modo
  */
@@ -695,9 +700,10 @@ int VGA_palette_256[256] =
   0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000
 };
 
+// (milagro) Un nombre mas natural para VGA_mode_amount seria VGA_MODES_NUMBER o
+// N_VGA_MODES
 uchar* VGA_modes[VGA_mode_amount] =
 {
   [VGA_text_80x25] g_80x25_text,
   [VGA_graphic_320x200x256] g_320x200x256,
 };
-
